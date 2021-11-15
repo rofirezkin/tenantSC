@@ -1,11 +1,15 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {BottomNavigator} from '../components';
 import {
   BukaTutupKantin,
+  Cashout,
+  CashoutNominal,
+  Confirmation,
   CostumerOrder,
+  DetailCashout,
   EditMenu,
   EditProfile,
   HelpCenter,
@@ -16,6 +20,8 @@ import {
   SignUp,
   SignUpCanteen,
   SplashScreen,
+  StatusTransfer,
+  SuccessConfirmation,
   SuccessSignUp,
   UploadMenu,
   UserProfile,
@@ -25,10 +31,19 @@ import {
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MainApp = () => {
+const MainApp = ({route}) => {
+  const routingData = route.params;
+
   return (
-    <Tab.Navigator tabBar={props => <BottomNavigator {...props} />}>
-      <Tab.Screen name="Menu" component={Menu} options={{headerShown: false}} />
+    <Tab.Navigator
+      initialRouteName={routingData}
+      tabBar={props => <BottomNavigator {...props} />}>
+      <Tab.Screen
+        initialParams={{getToken: routingData}}
+        name="Menu"
+        component={Menu}
+        options={{headerShown: false}}
+      />
       <Tab.Screen
         name="CostumerOrder"
         component={CostumerOrder}
@@ -50,7 +65,7 @@ const MainApp = () => {
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="SignIn">
+    <Stack.Navigator initialRouteName="SplashScreen">
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
@@ -127,8 +142,33 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="DetailCashout"
+        component={DetailCashout}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Confirmation"
+        component={Confirmation}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Cashout"
+        component={Cashout}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="SignUpCanteen"
         component={SignUpCanteen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SuccessConfirmation"
+        component={SuccessConfirmation}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="StatusTransfer"
+        component={StatusTransfer}
         options={{headerShown: false}}
       />
       <Stack.Screen

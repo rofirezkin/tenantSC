@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {
@@ -10,6 +11,7 @@ import {
 } from 'react-native-table-component';
 import {Button, Gap} from '../../atoms';
 const TableSection = () => {
+  const navigation = useNavigation();
   const tableHead = useState(['Transaksi', 'Status', 'Jumlah']);
   const tableData = useState([
     ['Order ID : D1-99994', 'Sukses', 'Rp30.000'],
@@ -49,7 +51,10 @@ const TableSection = () => {
       </View>
       <View style={{marginHorizontal: 6}}>
         <Gap height={20} />
-        <Button label="Withdraw" />
+        <Button
+          label="Withdraw"
+          onPress={() => navigation.navigate('Cashout')}
+        />
       </View>
     </View>
   );

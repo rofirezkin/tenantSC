@@ -3,24 +3,26 @@ import {Picker} from '@react-native-picker/picker';
 import {StyleSheet, Text, View} from 'react-native';
 
 const Select = ({label, onValueChange, value, selectItem}) => {
-  const [selectedLanguage, setSelectedLanguage] = useState();
-
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.input}>
-        <Picker selectedValue={value} onValueChange={onValueChange}>
-          {selectItem.map(item => {
-            return (
-              <Picker.Item
-                key={item.id}
-                label={item.label}
-                value={item.value}
-              />
-            );
-          })}
-        </Picker>
-      </View>
+      {selectItem && (
+        <View>
+          <Text style={styles.label}>{label}</Text>
+          <View style={styles.input}>
+            <Picker selectedValue={value} onValueChange={onValueChange}>
+              {selectItem.map(item => {
+                return (
+                  <Picker.Item
+                    key={item.id}
+                    label={item.label}
+                    value={item.value}
+                  />
+                );
+              })}
+            </Picker>
+          </View>
+        </View>
+      )}
     </View>
   );
 };

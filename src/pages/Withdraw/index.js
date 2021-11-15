@@ -19,9 +19,7 @@ const Withdraw = ({navigation}) => {
         subtTitle="BRI - 003322"
       />
       <View style={styles.container}>
-        <View>
-          <Text style={styles.mywallet}>My Wallet Rp200020</Text>
-        </View>
+        <Gap height={40} />
         <Text style={styles.title}>Amount (Rp) </Text>
         <View style={styles.cardAmount}>
           <TextInput
@@ -30,19 +28,15 @@ const Withdraw = ({navigation}) => {
             placeholder="0"
           />
         </View>
-        <Gap height={20} />
-        <Text>Catatan</Text>
-        <Gap height={10} />
-        <TextInput
-          style={styles.textArea}
-          underlineColorAndroid="transparent"
-          placeholder="Tambahkan catatan transaksi"
-          placeholderTextColor="grey"
-          numberOfLines={10}
-        />
-        <Gap height={15} />
         <View>
-          <Button label="Selanjutnya" />
+          <Text style={styles.mywallet}>My Wallet Rp200020</Text>
+        </View>
+        <Gap height={30} />
+        <View>
+          <Button
+            label="Selanjutnya"
+            onPress={() => navigation.navigate('DetailCashout')}
+          />
         </View>
       </View>
     </View>
@@ -86,6 +80,8 @@ const styles = StyleSheet.create({
   mywallet: {
     fontFamily: fonts.primary[400],
     fontSize: 15,
+    textAlign: 'center',
+    color: '#747474',
   },
   textArea: {
     borderRadius: 8,

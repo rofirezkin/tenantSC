@@ -1,99 +1,133 @@
-import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  Alert,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {ButtonEdit} from '../../atoms';
-import {DummyList1, Next} from '../../../assets';
+import {DummyList1, DummyMakanan, ICSampah, Next} from '../../../assets';
+import {ModalsMenu, Number} from '..';
+import {useNavigation} from '@react-navigation/core';
+import axios from 'axios';
+import {API_HOST} from '../../../config';
+import {useDispatch} from 'react-redux';
+import {setLoading} from '../../../redux/action';
 
 const ItemListFood = ({
   onPress,
-  date,
-  statusOrder,
+  idFood,
   price,
-  type,
-  items,
-  totalOrder,
-  rating,
+  ingredients,
+  image,
+  name,
+  token,
+  is_active,
 }) => {
-  const renderContent = () => {
-    switch (type) {
-      case 'product':
-        return (
-          <View style={styles.container}>
-            <View>
-              <Text style={styles.title}>Soup Bumil</Text>
-              <Text style={styles.subTitle}>Nasi, Telur, Ayam ...</Text>
-              <Text style={styles.subTitle}>
-                Kantin Fak. Teknik, Foodcourt A
-              </Text>
-              <Text style={styles.subTitle}>
-                {items} Item . Rp{totalOrder}
-              </Text>
-            </View>
-            <View>
-              <ButtonEdit />
-            </View>
-          </View>
-        );
+  const navigation = useNavigation();
+  const [showWarningHarga, SetshowWarningHarga] = useState(false);
+  const [showWarningStatus, SetshowWarningStatus] = useState(false);
+  const dispatch = useDispatch();
 
-      case 'in-progress':
-        return (
-          <View style={styles.container}>
-            <View>
-              <Text style={styles.title}>Soup Bumil</Text>
-              <Text style={styles.subTitle}>Nasi, Telur, Ayam ...</Text>
-              <Text style={styles.statusInProgress}>Process</Text>
-              <Text style={styles.subTitle}>
-                {items} Item . Rp{totalOrder}
-              </Text>
-            </View>
-            <View>
-              <Next />
-            </View>
-          </View>
-        );
-
-      case 'past-orders':
-        return (
-          <View style={styles.container}>
-            <View>
-              <Text style={styles.title}>Soup Bumil</Text>
-              <Text style={styles.subTitle}>Nasi, Telur, Ayam ...</Text>
-              <Text style={styles.subTitle}>
-                Kantin Fak. Teknik, Foodcourt A
-              </Text>
-              <Text style={styles.subTitle}>
-                {items} Item . Rp{totalOrder}
-              </Text>
-            </View>
-            <View>
-              <Text style={styles.date}>{date}</Text>
-              <Text style={styles.statusOrder(statusOrder)}>{statusOrder}</Text>
-            </View>
-          </View>
-        );
-      default:
-        return (
-          <View style={styles.container}>
-            <View>
-              <Text style={styles.title}>Soup Bumil</Text>
-              <Text style={styles.subTitle}>Nasi, Telur, Ayam ...</Text>
-              <Text style={styles.subTitle}>
-                Kantin Fak.xx Teknik, Foodcourt A
-              </Text>
-              <Text style={styles.subTitle}>Rp20.000</Text>
-            </View>
-            <View>
-              <ButtonEdit onPress={onPress} />
-            </View>
-          </View>
-        );
-      //item product
-    }
+  const editHarga = ({navigation}) => {
+    SetshowWarningHarga(true);
   };
+  const editStatus = () => {
+    SetshowWarningStatus(true);
+  };
+  const onDelete = () => {
+    //handler for Long Click
+    Alert.alert(
+      'Hapus Menu',
+      'Apakah anda akan Hapus Menu ?',
+      [
+        {
+          text: 'YA',
+          onPress: handlerClick,
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+  };
+
+  const onSavePrice = () => {
+    console.log('halo');
+  };
+
+  const handlerClick = () => {
+    dispatch(setLoading(true));
+    axios
+      .post(`${API_HOST.url}/menu/deleteMenu/${idFood}`, idFood, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then(res => {
+        navigation.replace('MainApp');
+        dispatch(setLoading(false));
+      })
+      .catch(err => {
+        dispatch(setLoading(false));
+        console.log('errr0rrrr', err);
+      });
+    //handler for Long Click
+  };
+
   return (
-    <View style={styles.tabview}>
-      <Image source={DummyList1} style={styles.avatar} />
-      {renderContent()}
-    </View>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={onPress}
+      style={styles.tabview}>
+      <Image source={image} style={styles.avatar} />
+      <View style={{flex: 1}}>
+        <ModalsMenu
+          type="harga"
+          visible={showWarningHarga}
+          onRequestClose={() => SetshowWarningHarga(false)}
+          showWarningFalse={() => SetshowWarningHarga(false)}
+          idMenu={idFood}
+          price={price}
+          token={token}
+        />
+        <ModalsMenu
+          idMenu={idFood}
+          onPressExit={() => SetshowWarningStatus(false)}
+          type="status"
+          visible={showWarningStatus}
+          onRequestClose={() => SetshowWarningStatus(false)}
+          showWarningFalse={() => SetshowWarningStatus(false)}
+          token={token}
+          is_active={is_active}
+        />
+        <View>
+          <View style={styles.container}>
+            <View>
+              <Text style={styles.title}>{name}</Text>
+              <Text style={styles.subTitle}>{ingredients}</Text>
+              {/* <Text style={styles.subTitle}>
+                Kantin Fak Teknik, Kantin Nasi Padang
+              </Text> */}
+              <View style={{flexDirection: 'row'}}>
+                <Number number={price} style={styles.numberRating} />
+                <Text style={styles.statusMenu(is_active)}>{is_active}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={styles.boxChange}>
+          <ButtonEdit onPress={editHarga} label="Ubah Harga" />
+          <ButtonEdit onPress={editStatus} label="Ubah Status" />
+          <TouchableOpacity onPress={onDelete} style={styles.sampah}>
+            <ICSampah />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -110,11 +144,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   avatar: {
-    width: 70,
-    height: 70,
+    width: 80,
+    height: 80,
     borderRadius: 8,
     overflow: 'hidden',
   },
+  statusMenu: is_active => ({
+    color: is_active === 'Tersedia' ? 'green' : 'red',
+    marginLeft: 10,
+  }),
   title: {
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
@@ -140,4 +178,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     color: statusOrder === 'Cancelled' ? '#D9435E' : '#1ABC9C',
   }),
+  boxChange: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  sampah: {
+    alignSelf: 'flex-end',
+  },
 });

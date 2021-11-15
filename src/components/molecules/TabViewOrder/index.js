@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import {useNavigation} from '@react-navigation/native';
-import {CostumerDelivery} from '../CostumerDelivery';
-import {CostumerDineIn} from '../CostumerDineIn';
-import {CostumerTakeAway} from '../CostumerTakeAway';
+import CostumerDineIn from '../CostumerDineIn';
+import CostumerTakeAway from '../CostumerTakeAway';
+import CostumerDelivery from '../CostumerDelivery';
 
 const renderTabBar = props => (
   <TabBar
@@ -24,8 +24,9 @@ const renderTabBar = props => (
     )}
   />
 );
-const All = () => {
+const AllData = () => {
   const navigation = useNavigation();
+
   return (
     <ScrollView>
       <CostumerDineIn />
@@ -64,7 +65,7 @@ const Delivery = () => {
 };
 
 const renderScene = SceneMap({
-  1: All,
+  1: AllData,
   2: TakeAway,
   3: Delivery,
   4: DineIn,
@@ -74,7 +75,7 @@ const TabViewOrder = () => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: '1', title: 'All'},
+    {key: '1', title: 'AllData'},
     {key: '2', title: 'Take Away'},
     {key: '3', title: 'Delivery'},
     {key: '4', title: 'Dine In'},

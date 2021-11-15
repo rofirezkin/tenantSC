@@ -14,7 +14,17 @@ import EditProfile from './EditProfile';
 import BukaTutupKantin from './BukaTutupKantin';
 import HelpCenter from './HelpCenter';
 import Withdraw from './Withdraw';
+import Cashout from './Cashout';
+import SuccessConfirmation from './SuccessConfirmation';
+import DetailCashout from './DetailCashout';
+import Confirmation from './Confirmation';
+import StatusTransfer from './StatusTransfer';
 export {
+  StatusTransfer,
+  Confirmation,
+  DetailCashout,
+  SuccessConfirmation,
+  Cashout,
   Withdraw,
   HelpCenter,
   BukaTutupKantin,

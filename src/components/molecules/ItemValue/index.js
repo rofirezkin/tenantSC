@@ -14,6 +14,7 @@ const ItemValue = ({title, value, colorValue}) => {
       <View
         style={{
           flex: 1,
+          alignItems: 'flex-end',
         }}>
         <Text style={styles.value(colorValue)}>{value}</Text>
       </View>
@@ -30,11 +31,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontFamily: fonts.primary[400],
-    color: '#000000',
+    color: '#747474',
   },
   value: colorValue => ({
     fontSize: 16,
     color: colorValue ? '#1ABC9C' : 'black',
-    fontFamily: fonts.primary[400],
+    fontFamily: fonts.primary[500],
   }),
 });

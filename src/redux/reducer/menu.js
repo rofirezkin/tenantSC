@@ -11,13 +11,15 @@ export const menuReducer = (state = initMenu, action) => {
       allFood: action.value,
     };
   }
-  if (action.type === 'FOOD') {
+
+  if (action.type === 'SET_FOOD') {
     return {
       ...state,
       food: action.value,
     };
   }
-  if (action.type === 'BAVERAGES') {
+
+  if (action.type === 'SET_BAVERAGES') {
     return {
       ...state,
       baverages: action.value,

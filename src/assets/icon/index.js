@@ -22,8 +22,26 @@ import ICPhone from './userPhone.svg';
 import ICLogout from './logout.svg';
 import ICWhatsapp from './whatsapp.svg';
 import ICGmail from './gmail.svg';
+import IconAddHome from './iconAddHome.svg';
+import ICCLoseModals from './close.svg';
+import ICSampah from './sampah.svg';
+import ICGopay from './gopay.svg';
+import ICSuccessPenarikan from './successPenarikan.svg';
+import ICBank from './rekening.svg';
+import ICEllipsActive from './ellpiseActive.svg';
+import ICEllips from './ellipse.svg';
+import ICExit from './exit.svg';
 
 export {
+  ICExit,
+  ICEllips,
+  ICEllipsActive,
+  ICSuccessPenarikan,
+  ICGopay,
+  ICBank,
+  ICSampah,
+  ICCLoseModals,
+  IconAddHome,
   ICWhatsapp,
   ICGmail,
   ICLogout,

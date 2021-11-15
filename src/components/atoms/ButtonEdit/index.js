@@ -2,10 +2,13 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Counter1, Counter2} from '../../../assets';
 
-const ButtonEdit = ({payment, onPress}) => {
+const ButtonEdit = ({payment, onPress, label}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Text style={styles.text}>Edit</Text>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={onPress}
+      style={styles.container}>
+      <Text style={styles.text}>{label}</Text>
     </TouchableOpacity>
   );
 };
@@ -17,10 +20,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ED212B',
     marginTop: 13,
     paddingVertical: 4,
-    paddingHorizontal: 13,
+    paddingHorizontal: 20,
     borderRadius: 6,
   },
   text: {
+    fontSize: 12,
     color: 'white',
     textAlign: 'center',
   },

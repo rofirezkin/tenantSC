@@ -1,15 +1,24 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {IcBack, ICNotif} from '../../../assets';
+import {useNavigation} from '@react-navigation/core';
+import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {IcBack, ICExit, ICNotif} from '../../../assets';
+import {getData} from '../../../utils';
+import {ProfileDummy} from '../../../assets';
 
-const Header = ({title, subtTitle, onPress, onBack, notif}) => {
+const Header = ({
+  title,
+  subtTitle,
+  onPress,
+  onBack,
+  notif,
+  homeProfile,
+  exit,
+}) => {
   return (
     <View style={styles.container}>
       {onBack && (
         <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
-          <View style={styles.back}>
-            <IcBack />
-          </View>
+          <View style={styles.back}>{exit ? <ICExit /> : <IcBack />}</View>
         </TouchableOpacity>
       )}
 
@@ -17,11 +26,6 @@ const Header = ({title, subtTitle, onPress, onBack, notif}) => {
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtTitle}>{subtTitle}</Text>
       </View>
-      {notif && (
-        <View style={styles.notification}>
-          <ICNotif />
-        </View>
-      )}
     </View>
   );
 };
@@ -48,5 +52,9 @@ const styles = StyleSheet.create({
   notification: {
     alignItems: 'flex-end',
     flex: 1,
+  },
+  avatar: {
+    width: 50,
+    height: 50,
   },
 });

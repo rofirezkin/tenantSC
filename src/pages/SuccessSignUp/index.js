@@ -1,9 +1,29 @@
-import React from 'react';
+import axios from 'axios';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {ILSuccessSignUp} from '../../assets/illustration';
 import {Button, Gap} from '../../components';
+import {API_HOST} from '../../config';
+import {storeData} from '../../utils';
 
-const SuccessSignUp = ({navigation}) => {
+const SuccessSignUp = ({navigation, route}) => {
+  const token = route.params;
+  console.log(token);
+  useEffect(() => {
+    axios
+      .get(`${API_HOST.url}/fetchtenant`, {
+        headers: {
+          Authorization: token.token,
+        },
+      })
+      .then(res => {
+        console.log('ress', res.data.data);
+        storeData('userProfile', res.data.data);
+      })
+      .catch(err => {
+        console.log('error', err.response);
+      });
+  });
   return (
     <View style={styles.page}>
       <View>

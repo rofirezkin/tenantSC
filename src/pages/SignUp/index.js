@@ -15,9 +15,11 @@ import useForm from '../../utils/useForm';
 
 const SignUp = ({navigation}) => {
   const [form, setForm] = useForm({
-    nama_pemilik: '',
     email: '',
     password: '',
+    nama_pemilik: '',
+    nama_tenant: '',
+    desc_kantin: '',
   });
   const [photo, setPhoto] = useState('');
   const dispatch = useDispatch();
@@ -70,19 +72,12 @@ const SignUp = ({navigation}) => {
                   <Image source={photo} style={styles.photoContainer} />
                 ) : (
                   <View style={styles.photoContainer}>
-                    <Text style={styles.addPhoto}>Add Photo</Text>
+                    <Text style={styles.addPhoto}>Tambahkan Foto Kantin</Text>
                   </View>
                 )}
               </View>
             </TouchableOpacity>
           </View>
-          <TextInput
-            value={form.nama_pemilik}
-            onChangeText={value => setForm('nama_pemilik', value)}
-            label="Nama Lengkap Pemilik kantin"
-            placeholder="Isi Nama Lengkap disini"
-          />
-          <Gap height={16} />
           <TextInput
             value={form.email}
             onChangeText={value => setForm('email', value)}
@@ -96,6 +91,34 @@ const SignUp = ({navigation}) => {
             label="Password"
             secureTextEntry={true}
             placeholder="Type your password"
+          />
+
+          <Gap height={16} />
+          <TextInput
+            value={form.nama_pemilik}
+            onChangeText={value => setForm('nama_pemilik', value)}
+            label="Nama Lengkap Pemilik kantin"
+            placeholder="Isi Nama Lengkap disini"
+          />
+          <Gap height={16} />
+          <TextInput
+            value={form.nama_tenant}
+            onChangeText={value => setForm('nama_tenant', value)}
+            label="Nama Kantin/Tenant"
+            placeholder="contoh : Kantin Lestari"
+          />
+          <Gap height={16} />
+
+          <TextInput
+            longInput
+            label="Deskripsi singkat kantin"
+            underlineColorAndroid="transparent"
+            placeholder="Isi deskripsi singkat kantin"
+            placeholderTextColor="grey"
+            numberOfLines={2}
+            multiline={true}
+            onChangeText={value => setForm('desc_kantin', value)}
+            value={form.desc_kantin}
           />
           <Gap height={24} />
           <Button label="Continue" onPress={onSubmit} />
@@ -129,9 +152,9 @@ const styles = StyleSheet.create({
   borderPhoto: {
     borderWidth: 1,
     borderColor: '#8D92A3',
-    width: 110,
-    height: 110,
-    borderRadius: 110,
+    width: 155,
+    height: 120,
+    borderRadius: 20,
     borderStyle: 'dashed',
     justifyContent: 'center',
     alignItems: 'center',
@@ -144,10 +167,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   photoContainer: {
-    width: 90,
-    height: 90,
-    borderRadius: 90,
-    backgroundColor: '#F0F0F0',
+    width: 140,
+    height: 110,
+    borderRadius: 20,
+    backgroundColor: '#F9EFEF',
     justifyContent: 'center',
     alignItems: 'center',
   },

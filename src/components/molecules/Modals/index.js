@@ -1,8 +1,9 @@
 import React from 'react';
 import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ICCLoseModals} from '../../../assets';
 import {colors, fonts} from '../../../utils';
 
-const Modals = ({type, visible, onRequestClose, showWarningFalse, onPress}) => {
+const Modals = ({type, visible, onRequestClose, onPress}) => {
   return (
     <View>
       {type === 'tutup' && (
@@ -59,6 +60,7 @@ const Modals = ({type, visible, onRequestClose, showWarningFalse, onPress}) => {
           </View>
         </Modal>
       )}
+      
     </View>
   );
 };

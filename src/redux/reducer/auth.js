@@ -1,16 +1,20 @@
 const initStateRegister = {
-  nama_pemilik: '',
   email: '',
   password: '',
+  nama_pemilik: '',
+  nama_tenant: '',
+  desc_kantin: '',
 };
 
 export const registerReducer = (state = initStateRegister, action) => {
   if (action.type === 'SET_REGISTER') {
     return {
       ...state,
-      nama_pemilik: action.value.nama_pemilik,
       email: action.value.email,
       password: action.value.password,
+      nama_pemilik: action.value.nama_pemilik,
+      nama_tenant: action.value.nama_tenant,
+      desc_kantin: action.value.desc_kantin,
     };
   }
   return state;

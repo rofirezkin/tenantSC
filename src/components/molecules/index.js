@@ -15,8 +15,14 @@ import List from './List';
 import Modals from './Modals';
 import ItemValue from './ItemValue';
 import Loading from './Loading';
+import HomeProfile from './HomeProfile';
+import ModalsMenu from './ModalsMenu';
+import Number from './Number';
 
 export {
+  Number,
+  ModalsMenu,
+  HomeProfile,
   Loading,
   Modals,
   ItemValue,

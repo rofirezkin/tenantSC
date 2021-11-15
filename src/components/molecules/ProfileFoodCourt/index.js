@@ -1,18 +1,41 @@
-import React from 'react';
+import {useNavigation} from '@react-navigation/core';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {IMGDummyFoodCourt} from '../../../assets';
+import {IMGDummyFoodCourt, ProfileDummy} from '../../../assets';
+import {API_HOST} from '../../../config';
+import {getData} from '../../../utils';
 import Rating from '../Rating';
 
 const ProfileFoodCourt = () => {
+  const navigation = useNavigation();
+  const [profileUser, setProfileUser] = useState('');
+  const [photoUser, setPhotoUser] = useState(ProfileDummy);
+  const [photoDummy, setPhotoDummy] = useState();
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getData('userProfile').then(res => {
+        setProfileUser(res);
+        setPhotoUser({
+          uri: `${API_HOST.storage}/${res.profile_photo_path}`,
+        });
+        setPhotoDummy({
+          uri: res.profile_photo_url,
+        });
+      });
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
-      <Image source={IMGDummyFoodCourt} style={styles.image} />
+      {photoUser.uri !== `${API_HOST.storage}/null` ? (
+        <Image source={ProfileDummy} style={styles.image} />
+      ) : (
+        <Image source={photoDummy} style={styles.image} />
+      )}
       <View style={styles.textContainer}>
-        <Text style={styles.title}>Food Court-A</Text>
-        <Text style={styles.description}>
-          Pecel Ayam, ikan Bakar, Mie Ayam , ikan bakar
-        </Text>
-
+        <Text style={styles.title}>{profileUser.nama_tenant}</Text>
+        <Text style={styles.description}>{profileUser.desc_kantin}</Text>
         <Rating />
       </View>
     </View>

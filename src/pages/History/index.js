@@ -24,7 +24,7 @@ const History = () => {
       />
       <View style={styles.container}>
         <TableSection />
-        <TableSectison />
+        <TableSection />
       </View>
     </ScrollView>
   );

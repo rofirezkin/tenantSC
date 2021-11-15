@@ -63,3 +63,29 @@ export const namaBank = [
     value: 'Gedung Kuliah Umum',
   },
 ];
+
+export const statusMenu = [
+  {
+    id: 1,
+    label: 'Tersedia',
+    value: 'Tersedia',
+  },
+  {
+    id: 2,
+    label: 'Tidak Tersedia',
+    value: 'Tidak Tersedia',
+  },
+];
+
+export const foodCategory = [
+  {
+    id: 1,
+    label: 'Makanan',
+    value: 'Makanan',
+  },
+  {
+    id: 2,
+    label: 'Minuman',
+    value: 'Minuman',
+  },
+];

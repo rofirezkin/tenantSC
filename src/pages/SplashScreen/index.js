@@ -1,11 +1,23 @@
 import React, {useEffect} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {LogoSmartCanteen} from '../../assets';
+import {getData} from '../../utils';
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('SignIn');
+      getData('token').then(res => {
+        console.log('data res', res.value);
+        if (res) {
+          const token = res.value;
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'MainApp', params: {token}}],
+          });
+        } else {
+          navigation.reset({index: 0, routes: [{name: 'SignIn'}]});
+        }
+      });
     }, 2000);
   }, [navigation]);
 

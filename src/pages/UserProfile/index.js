@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {
   Button,
@@ -7,9 +7,23 @@ import {
   ItemValue,
   ProfileFoodCourt,
 } from '../../components';
-import {fonts} from '../../utils';
+import {fonts, getData} from '../../utils';
 
 const UserProfile = ({navigation}) => {
+  const [profile, setProfile] = useState('');
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    getData('userProfile').then(res => {
+      setProfile(res);
+    });
+    getData('token').then(res => {
+      setToken(res.value);
+    });
+  }, []);
+  const data = {
+    userProfile: profile,
+    token: token,
+  };
   return (
     <View style={styles.page}>
       <Header
@@ -22,17 +36,23 @@ const UserProfile = ({navigation}) => {
         <ProfileFoodCourt />
         <Gap height={20} />
         <Text style={styles.title}>Profile Tenant</Text>
-        <ItemValue title="ID Tenant" value=": A-01" />
-        <ItemValue title="Nama Pemilik" value=": Syarif Hidayat" />
-        <ItemValue title="Nomor Hp" value=": 086773221444" />
-        <ItemValue title="Nama Kantin" value=": Soto Madura" />
-        <ItemValue title="Lokasi Kantin Anda" value=": Fakultas Teknik" />
-        <ItemValue title="Rekening Bank" value=": (Mandiri) 012454959933" />
+        <ItemValue title="ID Tenant" value={`: ${profile.id_tenant}`} />
+        <ItemValue title="Nama Pemilik" value={`: ${profile.nama_pemilik}`} />
+        <ItemValue title="Nomor Hp" value={`: ${profile.no_telp}`} />
+        <ItemValue title="Nama Kantin" value={`: ${profile.nama_tenant}`} />
+        <ItemValue
+          title="Lokasi Kantin Anda"
+          value={`: ${profile.lokasi_kantin}`}
+        />
+        <ItemValue
+          title="Rekening Bank"
+          value={`: (${profile.nama_bank}) ${profile.no_rekening}`}
+        />
       </View>
       <View style={styles.button}>
         <Button
           label="Edit Profie"
-          onPress={() => navigation.navigate('EditProfile')}
+          onPress={() => navigation.navigate('EditProfile', data)}
         />
       </View>
     </View>

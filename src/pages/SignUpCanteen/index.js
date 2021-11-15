@@ -16,24 +16,21 @@ const SignUpCanteen = ({navigation}) => {
     nama_bank: 'Mandiri',
     nama_rekening: '',
     no_rekening: '',
-    status: 'active',
+    status: 'Buka',
     is_active: '1',
   });
 
   const dispatch = useDispatch();
-  const {registerReducer, photoReducer, idTenantReducer} = useSelector(
-    state => state,
-  );
+  const {registerReducer, photoReducer} = useSelector(state => state);
 
   const onSubmit = () => {
     const data = {
       ...form,
       ...registerReducer,
     };
-    
-    console.log('datanyya', idTenantReducer);
+
     dispatch(setLoading(true));
-    dispatch(signUpAction(data, photoReducer, idTenantReducer, navigation));
+    dispatch(signUpAction(data, photoReducer, navigation));
   };
 
   return (
@@ -48,17 +45,11 @@ const SignUpCanteen = ({navigation}) => {
         <View style={styles.container}>
           <Gap height={16} />
           <TextInput
-            value={form.nama_tenant}
-            onChangeText={value => setForm('nama_tenant', value)}
-            label="Nama Kantin/Tenant"
-            placeholder="contoh : Kantin Lestari"
-          />
-          <Gap height={16} />
-          <TextInput
             label="Nomor HP/ WA"
             placeholder="Isi nomor hp anda disini"
             value={form.no_telp}
             onChangeText={value => setForm('no_telp', value)}
+            keyboardType="numeric"
           />
           <Gap height={16} />
           <Select
@@ -80,6 +71,7 @@ const SignUpCanteen = ({navigation}) => {
             placeholder="Isi nomor rekening tanpa kode bank"
             value={form.no_rekening}
             onChangeText={value => setForm('no_rekening', value)}
+            keyboardType="numeric"
           />
           <Gap height={16} />
           <TextInput
