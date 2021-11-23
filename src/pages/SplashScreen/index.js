@@ -7,7 +7,7 @@ const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
       getData('token').then(res => {
-        console.log('data res', res.value);
+        console.log('token', res);
         if (res) {
           const token = res.value;
           navigation.reset({

@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Gap} from '..';
+import Gap from '../Gap';
 import {ICBank, ICGopay, Next} from '../../../assets';
 import {fonts} from '../../../utils';
 

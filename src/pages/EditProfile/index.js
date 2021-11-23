@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+import {useEffect} from 'react';
 import {
+  BackHandler,
   Image,
   ScrollView,
   StyleSheet,
@@ -8,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ICAddPhoto, ICRemovePhoto, lokasiKantin} from '../../assets';
 import {Button, Gap, Header, Select, TextInput} from '../../components';
 import {API_HOST} from '../../config';
@@ -18,6 +20,7 @@ import useForm from '../../utils/useForm';
 
 const EditProfile = ({navigation, route}) => {
   const dispatch = useDispatch();
+  const {isLoading} = useSelector(state => state.globalReducer);
   const dataProfile = route.params.userProfile;
   const token = route.params.token;
   const [photo, setPhoto] = useState({
@@ -34,7 +37,6 @@ const EditProfile = ({navigation, route}) => {
     nama_bank: dataProfile.nama_bank,
     desc_kantin: dataProfile.desc_kantin,
   });
-  console.log('nama profi;e', dataProfile);
 
   const addPhoto = () => {
     launchImageLibrary(
@@ -62,10 +64,22 @@ const EditProfile = ({navigation, route}) => {
   };
 
   const onSave = () => {
-    console.log('halo data', form);
     dispatch(setLoading(true));
     dispatch(updateProfileAction(form, token, dataPhoto, navigation));
   };
+
+  const backAction = () => {
+    if (isLoading !== true) {
+      navigation.goBack();
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, [isLoading]);
 
   return (
     <ScrollView>

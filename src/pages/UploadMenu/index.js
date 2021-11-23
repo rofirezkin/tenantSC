@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
+  BackHandler,
   Image,
   ScrollView,
   StyleSheet,
@@ -11,10 +13,18 @@ import {
   foodCategory,
   ICAddPhoto,
   ICRemovePhoto,
+  menuCategory,
   statusKantin,
   statusMenu,
 } from '../../assets';
-import {Button, Gap, Header, Select, TextInput} from '../../components';
+import {
+  Button,
+  Gap,
+  Header,
+  InputCostum,
+  Select,
+  TextInput,
+} from '../../components';
 import useForm from '../../utils/useForm';
 import {getData, showMessage} from '../../utils';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -28,15 +38,20 @@ const UploadMenu = ({navigation, route}) => {
   const token = route.params.token;
   const [photo, setPhoto] = useState('');
   const [dataPhoto, setDataPhoto] = useState({});
-  console.log('koderr ', route.params);
-
+  const {isLoading} = useSelector(state => state.globalReducer);
   const [form, setForm] = useForm({
     name: '',
     category: 'Makanan',
     ingredients: '',
     is_active: 'Tersedia',
     price: '',
+    category_menu: 'Recommended',
   });
+
+  const onCounterChange = value => {
+    const newValue = parseInt(value.replace(/\./g, ''), 10);
+    setForm('price', newValue);
+  };
 
   const onSubmit = () => {
     if (dataPhoto.uri) {
@@ -76,12 +91,25 @@ const UploadMenu = ({navigation, route}) => {
       },
     );
   };
+
+  const backAction = () => {
+    if (isLoading !== true) {
+      navigation.goBack();
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, [isLoading]);
   return (
     <ScrollView>
       <View style={styles.page}>
         <Header
           title="Upload Menu"
-          subtTitle="Upload Menu Makanan dan Minuman Toko Anda"
+          subtTitle="Upload Menu di Toko Anda"
           onBack
           onPress={() => navigation.goBack()}
         />
@@ -118,12 +146,12 @@ const UploadMenu = ({navigation, route}) => {
               placeholder="Isi Nama Menu anda"
             />
             <Gap height={15} />
-            <TextInput
-              value={form.price}
-              onChangeText={value => setForm('price', value)}
-              label="Harga"
+            <InputCostum
+              onValueChange={value => onCounterChange(value)}
+              price={form.price}
               keyboardType="numeric"
-              placeholder="Misal : 30000"
+              label="Harga"
+              placeholder="misal : 20000"
             />
             <Gap height={15} />
             <Select
@@ -140,6 +168,13 @@ const UploadMenu = ({navigation, route}) => {
               selectItem={statusMenu}
             />
             <Gap height={15} />
+            <Select
+              label="Kategori Menu"
+              value={form.category_menu}
+              onValueChange={value => setForm('category_menu', value)}
+              selectItem={menuCategory}
+            />
+            <Gap height={15} />
 
             <TextInput
               longInput
@@ -148,7 +183,6 @@ const UploadMenu = ({navigation, route}) => {
               placeholder="Isi deskripsi singkat kantin"
               placeholderTextColor="grey"
               numberOfLines={2}
-              multiline={true}
               onChangeText={value => setForm('ingredients', value)}
               value={form.ingredients}
             />

@@ -10,17 +10,14 @@ const ProfileFoodCourt = () => {
   const navigation = useNavigation();
   const [profileUser, setProfileUser] = useState('');
   const [photoUser, setPhotoUser] = useState(ProfileDummy);
-  const [photoDummy, setPhotoDummy] = useState();
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       getData('userProfile').then(res => {
         setProfileUser(res);
+        console.log('reddss', res);
         setPhotoUser({
           uri: `${API_HOST.storage}/${res.profile_photo_path}`,
-        });
-        setPhotoDummy({
-          uri: res.profile_photo_url,
         });
       });
     });
@@ -29,9 +26,9 @@ const ProfileFoodCourt = () => {
   return (
     <View style={styles.container}>
       {photoUser.uri !== `${API_HOST.storage}/null` ? (
-        <Image source={ProfileDummy} style={styles.image} />
+        <Image source={photoUser} style={styles.image} />
       ) : (
-        <Image source={photoDummy} style={styles.image} />
+        <Image source={ProfileDummy} style={styles.image} />
       )}
       <View style={styles.textContainer}>
         <Text style={styles.title}>{profileUser.nama_tenant}</Text>

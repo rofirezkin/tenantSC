@@ -18,8 +18,12 @@ import Loading from './Loading';
 import HomeProfile from './HomeProfile';
 import ModalsMenu from './ModalsMenu';
 import Number from './Number';
+import CustomTab from './CustomTab';
+import NotificationSection from './NotificationSection';
 
 export {
+  NotificationSection,
+  CustomTab,
   Number,
   ModalsMenu,
   HomeProfile,

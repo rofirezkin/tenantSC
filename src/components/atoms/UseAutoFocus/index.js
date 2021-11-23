@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import NumberFormat from 'react-number-format';
 import {useDispatch} from 'react-redux';
-import {Number} from '../..';
 import {API_HOST} from '../../../config';
 import {setLoading} from '../../../redux/action';
 

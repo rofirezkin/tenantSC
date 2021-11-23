@@ -36,15 +36,25 @@ const UserProfile = ({navigation}) => {
         <ProfileFoodCourt />
         <Gap height={20} />
         <Text style={styles.title}>Profile Tenant</Text>
-        <ItemValue title="ID Tenant" value={`: ${profile.id_tenant}`} />
-        <ItemValue title="Nama Pemilik" value={`: ${profile.nama_pemilik}`} />
-        <ItemValue title="Nomor Hp" value={`: ${profile.no_telp}`} />
-        <ItemValue title="Nama Kantin" value={`: ${profile.nama_tenant}`} />
+        <ItemValue profile title="ID Tenant" value={`: ${profile.id_tenant}`} />
         <ItemValue
+          profile
+          title="Nama Pemilik"
+          value={`: ${profile.nama_pemilik}`}
+        />
+        <ItemValue profile title="Nomor Hp" value={`: ${profile.no_telp}`} />
+        <ItemValue
+          profile
+          title="Nama Kantin"
+          value={`: ${profile.nama_tenant}`}
+        />
+        <ItemValue
+          profile
           title="Lokasi Kantin Anda"
           value={`: ${profile.lokasi_kantin}`}
         />
         <ItemValue
+          profile
           title="Rekening Bank"
           value={`: (${profile.nama_bank}) ${profile.no_rekening}`}
         />

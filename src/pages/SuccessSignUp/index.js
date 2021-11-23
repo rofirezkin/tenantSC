@@ -7,23 +7,6 @@ import {API_HOST} from '../../config';
 import {storeData} from '../../utils';
 
 const SuccessSignUp = ({navigation, route}) => {
-  const token = route.params;
-  console.log(token);
-  useEffect(() => {
-    axios
-      .get(`${API_HOST.url}/fetchtenant`, {
-        headers: {
-          Authorization: token.token,
-        },
-      })
-      .then(res => {
-        console.log('ress', res.data.data);
-        storeData('userProfile', res.data.data);
-      })
-      .catch(err => {
-        console.log('error', err.response);
-      });
-  });
   return (
     <View style={styles.page}>
       <View>
@@ -37,8 +20,10 @@ const SuccessSignUp = ({navigation, route}) => {
       <Gap height={30} />
       <View style={styles.buttonContainer}>
         <Button
-          label="Find foods"
-          onPress={() => navigation.replace('MainApp')}
+          label="Upload Foods"
+          onPress={() =>
+            navigation.reset({index: 0, routes: [{name: 'MainApp'}]})
+          }
         />
       </View>
     </View>

@@ -19,7 +19,11 @@ import SuccessConfirmation from './SuccessConfirmation';
 import DetailCashout from './DetailCashout';
 import Confirmation from './Confirmation';
 import StatusTransfer from './StatusTransfer';
+import Notification from './Notification';
+import BankSetting from './BankSetting';
 export {
+  Notification,
+  BankSetting,
   StatusTransfer,
   Confirmation,
   DetailCashout,

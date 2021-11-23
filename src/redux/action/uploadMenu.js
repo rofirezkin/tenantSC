@@ -1,10 +1,11 @@
 import axios from 'axios';
-import {setLoading} from '.';
+import {setLoading} from './global';
 import {API_HOST} from '../../config';
 import {showMessage} from '../../utils';
 
 export const uploadMenuAction =
   (dataUploadMenu, token, dataPhoto, navigation) => dispatch => {
+    console.log('data upload', dataUploadMenu);
     axios
       .post(`${API_HOST.url}/menu/input`, dataUploadMenu, {
         headers: {
@@ -32,16 +33,25 @@ export const uploadMenuAction =
             dispatch(setLoading(false));
           })
           .catch(err => {
-            console.log('eror dimana0', err);
-            dispatch(setLoading(false));
-            showMessage(
-              err?.response?.message || 'Uplaod photo tidak berhasil',
-            );
+            if (err.message) {
+              dispatch(setLoading(false));
+              showMessage(err.message);
+            } else {
+              dispatch(setLoading(false));
+              showMessage(
+                err?.response?.message || 'Uplaod photo tidak berhasil',
+              );
+            }
           });
       })
       .catch(err => {
-        console.log('eror dimana1', err.response);
-        dispatch(setLoading(false));
-        showMessage(err?.response?.data?.data);
+        console.log('eerrr', err.message);
+        if (err.message) {
+          dispatch(setLoading(false));
+          showMessage(err?.response?.data?.data);
+        } else {
+          dispatch(setLoading(false));
+          showMessage(err?.response?.data?.data);
+        }
       });
   };

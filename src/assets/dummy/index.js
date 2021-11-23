@@ -5,7 +5,9 @@ import DummyList3 from './listfood3.png';
 import ProfileDummy from './profile-dummy.png';
 import DummyMakanan from './dummymakanan.jpg';
 import DummyIklan from './iklanDummy.png';
+import ItemFood from './foodcart1.png';
 export {
+  ItemFood,
   DummyIklan,
   IMGDummyFoodCourt,
   DummyMakanan,

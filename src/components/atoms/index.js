@@ -7,7 +7,11 @@ import ButtonUploadMenu from './ButtonUploadMenu';
 import UseAutoFocus from './UseAutoFocus';
 import ListDebit from './ListDebit';
 import ListStatus from './ListStatus';
+import Link from './Link';
+import InputCostum from './InputCostum';
 export {
+  InputCostum,
+  Link,
   ListStatus,
   ListDebit,
   Button,

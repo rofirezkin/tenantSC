@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {
   ICGeneral,
+  ICLandmark,
   ICLogout,
   ICPhone,
   ICUserAccount,
@@ -22,6 +23,9 @@ const List = ({profile, name, desc, type, onPress, icon}) => {
     }
     if (icon === 'logout') {
       return <ICLogout />;
+    }
+    if (icon === 'bank') {
+      return <ICLandmark />;
     }
     return <ICGeneral />;
   };

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useEffect} from 'react';
 import {
   Image,
   TouchableOpacity,
@@ -6,14 +7,16 @@ import {
   StyleSheet,
   Text,
   View,
+  BackHandler,
 } from 'react-native';
 
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   foodCategory,
   ICAddPhoto,
   ICRemovePhoto,
+  menuCategory,
   statusMenu,
 } from '../../assets';
 import {Button, Gap, Header, Select, TextInput} from '../../components';
@@ -24,8 +27,10 @@ import useForm from '../../utils/useForm';
 const EditMenu = ({navigation, route}) => {
   const dispatch = useDispatch();
   const dataMakanan = route.params.data;
+  console.log('dataa', dataMakanan);
   const dataId = route.params.data.id;
   const [photo, setPhoto] = useState({uri: route.params.data.picturePath});
+  const {isLoading} = useSelector(state => state.globalReducer);
   const token = route.params.token;
   const [dataPhoto, setDataPhoto] = useState();
   const priceFood = dataMakanan.price.toString();
@@ -35,6 +40,7 @@ const EditMenu = ({navigation, route}) => {
     price: priceFood,
     ingredients: dataMakanan.ingredients,
     name: dataMakanan.name,
+    category_menu: dataMakanan.category_menu,
   });
 
   const onSave = () => {
@@ -67,13 +73,25 @@ const EditMenu = ({navigation, route}) => {
     );
   };
 
-  console.log('data makanan', dataMakanan);
+  const backAction = () => {
+    if (isLoading !== true) {
+      navigation.goBack();
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, [isLoading]);
+
   return (
     <ScrollView>
       <View style={styles.page}>
         <Header
           title="Edit Menu"
-          subtTitle="Edit Menu Makanan dan Minuman Toko Anda"
+          subtTitle="Edit Menu Makanan dan Minuman "
           onBack
           onPress={() => navigation.goBack()}
         />
@@ -129,6 +147,13 @@ const EditMenu = ({navigation, route}) => {
               value={form.is_active}
               onValueChange={value => setForm('is_active', value)}
               selectItem={statusMenu}
+            />
+            <Gap height={15} />
+            <Select
+              label="Kategori Menu"
+              value={form.category_menu}
+              onValueChange={value => setForm('category_menu', value)}
+              selectItem={menuCategory}
             />
             <Gap height={15} />
             <TextInput

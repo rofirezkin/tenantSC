@@ -1,11 +1,19 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  BackHandler,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {DummyIklan, ILEmptyMenu} from '../../assets';
 import {
   Button,
   ButtonUploadMenu,
+  CustomTab,
   Gap,
   Header,
   HomeProfile,
@@ -14,7 +22,9 @@ import {
 } from '../../components';
 import {API_HOST} from '../../config';
 import {getFoodData} from '../../redux/action';
-import {fonts, getData} from '../../utils';
+import {fonts, getData, showMessage} from '../../utils';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+import {skeletonHome} from '../../components/skeleton/skeletonHome';
 
 const Menu = ({navigation, routingData}) => {
   const [userProfile, setUserProfile] = useState('');
@@ -22,7 +32,11 @@ const Menu = ({navigation, routingData}) => {
   const [token, setToken] = useState('');
   const [kodeMenu, setKodeMenu] = useState('');
   const {allFood} = useSelector(state => state.menuReducer);
+  const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
+    setLoading(false);
     getData('token').then(res => {
       setToken(res.value);
     });
@@ -36,7 +50,9 @@ const Menu = ({navigation, routingData}) => {
         setKodeMenu(res.data.data);
       })
       .catch(err => {
-        console.log('errr', err);
+        if (err.message) {
+          // console.log('haloo food', err.message);
+        }
       });
 
     getData('userProfile').then(res => {
@@ -53,57 +69,64 @@ const Menu = ({navigation, routingData}) => {
     kodeMenu,
   };
 
-  console.log('allldoofr', allFood);
   return (
     <ScrollView
       style={{backgroundColor: 'white'}}
       showsVerticalScrollIndicator={false}>
-      <View style={styles.page}>
-        <HomeProfile />
-        <View style={styles.balance}>
-          <Text style={styles.label}>Rekening Saya : </Text>
-          <Text style={styles.rupiah}>Rp200.000</Text>
-        </View>
-        {allFood.length < 1 ? (
-          <View style={styles.emptymenu}>
-            <View>
-              <ILEmptyMenu />
-            </View>
-            <Gap height={30} />
-            <Text style={styles.title}>Oopps! tidak ada Menu</Text>
-            <Gap height={6} />
-            <Text style={styles.subTitle}>Ayo Upload Menu Makanan</Text>
-            <Text style={styles.subTitle}>atau minuman untuk mahasiswa</Text>
-            <Gap height={30} />
-            <View style={styles.buttonContainer}>
-              <Button
-                label="Upload Menu"
-                onPress={() => navigation.navigate('UploadMenu', dataParams)}
-              />
-            </View>
+      <SkeletonContent
+        containerStyle={{flex: 1}}
+        isLoading={loading}
+        layout={skeletonHome}>
+        <View style={styles.page}>
+          <HomeProfile data={userProfile} />
+          <View style={styles.balance}>
+            <Text style={styles.label}>Saldo Saya : </Text>
+            <Text style={styles.rupiah}>Rp200.000</Text>
           </View>
-        ) : (
-          <View style={styles.boxContent}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.boxIklan}>
-                <Gap width={19} />
-                <Image source={DummyIklan} style={styles.iklan} />
-                <Image source={DummyIklan} style={styles.iklan} />
+          {allFood.length < 1 ? (
+            <View style={styles.emptymenu}>
+              <View>
+                <ILEmptyMenu />
               </View>
-            </ScrollView>
-            <View style={styles.button}>
-              <Gap height={19} />
-              <ButtonUploadMenu
-                label="Upload Menu"
-                onPress={() => navigation.navigate('UploadMenu', dataParams)}
-              />
+              <Gap height={30} />
+              <Text style={styles.title}>Oopps! tidak ada Menu</Text>
+              <Gap height={6} />
+              <Text style={styles.subTitle}>Ayo Upload Menu Makanan</Text>
+              <Text style={styles.subTitle}>
+                atau minuman untuk mahasiswa/Dosen
+              </Text>
+              <Gap height={30} />
+              <View style={styles.buttonContainer}>
+                <Button
+                  label="Upload Menu"
+                  onPress={() => navigation.navigate('UploadMenu', dataParams)}
+                />
+              </View>
             </View>
-            <View style={{flex: 1}}>
-              <TabViewHome />
+          ) : (
+            <View style={styles.boxContent}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={styles.boxIklan}>
+                  <Gap width={19} />
+                  <Image source={DummyIklan} style={styles.iklan} />
+                  <Image source={DummyIklan} style={styles.iklan} />
+                </View>
+              </ScrollView>
+              <View style={styles.button}>
+                <Gap height={19} />
+                <ButtonUploadMenu
+                  label="Upload Menu"
+                  onPress={() => navigation.navigate('UploadMenu', dataParams)}
+                />
+              </View>
+              <View style={{flex: 1}}>
+                {/* <TabViewHome /> */}
+                <CustomTab />
+              </View>
             </View>
-          </View>
-        )}
-      </View>
+          )}
+        </View>
+      </SkeletonContent>
     </ScrollView>
   );
 };

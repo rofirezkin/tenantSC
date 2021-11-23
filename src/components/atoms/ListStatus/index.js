@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Gap} from '..';
+import Gap from '../Gap';
 import {ICEllips, ICEllipsActive} from '../../../assets';
 import {fonts} from '../../../utils';
 

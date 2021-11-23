@@ -2,48 +2,37 @@ import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {IcBack, ICNotif} from '../../../assets';
-import {getData} from '../../../utils';
+
 import {ProfileDummy} from '../../../assets';
 import {API_HOST} from '../../../config';
 
-const HomeProfile = () => {
+const HomeProfile = ({data}) => {
   const navigation = useNavigation();
-  const [profileUser, setProfileUser] = useState('');
-  const [photoUser, setPhotoUser] = useState(ProfileDummy);
-  const [photoDummy, setPhotoDummy] = useState();
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      getData('userProfile').then(res => {
-        setProfileUser(res);
-        setPhotoUser({
-          uri: `${API_HOST.storage}/${res.profile_photo_path}`,
-        });
-        setPhotoDummy({uri: res.profile_photo_url});
-      });
-    });
-  }, [navigation]);
-  console.log('photourl', photoUser);
+  const photoUser = {uri: `${API_HOST.storage}/${data.profile_photo_path}`};
+  const photoDummy = {uri: data.profile_photo_url};
 
   return (
     <View style={styles.container}>
       <View>
         {photoUser.uri !== `${API_HOST.storage}/null` ? (
-          <Image source={ProfileDummy} style={styles.avatar} />
+          <Image source={photoUser} style={styles.avatar} />
         ) : (
           <Image source={photoDummy} style={styles.avatar} />
         )}
       </View>
       <View style={styles.card}>
-        <Text style={styles.title}>{profileUser.nama_tenant}</Text>
-        <Text style={styles.subtTitle}>{profileUser.desc_kantin}</Text>
+        <Text style={styles.title}>{data.nama_tenant}</Text>
+        <Text style={styles.subtTitle}>{data.desc_kantin}</Text>
         <Text
           style={styles.status(
-            profileUser.status,
-          )}>{`Status Kantin : ${profileUser.status}`}</Text>
+            data.status,
+          )}>{`Status Kantin : ${data.status}`}</Text>
       </View>
-      <View style={styles.notification}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Notification')}
+        style={styles.notification}>
         <ICNotif />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

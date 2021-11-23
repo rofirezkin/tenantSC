@@ -30,6 +30,7 @@ export const signUpAction =
                 .then(resUpload => {
                   console.log('res upload', resUpload);
                   profile.profile_photo_url = `${API_HOST.storage}/${resUpload.data.data[0]}`;
+                  profile.profile_photo_path = `${resUpload.data.data[0]}`;
                   dispatch(setLoading(false));
                   storeData('userProfile', profile);
                   navigation.reset({
@@ -72,7 +73,7 @@ export const signInAction = (form, navigation) => dispatch => {
   axios
     .post(`${API_HOST.url}/tenantlogin`, form)
     .then(res => {
-      console.log('halo ini responnya kita liat', res);
+      console.log('halo ini responnya kita liat', res.data.data.user);
       const token = `${res.data.data.token_type} ${res.data.data.access_token}`;
       const profile = res.data.data.user;
       dispatch(setLoading(false));

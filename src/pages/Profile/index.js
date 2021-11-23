@@ -1,20 +1,30 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {BackHandler, StyleSheet, Text, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {Header, ItemListMenu, List, ProfileFoodCourt} from '../../components';
 import {API_HOST} from '../../config';
+import {setLoading} from '../../redux/action';
 import {getData, showMessage} from '../../utils';
 
 const Profile = ({navigation}) => {
+  const {isLoading} = useSelector(state => state.globalReducer);
+  const dispatch = useDispatch();
   const [token, setToken] = useState('');
   useEffect(() => {
     getData('token').then(res => {
       setToken(res.value);
     });
+
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, []);
 
   const signOut = () => {
+    dispatch(setLoading(true));
     axios
       .post(`${API_HOST.url}/tenant/logout`, token, {
         headers: {
@@ -25,11 +35,21 @@ const Profile = ({navigation}) => {
         AsyncStorage.multiRemove(['userProfile', 'token']).then(() => {
           navigation.reset({index: 0, routes: [{name: 'SignIn'}]});
         });
+        dispatch(setLoading(false));
       })
       .catch(err => {
-        showMessage(err.response);
+        showMessage(err?.message);
+        dispatch(setLoading(false));
       });
   };
+
+  const backAction = () => {
+    if (isLoading !== true) {
+      BackHandler.exitApp();
+    }
+    return true;
+  };
+
   return (
     <View style={styles.page}>
       <Header title="Akun Saya" subtTitle="Pengaturan Akun Tenant" />
@@ -41,6 +61,12 @@ const Profile = ({navigation}) => {
             name="Data Akun anda"
             desc="Lihat dan edit akun anda"
             onPress={() => navigation.navigate('UserProfile')}
+          />
+          <List
+            icon="bank"
+            name="Akun Bank"
+            desc="Lihat akun bank anda"
+            onPress={() => navigation.navigate('BankSetting')}
           />
           <List
             icon="tutup-buka"

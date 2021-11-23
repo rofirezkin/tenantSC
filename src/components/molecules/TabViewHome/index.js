@@ -8,11 +8,12 @@ import {
   View,
 } from 'react-native';
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
-import ItemListFood from '../ItemListFood';
+
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getData} from '../../../utils';
 import {getFoodData} from '../../../redux/action';
+import {ItemListFood} from '..';
 
 const renderTabBar = props => (
   <TabBar

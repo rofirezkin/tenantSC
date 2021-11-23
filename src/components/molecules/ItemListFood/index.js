@@ -9,12 +9,13 @@ import {
 } from 'react-native';
 import {ButtonEdit} from '../../atoms';
 import {DummyList1, DummyMakanan, ICSampah, Next} from '../../../assets';
-import {ModalsMenu, Number} from '..';
+
 import {useNavigation} from '@react-navigation/core';
 import axios from 'axios';
 import {API_HOST} from '../../../config';
 import {useDispatch} from 'react-redux';
 import {setLoading} from '../../../redux/action';
+import {ModalsMenu, Number} from '..';
 
 const ItemListFood = ({
   onPress,

@@ -10,9 +10,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import NumberFormat from 'react-number-format';
+
 import {useDispatch} from 'react-redux';
-import {Button, Gap, Select, UseAutoFocus} from '../..';
+import {Button, Gap, Select, UseAutoFocus} from '../../atoms';
 import {ICCLoseModals, ICGopay, statusMenu} from '../../../assets';
 import {API_HOST} from '../../../config';
 import {setLoading} from '../../../redux/action';

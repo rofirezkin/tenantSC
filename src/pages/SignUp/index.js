@@ -21,12 +21,16 @@ const SignUp = ({navigation}) => {
     nama_tenant: '',
     desc_kantin: '',
   });
-  const [photo, setPhoto] = useState('');
+  const [photo, setPhoto] = useState();
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch({type: 'SET_REGISTER', value: form});
-    navigation.navigate('SignUpCanteen');
+    if (photo) {
+      dispatch({type: 'SET_REGISTER', value: form});
+      navigation.navigate('SignUpCanteen');
+    } else {
+      showMessage('Anda Belum Upload Foto');
+    }
   };
 
   const addPhoto = () => {

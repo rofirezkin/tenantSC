@@ -49,13 +49,6 @@ const TableSection = () => {
         <Text>Jumlah Total </Text>
         <Text> Rp100.000</Text>
       </View>
-      <View style={{marginHorizontal: 6}}>
-        <Gap height={20} />
-        <Button
-          label="Withdraw"
-          onPress={() => navigation.navigate('Cashout')}
-        />
-      </View>
     </View>
   );
 };
@@ -64,9 +57,9 @@ export default TableSection;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 14,
+    paddingHorizontal: 14,
     backgroundColor: '#fff',
-    marginTop: 15,
+
     borderBottomColor: '#F2F2F2',
     borderBottomWidth: 1,
   },

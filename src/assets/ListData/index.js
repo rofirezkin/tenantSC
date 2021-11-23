@@ -89,3 +89,26 @@ export const foodCategory = [
     value: 'Minuman',
   },
 ];
+
+export const menuCategory = [
+  {
+    id: 1,
+    label: 'Rekomendasi',
+    value: 'recommended',
+  },
+  {
+    id: 2,
+    label: 'Best Seller',
+    value: 'Best Seller',
+  },
+  {
+    id: 3,
+    label: 'Rasa Terbaru',
+    value: 'New Taste',
+  },
+  {
+    id: 4,
+    label: 'Popular',
+    value: 'Popular',
+  },
+];

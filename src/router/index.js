@@ -1,12 +1,13 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
+import {IcMenuOn} from '../assets';
 import {BottomNavigator} from '../components';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {
+  BankSetting,
   BukaTutupKantin,
   Cashout,
-  CashoutNominal,
   Confirmation,
   CostumerOrder,
   DetailCashout,
@@ -15,6 +16,7 @@ import {
   HelpCenter,
   History,
   Menu,
+  Notification,
   Profile,
   SignIn,
   SignUp,
@@ -29,35 +31,50 @@ import {
 } from '../pages';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 const MainApp = ({route}) => {
-  const routingData = route.params;
-
   return (
     <Tab.Navigator
-      initialRouteName={routingData}
-      tabBar={props => <BottomNavigator {...props} />}>
+      activeColor="#ED212B"
+      barStyle={{backgroundColor: 'white'}}
+      // tabBar={props => <BottomNavigator {...props} />}
+    >
       <Tab.Screen
-        initialParams={{getToken: routingData}}
         name="Menu"
         component={Menu}
-        options={{headerShown: false}}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => <Icon name="home" color={color} size={26} />,
+        }}
       />
       <Tab.Screen
         name="CostumerOrder"
         component={CostumerOrder}
-        options={{headerShown: false}}
+        options={{
+          tabBarLabel: 'Order',
+          tabBarIcon: ({color}) => (
+            <Icon name="shopping-cart" color={color} size={26} />
+          ),
+        }}
       />
       <Tab.Screen
         name="History"
         component={History}
-        options={{headerShown: false}}
+        options={{
+          tabBarLabel: 'Transaksi',
+          tabBarIcon: ({color}) => (
+            <Icon name="exchange" color={color} size={26} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Profile"
         component={Profile}
-        options={{headerShown: false}}
+        options={{
+          tabBarLabel: 'Setting',
+          tabBarIcon: ({color}) => <Icon name="cog" color={color} size={26} />,
+        }}
       />
     </Tab.Navigator>
   );
@@ -84,6 +101,11 @@ const Router = () => {
       <Stack.Screen
         name="Withdraw"
         component={Withdraw}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -169,6 +191,11 @@ const Router = () => {
       <Stack.Screen
         name="StatusTransfer"
         component={StatusTransfer}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="BankSetting"
+        component={BankSetting}
         options={{headerShown: false}}
       />
       <Stack.Screen

@@ -8,12 +8,22 @@ const Button = ({
   double,
   textColor = 'white',
   costumerOrder,
+  myFood,
 }) => {
+  if (myFood) {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.containerButton(color)}>
+          <Text style={styles.textOrder(color)}>{label}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
   if (costumerOrder) {
     return (
       <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
         <View style={styles.containerOrder(color)}>
-          <Text style={styles.textOrder}>{label}</Text>
+          <Text style={styles.textOrderWhite}>{label}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -48,7 +58,7 @@ const styles = StyleSheet.create({
   containerOrder: color => ({
     backgroundColor: color,
     paddingVertical: 6,
-    paddingHorizontal: 10,
+    paddingHorizontal: 6,
     borderRadius: 14,
   }),
   textOrder: {
@@ -56,5 +66,19 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     color: 'white',
     textAlign: 'center',
+  },
+  containerButton: color => ({
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    borderColor: color,
+    borderWidth: 2,
+    marginRight: 20,
+  }),
+  textOrder: color => ({
+    color: color,
+  }),
+  textOrderWhite: {
+    color: 'white',
   },
 });
