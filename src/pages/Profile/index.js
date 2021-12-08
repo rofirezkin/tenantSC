@@ -16,11 +16,6 @@ const Profile = ({navigation}) => {
     getData('token').then(res => {
       setToken(res.value);
     });
-
-    BackHandler.addEventListener('hardwareBackPress', backAction);
-
-    return () =>
-      BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, []);
 
   const signOut = () => {
@@ -41,13 +36,6 @@ const Profile = ({navigation}) => {
         showMessage(err?.message);
         dispatch(setLoading(false));
       });
-  };
-
-  const backAction = () => {
-    if (isLoading !== true) {
-      BackHandler.exitApp();
-    }
-    return true;
   };
 
   return (

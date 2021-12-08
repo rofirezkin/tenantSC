@@ -41,8 +41,10 @@ const styles = StyleSheet.create({
   },
   textStatus: {
     color: 'green',
+    fontSize: 16,
   },
   desc: {
     color: '#8D92A3',
+    fontSize: 15,
   },
 });

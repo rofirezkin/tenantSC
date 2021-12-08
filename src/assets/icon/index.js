@@ -32,7 +32,11 @@ import ICEllipsActive from './ellpiseActive.svg';
 import ICEllips from './ellipse.svg';
 import ICExit from './exit.svg';
 import ICLandmark from './landmark.svg';
+import ICEye from './eye.svg';
+import ICEyeSlash from './eye-slash.svg';
 export {
+  ICEye,
+  ICEyeSlash,
   ICLandmark,
   ICExit,
   ICEllips,

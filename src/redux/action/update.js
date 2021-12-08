@@ -94,8 +94,6 @@ export const updateProfileAction =
                 index: 0,
                 routes: [{name: 'MainApp'}],
               });
-
-              dispatch(setLoading(false));
             })
             .catch(err => {
               console.log('eror dimana0', err);

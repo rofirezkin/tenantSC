@@ -34,7 +34,7 @@ import {setLoading, uploadMenuAction} from '../../redux/action';
 const UploadMenu = ({navigation, route}) => {
   const dispatch = useDispatch();
   const id_tenant = route.params.userProfile.id;
-  const kodeMenu = route.params.kodeMenu;
+  const kode_menu = route.params.kodeMenu;
   const token = route.params.token;
   const [photo, setPhoto] = useState('');
   const [dataPhoto, setDataPhoto] = useState({});
@@ -58,8 +58,10 @@ const UploadMenu = ({navigation, route}) => {
       const data = {
         ...form,
         id_tenant,
+        kode_menu,
       };
 
+      console.log('data menu', data);
       dispatch(setLoading(true));
       dispatch(uploadMenuAction(data, token, dataPhoto, navigation));
     } else {
@@ -137,7 +139,7 @@ const UploadMenu = ({navigation, route}) => {
           </View>
           <View>
             <Gap height={15} />
-            <TextInput value={kodeMenu} label="Kode Menu" editable={false} />
+            <TextInput value={kode_menu} label="Kode Menu" editable={false} />
             <Gap height={15} />
             <TextInput
               value={form.name}

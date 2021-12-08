@@ -1,9 +1,9 @@
 import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {ItemListFood} from '..';
-import {Button} from '../..';
+import ItemListFood from '../ItemListFood';
+import {Button} from '../../atoms';
 import {getFoodData} from '../../../redux/action';
 import {getData} from '../../../utils';
 
@@ -17,6 +17,7 @@ const CustomTab = () => {
   const dispatch = useDispatch();
   const [token, setToken] = useState('');
   const {allFood, food, baverages} = useSelector(state => state.menuReducer);
+  const [postPerLoad] = useState(10);
 
   useEffect(() => {
     getData('token').then(res => {
@@ -52,6 +53,27 @@ const CustomTab = () => {
               data: res,
               token,
             };
+
+            const dataSubstring = [
+              {desc: res.ingredients, value: 60},
+              {desc: res.name, value: 25},
+            ];
+            var fixedDesc;
+            var data = [];
+            for (var i = 0; i < dataSubstring.length; i++) {
+              if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+                fixedDesc =
+                  dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+                  '...';
+              } else {
+                fixedDesc = dataSubstring[i].desc;
+              }
+              data.push({
+                key: i,
+                desc: fixedDesc,
+              });
+            }
+
             return (
               <ItemListFood
                 is_active={res.is_active}
@@ -59,9 +81,9 @@ const CustomTab = () => {
                 idFood={res.id}
                 onPress={() => navigation.navigate('EditMenu', dataParams)}
                 price={res.price}
-                name={res.name}
+                name={data[1].desc}
                 key={res.id}
-                ingredients={res.ingredients}
+                ingredients={data[0].desc}
                 image={{uri: res.picturePath}}
               />
             );
@@ -72,6 +94,26 @@ const CustomTab = () => {
       return (
         <View>
           {food.map(res => {
+            const dataSubstring = [
+              {desc: res.ingredients, value: 60},
+              {desc: res.name, value: 25},
+            ];
+            var fixedDesc;
+            var data = [];
+            for (var i = 0; i < dataSubstring.length; i++) {
+              if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+                fixedDesc =
+                  dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+                  '...';
+              } else {
+                fixedDesc = dataSubstring[i].desc;
+              }
+              data.push({
+                key: i,
+                desc: fixedDesc,
+              });
+            }
+
             const dataParams = {
               data: res,
               token,
@@ -83,9 +125,9 @@ const CustomTab = () => {
                 idFood={res.id}
                 onPress={() => navigation.navigate('EditMenu', dataParams)}
                 price={res.price}
-                name={res.name}
+                name={data[1].desc}
                 key={res.id}
-                ingredients={res.ingredients}
+                ingredients={data[0].desc}
                 image={{uri: res.picturePath}}
               />
             );
@@ -100,6 +142,26 @@ const CustomTab = () => {
               data: res,
               token,
             };
+
+            const dataSubstring = [
+              {desc: res.ingredients, value: 60},
+              {desc: res.name, value: 25},
+            ];
+            var fixedDesc;
+            var data = [];
+            for (var i = 0; i < dataSubstring.length; i++) {
+              if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+                fixedDesc =
+                  dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+                  '...';
+              } else {
+                fixedDesc = dataSubstring[i].desc;
+              }
+              data.push({
+                key: i,
+                desc: fixedDesc,
+              });
+            }
             return (
               <ItemListFood
                 is_active={res.is_active}
@@ -107,9 +169,9 @@ const CustomTab = () => {
                 idFood={res.id}
                 onPress={() => navigation.navigate('EditMenu', dataParams)}
                 price={res.price}
-                name={res.name}
+                name={data[1].desc}
                 key={res.id}
-                ingredients={res.ingredients}
+                ingredients={data[0].desc}
                 image={{uri: res.picturePath}}
               />
             );

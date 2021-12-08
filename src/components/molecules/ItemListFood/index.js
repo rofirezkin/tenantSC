@@ -15,7 +15,8 @@ import axios from 'axios';
 import {API_HOST} from '../../../config';
 import {useDispatch} from 'react-redux';
 import {setLoading} from '../../../redux/action';
-import {ModalsMenu, Number} from '..';
+import ModalsMenu from '../ModalsMenu';
+import Number from '../Number';
 
 const ItemListFood = ({
   onPress,

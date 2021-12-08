@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import {useDispatch} from 'react-redux';
+import {ICEye, ICEyeSlash} from '../../assets';
 import {Button, Gap, Header, TextInput} from '../../components';
 import {signInAction} from '../../redux/action';
 import useForm from '../../utils/useForm';
 
 const SignIn = ({navigation}) => {
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [form, setForm] = useForm({
     email: '',
     password: '',
@@ -33,10 +36,21 @@ const SignIn = ({navigation}) => {
         />
         <Gap height={16} />
         <TextInput
-          onChangeText={value => setForm('password', value)}
+          signIn
+          iconPosition="right"
+          placeholder="yourpassword"
+          secureTextEntry={isSecureEntry}
           label="Password"
-          placeholder="Type your password"
-          secureTextEntry
+          icon={
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry(prev => !prev);
+              }}>
+              <View>{isSecureEntry ? <ICEyeSlash /> : <ICEye />}</View>
+            </TouchableOpacity>
+          }
+          value={form.password}
+          onChangeText={value => setForm('password', value)}
         />
         <Gap height={24} />
         <Button label="Sign In" onPress={onSubmit} />

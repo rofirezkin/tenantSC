@@ -9,11 +9,13 @@ import {
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch} from 'react-redux';
+import { ICEye, ICEyeSlash } from '../../assets';
 import {Button, Gap, Header, TextInput} from '../../components';
 import {showMessage} from '../../utils';
 import useForm from '../../utils/useForm';
 
 const SignUp = ({navigation}) => {
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [form, setForm] = useForm({
     email: '',
     password: '',
@@ -90,13 +92,22 @@ const SignUp = ({navigation}) => {
           />
           <Gap height={16} />
           <TextInput
+            signIn
+            iconPosition="right"
+            placeholder="yourpassword"
+            secureTextEntry={isSecureEntry}
+            label="Password"
+            icon={
+              <TouchableOpacity
+                onPress={() => {
+                  setIsSecureEntry(prev => !prev);
+                }}>
+                <View>{isSecureEntry ? <ICEyeSlash /> : <ICEye />}</View>
+              </TouchableOpacity>
+            }
             value={form.password}
             onChangeText={value => setForm('password', value)}
-            label="Password"
-            secureTextEntry={true}
-            placeholder="Type your password"
           />
-
           <Gap height={16} />
           <TextInput
             value={form.nama_pemilik}

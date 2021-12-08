@@ -4,9 +4,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import NumberFormat from 'react-number-format';
 import {useDispatch} from 'react-redux';
-import {TextInput} from '..';
-import {API_HOST} from '../../../config';
-import {setLoading} from '../../../redux/action';
+import TextInput from '../TextInput/TextInput';
 
 const InputCostum = ({onValueChange, ...props}) => {
   const [nilai, setNilai] = useState(`${props.price}`);

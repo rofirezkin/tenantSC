@@ -24,12 +24,20 @@ export const skeletonHome = [
           {
             key: 'status',
             width: 150,
-            height: 15,
+            height: 25,
             marginBottom: 15,
           },
         ],
       },
     ],
+  },
+
+  {
+    key: 'textSaldo',
+    marginTop: 20,
+    height: 50,
+    width: 200,
+    marginLeft: 20,
   },
   {
     key: 'poster',
@@ -51,122 +59,134 @@ export const skeletonHome = [
     ],
   },
   {
-    key: 'textReady',
+    key: 'addMenuColumn',
     marginTop: 25,
-    height: 20,
-    width: 200,
-    marginLeft: 20,
-  },
-  {
-    key: 'method',
-    marginTop: 15,
-    marginLeft: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    children: [
-      {
-        key: 'optionUser',
-        marginTop: 5,
-        children: [
-          {
-            key: 'contentUser',
-            width: 62,
-            height: 62,
-          },
-          {
-            key: 'textOptionUser',
-            marginTop: 10,
-            width: 62,
-            height: 15,
-          },
-        ],
-      },
-      {
-        key: 'optionUser2',
-        marginTop: 5,
-        children: [
-          {
-            key: 'contentUser2',
-            width: 62,
-            height: 62,
-          },
-          {
-            key: 'textOptionUser2',
-            marginTop: 10,
-            width: 62,
-            height: 15,
-          },
-        ],
-      },
-      {
-        key: 'optionUser3',
-        marginTop: 5,
-        children: [
-          {
-            key: 'contentUser3',
-            width: 62,
-            height: 62,
-          },
-          {
-            key: 'textOptionUser3',
-            marginTop: 10,
-            width: 62,
-            height: 15,
-          },
-        ],
-      },
-      {
-        key: 'optionUser4',
-        marginTop: 5,
-        marginRight: 20,
-        children: [
-          {
-            key: 'contentUser4',
-            width: 62,
-            height: 62,
-          },
-          {
-            key: 'textOptionUser4',
-            marginTop: 10,
-            width: 62,
-            height: 15,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'textBestSeller',
-    marginTop: 25,
-    marginLeft: 20,
-    width: 120,
-    height: 20,
-  },
-  {
-    key: 'contentBestSeller',
-    marginTop: 10,
-    marginLeft: 20,
-    flexDirection: 'row',
-    children: [
-      {
-        key: 'cardBestSeller',
-        width: 200,
-        height: 240,
-        marginRight: 10,
-      },
-      {
-        key: 'cardBestSeller2',
-        width: 200,
-        height: 240,
-      },
-    ],
-  },
-  {
-    key: 'tabView',
-    marginTop: 25,
-    flexDirection: 'row',
     flex: 1,
     width: 'auto',
-    height: 300,
+    marginHorizontal: 20,
+    height: 60,
+  },
+
+  {
+    key: 'tabView',
+    marginTop: 16,
+    marginLeft: 20,
+    width: 190,
+    height: 40,
+  },
+
+  {
+    key: 'food',
+    marginTop: 20,
+    marginLeft: 20,
+    flexDirection: 'row',
+    children: [
+      {
+        key: 'image',
+        width: 80,
+        height: 80,
+        borderRadius: 8,
+      },
+      {
+        key: 'containerName',
+        marginLeft: 10,
+        children: [
+          {
+            key: 'name',
+            width: 250,
+            height: 25,
+            marginBottom: 5,
+          },
+          {
+            key: 'status',
+            width: 170,
+            height: 17,
+            marginBottom: 10,
+          },
+          {
+            key: 'change',
+            width: 150,
+            height: 20,
+            marginBottom: 15,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: 'food2',
+    marginTop: 20,
+    marginLeft: 20,
+    flexDirection: 'row',
+    children: [
+      {
+        key: 'image',
+        width: 80,
+        height: 80,
+        borderRadius: 8,
+      },
+      {
+        key: 'containerName',
+        marginLeft: 10,
+        children: [
+          {
+            key: 'name',
+            width: 250,
+            height: 25,
+            marginBottom: 5,
+          },
+          {
+            key: 'status',
+            width: 170,
+            height: 17,
+            marginBottom: 10,
+          },
+          {
+            key: 'change',
+            width: 150,
+            height: 20,
+            marginBottom: 15,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: 'food3',
+    marginTop: 20,
+    marginLeft: 20,
+    flexDirection: 'row',
+    children: [
+      {
+        key: 'image',
+        width: 80,
+        height: 80,
+        borderRadius: 8,
+      },
+      {
+        key: 'containerName',
+        marginLeft: 10,
+        children: [
+          {
+            key: 'name',
+            width: 250,
+            height: 25,
+            marginBottom: 5,
+          },
+          {
+            key: 'status',
+            width: 170,
+            height: 17,
+            marginBottom: 10,
+          },
+          {
+            key: 'change',
+            width: 150,
+            height: 20,
+            marginBottom: 15,
+          },
+        ],
+      },
+    ],
   },
 ];

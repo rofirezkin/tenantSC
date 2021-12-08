@@ -13,7 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getData} from '../../../utils';
 import {getFoodData} from '../../../redux/action';
-import {ItemListFood} from '..';
+import ItemListFood from '../ItemListFood/index';
 
 const renderTabBar = props => (
   <TabBar
@@ -43,7 +43,7 @@ const All = () => {
   }, []);
 
   return (
-    <View>
+    <ScrollView>
       {allFood.map(res => {
         const dataParams = {
           data: res,
@@ -63,7 +63,7 @@ const All = () => {
           />
         );
       })}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -78,7 +78,7 @@ const Food = () => {
   }, []);
 
   return (
-    <View>
+    <ScrollView>
       {food.map(res => {
         const dataParams = {
           data: res,
@@ -97,7 +97,7 @@ const Food = () => {
           />
         );
       })}
-    </View>
+    </ScrollView>
   );
 };
 const Beverages = () => {

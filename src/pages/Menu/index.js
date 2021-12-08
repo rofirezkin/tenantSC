@@ -35,8 +35,13 @@ const Menu = ({navigation, routingData}) => {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
   useEffect(() => {
-    setLoading(false);
+    wait(500).then(() => setLoading(false));
+
     getData('token').then(res => {
       setToken(res.value);
     });
