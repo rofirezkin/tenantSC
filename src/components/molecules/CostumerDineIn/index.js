@@ -39,8 +39,8 @@ const CostumerDineIn = () => {
         </View>
       </View>
       <View style={styles.buttonSection}>
-        <Button costumerOrder label="Konfirmasi" />
-        <Button costumerOrder label="Prosess" />
+        <Button costumerOrder label="Konfirmasi proses" />
+
         <Button costumerOrder label="diantar" />
         <Button costumerOrder label="sudah diantar" />
       </View>

@@ -55,7 +55,7 @@ const CustomTab = () => {
             };
 
             const dataSubstring = [
-              {desc: res.ingredients, value: 60},
+              {desc: res.ingredients, value: 40},
               {desc: res.name, value: 25},
             ];
             var fixedDesc;
