@@ -21,6 +21,7 @@ import {
 } from '../../assets';
 import {Button, Gap, Header, Select, TextInput} from '../../components';
 import {setLoading, updateMenuAction} from '../../redux/action';
+import {showMessage} from '../../utils';
 
 import useForm from '../../utils/useForm';
 
@@ -49,28 +50,21 @@ const EditMenu = ({navigation, route}) => {
   };
 
   const addPhoto = () => {
-    launchImageLibrary(
-      {
-        quality: 0.5,
-        maxWidth: 200,
-        maxHeight: 200,
-      },
-      response => {
-        if (response.didCancel || response.error) {
-          showMessage('Anda tidak memilih photo');
-        } else {
-          const source = {uri: response.assets[0].uri};
-          const dataImage = {
-            uri: response.assets[0].uri,
-            type: response.assets[0].type,
-            name: response.assets[0].fileName,
-          };
-          console.log('urri', response.assets[0]);
-          setPhoto(source);
-          setDataPhoto(dataImage);
-        }
-      },
-    );
+    launchImageLibrary({}, response => {
+      if (response.didCancel || response.error) {
+        showMessage('Anda tidak memilih photo');
+      } else {
+        const source = {uri: response.assets[0].uri};
+        const dataImage = {
+          uri: response.assets[0].uri,
+          type: response.assets[0].type,
+          name: response.assets[0].fileName,
+        };
+        console.log('urri', response.assets[0]);
+        setPhoto(source);
+        setDataPhoto(dataImage);
+      }
+    });
   };
 
   const backAction = () => {

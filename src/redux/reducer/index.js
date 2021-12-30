@@ -4,10 +4,12 @@ import {globalReducer} from './global';
 import {uploadMenuReducer, photoMenuReducer} from './uploadMenu';
 import {menuReducer} from './menu';
 import {updateMenuReducer} from './updateMenu';
+import {customerOrderReducer} from './customerOrder';
 
 const reducer = combineReducers({
   registerReducer,
   photoReducer,
+  customerOrderReducer,
   globalReducer,
   menuReducer,
   idTenantReducer,

@@ -41,31 +41,29 @@ const Menu = ({navigation, routingData}) => {
 
   useEffect(() => {
     wait(500).then(() => setLoading(false));
-
     getData('token').then(res => {
       setToken(res.value);
+      dispatch(getFoodData(res.value));
+      axios
+        .get(`${API_HOST.url}/menu/getKodeMenu`, {
+          headers: {
+            Authorization: res.value,
+          },
+        })
+        .then(res => {
+          setKodeMenu(res.data.data);
+        })
+        .catch(err => {
+          if (err.message) {
+            // console.log('haloo food', err.message);
+          }
+        });
     });
-    axios
-      .get(`${API_HOST.url}/menu/getKodeMenu`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(res => {
-        setKodeMenu(res.data.data);
-      })
-      .catch(err => {
-        if (err.message) {
-          // console.log('haloo food', err.message);
-        }
-      });
 
     getData('userProfile').then(res => {
       setUserProfile(res);
+      console.log('id', res);
     });
-    if (token) {
-      dispatch(getFoodData(token));
-    }
   }, [token]);
 
   const dataParams = {
@@ -84,10 +82,10 @@ const Menu = ({navigation, routingData}) => {
         layout={skeletonHome}>
         <View style={styles.page}>
           <HomeProfile data={userProfile} />
-          <View style={styles.balance}>
+          {/* <View style={styles.balance}>
             <Text style={styles.label}>Saldo Saya : </Text>
             <Text style={styles.rupiah}>Rp200.000</Text>
-          </View>
+          </View> */}
           {allFood.length < 1 ? (
             <View style={styles.emptymenu}>
               <View>

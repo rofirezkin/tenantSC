@@ -50,12 +50,12 @@ const Profile = ({navigation}) => {
             desc="Lihat dan edit akun anda"
             onPress={() => navigation.navigate('UserProfile')}
           />
-          <List
+          {/* <List
             icon="bank"
             name="Akun Bank"
             desc="Lihat akun bank anda"
             onPress={() => navigation.navigate('BankSetting')}
-          />
+          /> */}
           <List
             icon="tutup-buka"
             name="Buka/Tutup kantin"

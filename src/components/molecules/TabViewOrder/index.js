@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,6 +13,13 @@ import {useNavigation} from '@react-navigation/native';
 import CostumerDineIn from '../CostumerDineIn';
 import CostumerTakeAway from '../CostumerTakeAway';
 import CostumerDelivery from '../CostumerDelivery';
+import {useDispatch, useSelector} from 'react-redux';
+import {getData} from '../../../utils';
+import {
+  getFeedbackOrder,
+  getInProgress,
+  getPastOrders,
+} from '../../../redux/action';
 
 const renderTabBar = props => (
   <TabBar
@@ -26,59 +34,225 @@ const renderTabBar = props => (
 );
 const AllData = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [userProfile, setUserProfile] = useState('');
+  const {inProgress} = useSelector(state => state.customerOrderReducer);
+  const [refreshing, setRefreshing] = useState(false);
 
+  useEffect(() => {
+    getData('userProfile').then(res => {
+      setUserProfile(res);
+      dispatch(getInProgress(res.id));
+    });
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getInProgress(userProfile.id));
+    setRefreshing(false);
+  };
+
+  console.log('inpror', inProgress);
+
+  // const CostumerDineIn = ({foodName, is_active, name, quantity, status
   return (
-    <ScrollView>
-      <CostumerDineIn />
-      <CostumerDineIn />
-      <CostumerDineIn />
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      {inProgress.map(order => {
+        const dataSubstring = [
+          {desc: order.menu.ingredients, value: 40},
+          {desc: order.menu.name, value: 25},
+        ];
+        var fixedDesc;
+        var data = [];
+        for (var i = 0; i < dataSubstring.length; i++) {
+          if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+            fixedDesc =
+              dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+              '...';
+          } else {
+            fixedDesc = dataSubstring[i].desc;
+          }
+          data.push({
+            key: i,
+            desc: fixedDesc,
+          });
+        }
+        return (
+          <CostumerDineIn
+            id={order.id}
+            kodeTransaksi={order.kode_transaksi}
+            phone={order.phoneNumber}
+            picturePath={order.menu.picturePath}
+            category={order.menu.category}
+            total={order.total}
+            key={order.id}
+            foodName={data[1].desc}
+            is_active={order.menu.is_active}
+            name={order.nama_pelanggan}
+            quantity={order.quantity}
+            status={order.status}
+            method={order.method}
+            price={order.menu.price}
+            ingredients={data[0].desc}
+          />
+        );
+      })}
     </ScrollView>
   );
 };
 
-const DineIn = () => {
-  const navigation = useNavigation();
-  return (
-    <ScrollView>
-      <CostumerDineIn />
-      <CostumerDineIn />
-      <CostumerDineIn />
-    </ScrollView>
-  );
-};
-
-const TakeAway = () => {
-  const navigation = useNavigation();
-  return (
-    <View>
-      <CostumerTakeAway />
-    </View>
-  );
-};
 const Delivery = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [userProfile, setUserProfile] = useState('');
+  const {feedback} = useSelector(state => state.customerOrderReducer);
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    getData('userProfile').then(res => {
+      setUserProfile(res);
+      dispatch(getFeedbackOrder(res.id));
+    });
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getFeedbackOrder(userProfile.id));
+    setRefreshing(false);
+  };
+
   return (
-    <View>
-      <CostumerDelivery />
-    </View>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      {feedback.map(order => {
+        const dataSubstring = [
+          {desc: order.menu.ingredients, value: 40},
+          {desc: order.menu.name, value: 25},
+        ];
+        var fixedDesc;
+        var data = [];
+        for (var i = 0; i < dataSubstring.length; i++) {
+          if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+            fixedDesc =
+              dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+              '...';
+          } else {
+            fixedDesc = dataSubstring[i].desc;
+          }
+          data.push({
+            key: i,
+            desc: fixedDesc,
+          });
+        }
+        return (
+          <CostumerDineIn
+            id={order.id}
+            kodeTransaksi={order.kode_transaksi}
+            phone={order.phoneNumber}
+            picturePath={order.menu.picturePath}
+            category={order.menu.category}
+            total={order.total}
+            key={order.id}
+            foodName={data[1].desc}
+            is_active={order.menu.is_active}
+            name={order.nama_pelanggan}
+            quantity={order.quantity}
+            status={order.status}
+            method={order.method}
+            price={order.menu.price}
+            ingredients={data[0].desc}
+          />
+        );
+      })}
+    </ScrollView>
+  );
+};
+const PastOrder = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [userProfile, setUserProfile] = useState('');
+  const {pastOrder} = useSelector(state => state.customerOrderReducer);
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    getData('userProfile').then(res => {
+      setUserProfile(res);
+      dispatch(getPastOrders(res.id));
+    });
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getPastOrders(userProfile.id));
+    setRefreshing(false);
+  };
+  return (
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      {pastOrder.map(order => {
+        const dataSubstring = [
+          {desc: order.menu.ingredients, value: 40},
+          {desc: order.menu.name, value: 25},
+        ];
+        var fixedDesc;
+        var data = [];
+        for (var i = 0; i < dataSubstring.length; i++) {
+          if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+            fixedDesc =
+              dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+              '...';
+          } else {
+            fixedDesc = dataSubstring[i].desc;
+          }
+          data.push({
+            key: i,
+            desc: fixedDesc,
+          });
+        }
+        return (
+          <CostumerDineIn
+            id={order.id}
+            kodeTransaksi={order.kode_transaksi}
+            phone={order.phoneNumber}
+            picturePath={order.menu.picturePath}
+            category={order.menu.category}
+            total={order.total}
+            key={order.id}
+            foodName={data[1].desc}
+            is_active={order.menu.is_active}
+            name={order.nama_pelanggan}
+            quantity={order.quantity}
+            status={order.status}
+            method={order.method}
+            price={order.menu.price}
+            ingredients={data[0].desc}
+          />
+        );
+      })}
+    </ScrollView>
   );
 };
 
 const renderScene = SceneMap({
   1: AllData,
-  2: TakeAway,
-  3: Delivery,
-  4: DineIn,
+  2: Delivery,
+  3: PastOrder,
 });
 const TabViewOrder = () => {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: '1', title: 'AllData'},
-    {key: '2', title: 'Take Away'},
-    {key: '3', title: 'Delivery'},
-    {key: '4', title: 'Dine In'},
+    {key: '1', title: 'Proses'},
+    {key: '2', title: 'Sedang Antar/Feedback'},
+    {key: '3', title: 'Riwayat Order'},
   ]);
   return (
     <TabView

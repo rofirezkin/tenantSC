@@ -1,46 +1,35 @@
 import React from 'react';
 import {Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {ICGmail, ICWhatsapp, ILHelpCenter} from '../../assets';
+import {ICGmail, ICWhatsapp, ILHelpCenter, ILMaintenance} from '../../assets';
 import {Gap, Header} from '../../components';
 import {fonts} from '../../utils';
 
-const HelpCenter = ({navigation}) => {
-  const onWhatsApp = () => {
-    console.log('halo ');
-    Linking.openURL('whatsapp://send?text=hello&phone=+6281388669896');
-  };
+const Maintenance = ({navigation}) => {
   return (
     <View style={styles.page}>
       <Header
         onBack
         onPress={() => navigation.goBack()}
-        title="Kontak Admin SmartCanten"
-        subtTitle="Hubungi Admin anda untuk bantuan"
+        title="Maintenance"
+        subtTitle="under maintenance"
       />
       <View style={styles.container}>
         <View style={styles.illustration}>
-          <ILHelpCenter />
+          <ILMaintenance />
         </View>
         <Gap height={20} />
-        <TouchableOpacity onPress={onWhatsApp} style={styles.button}>
-          <View style={styles.icon}>
-            <ICWhatsapp />
-          </View>
-          <Text style={styles.text}>Whatsapp Chat</Text>
-        </TouchableOpacity>
+        <View>
+          <Text style={{textAlign: 'center'}}>
+            This page is currently under maintenance, please try again later
+          </Text>
+        </View>
         <Gap height={20} />
-        <TouchableOpacity style={styles.button}>
-          <View style={styles.icon}>
-            <ICGmail />
-          </View>
-          <Text style={styles.text}>Email : smartcanteen@gmail.com</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default HelpCenter;
+export default Maintenance;
 
 const styles = StyleSheet.create({
   page: {
@@ -60,6 +49,7 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     borderRadius: 15,
+    paddingHorizontal: 12,
   },
   text: {
     fontFamily: fonts.primary[500],

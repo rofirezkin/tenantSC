@@ -70,28 +70,21 @@ const UploadMenu = ({navigation, route}) => {
   };
 
   const addPhoto = () => {
-    launchImageLibrary(
-      {
-        quality: 0.5,
-        maxWidth: 200,
-        maxHeight: 200,
-      },
-      response => {
-        if (response.didCancel || response.error) {
-          showMessage('Anda tidak memilih photo');
-        } else {
-          const source = {uri: response.assets[0].uri};
-          const dataImage = {
-            uri: response.assets[0].uri,
-            type: response.assets[0].type,
-            name: response.assets[0].fileName,
-          };
+    launchImageLibrary({}, response => {
+      if (response.didCancel || response.error) {
+        showMessage('Anda tidak memilih photo');
+      } else {
+        const source = {uri: response.assets[0].uri};
+        const dataImage = {
+          uri: response.assets[0].uri,
+          type: response.assets[0].type,
+          name: response.assets[0].fileName,
+        };
 
-          setPhoto(source);
-          setDataPhoto(dataImage);
-        }
-      },
-    );
+        setPhoto(source);
+        setDataPhoto(dataImage);
+      }
+    });
   };
 
   const backAction = () => {

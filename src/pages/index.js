@@ -21,7 +21,9 @@ import Confirmation from './Confirmation';
 import StatusTransfer from './StatusTransfer';
 import Notification from './Notification';
 import BankSetting from './BankSetting';
+import Maintenance from './Maintenance';
 export {
+  Maintenance,
   Notification,
   BankSetting,
   StatusTransfer,

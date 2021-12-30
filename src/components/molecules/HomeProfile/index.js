@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   status: status => ({
-    color: status === 'Buka' ? 'green' : 'red',
+    color: status === 'active' ? 'green' : 'red',
   }),
 });

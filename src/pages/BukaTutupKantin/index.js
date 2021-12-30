@@ -27,7 +27,7 @@ const BukaTutupKantin = ({navigation}) => {
 
   const StatusKantinActive = () => {
     const data = {
-      status: 'Buka',
+      status: 'active',
     };
     console.log('data', data);
     dispatch(updateStatusAction(data, token, dataProfile, navigation));
@@ -35,7 +35,7 @@ const BukaTutupKantin = ({navigation}) => {
 
   const StatusKantinInactive = () => {
     const data = {
-      status: 'Tutup',
+      status: 'inactive',
     };
     console.log('acitve', data);
 

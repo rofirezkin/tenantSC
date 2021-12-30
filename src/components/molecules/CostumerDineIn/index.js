@@ -3,46 +3,144 @@ import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {Button} from '../../atoms';
 import {DummyList1, IMGDummyFoodCourt} from '../../../assets';
 import {fonts} from '../../../utils';
+import {ItemValue, Number} from '..';
+import {useDispatch} from 'react-redux';
+import {progressOrder, setLoading} from '../../../redux/action';
+import {useNavigation} from '@react-navigation/native';
 
-const CostumerDineIn = () => {
-  const {height, width} = useWindowDimensions();
+const CostumerDineIn = ({
+  foodName,
+  total,
+  name,
+  category,
+  quantity,
+  status,
+  ingredients,
+  picturePath,
+  phone,
+  kodeTransaksi,
+  method,
+  token,
+  id,
+  price,
+}) => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const shortDesc = method;
+  shortDesc.toString();
+  let fixedDesc = '';
+  if (shortDesc.length > 9) {
+    fixedDesc = shortDesc.substring(0, 8);
+  } else {
+    fixedDesc = shortDesc;
+  }
+
+  const konfirmasiProses = () => {
+    dispatch(setLoading(true));
+    const statusData = {
+      status: 'PROCESS',
+    };
+    dispatch(progressOrder(statusData, id, navigation));
+  };
+
+  const konfirmasiAntarPesanan = () => {
+    dispatch(setLoading(true));
+    const statusData = {
+      status: 'ON DELIVERY',
+    };
+    dispatch(progressOrder(statusData, id, navigation));
+  };
+  const konfirmasiPesananDiterima = () => {
+    dispatch(setLoading(true));
+    const statusData = {
+      status: 'FEEDBACK',
+    };
+    dispatch(progressOrder(statusData, id, navigation));
+  };
+  const konfirmasiPesananBatal = () => {
+    dispatch(setLoading(true));
+    const statusData = {
+      status: 'CANCEL ORDER',
+    };
+    dispatch(progressOrder(statusData, id, navigation));
+  };
   return (
     <View style={styles.card}>
+      <View
+        style={{
+          marginTop: 20,
+          paddingHorizontal: 19,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          flex: 1,
+        }}>
+        <Text style={styles.headers}>{method}</Text>
+        <Text style={styles.headerskode}>{kodeTransaksi}</Text>
+      </View>
       <View style={styles.container}>
         <View style={styles.wrapperText}>
           <View style={styles.cardTitle}>
-            <Text style={styles.title}>Chicken Katsu</Text>
-            <Text style={styles.statusMenu}>Available</Text>
+            <Text style={styles.title}>{foodName}</Text>
           </View>
-          <Text style={styles.menuContent}>Nasi, Telur, Ayam, Sambal ..</Text>
+          <Text style={styles.menuContent}>{ingredients}</Text>
           <View style={styles.description}>
-            <View style={styles.prop}>
-              <Text style={styles.desc}>Nama Pembeli</Text>
-              <Text style={styles.desc}>No. Meja</Text>
-              <Text style={styles.desc}>Jumlah</Text>
-              <Text style={styles.desc}>Status</Text>
-            </View>
-            <View>
-              <Text style={styles.desc}>Ratu Utami</Text>
-              <Text style={styles.desc}>B10</Text>
-              <Text style={styles.desc}>4 Item</Text>
-              <Text style={styles.statusPelanggan}>Menunggu</Text>
+            <View style={styles.prop1}>
+              <Text style={styles.desc}>Nama : {name}</Text>
+              <Text style={styles.desc}>Jumlah : {quantity} Item</Text>
+              <Text style={styles.desc}>No Hp : {phone}</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.desc}>total : </Text>
+                <Number style={styles.desc} number={total} />
+              </View>
             </View>
           </View>
         </View>
         <View style={styles.cardImage}>
-          <Image source={IMGDummyFoodCourt} style={styles.image} />
+          <Image source={{uri: picturePath}} style={styles.image} />
           <View>
-            <Text style={styles.price}>Total : Rp15.000</Text>
-            <Text style={styles.desc}>Kategori : Makanan</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.price}>harga : </Text>
+              <Number style={styles.price} number={price} />
+            </View>
+            <Text style={styles.desc}>Kategori : {category}</Text>
+            <Text style={styles.descStatus(status)}>Status : {status}</Text>
           </View>
         </View>
       </View>
       <View style={styles.buttonSection}>
-        <Button costumerOrder label="Konfirmasi proses" />
-
-        <Button costumerOrder label="diantar" />
-        <Button costumerOrder label="sudah diantar" />
+        {status == 'PENDING' && (
+          <Button
+            costumerOrder
+            label="Konfirmasi proses"
+            onPress={konfirmasiProses}
+          />
+        )}
+        {status == 'PROCESS' && (
+          <Button
+            costumerOrder
+            label="Antar Pesanan"
+            onPress={konfirmasiAntarPesanan}
+          />
+        )}
+        {status == 'ON DELIVERY' && (
+          <Button
+            costumerOrder
+            label="Pesanan diterima"
+            onPress={konfirmasiPesananDiterima}
+          />
+        )}
+        {status == 'PENDING' && (
+          <Button
+            costumerOrder
+            label="Cancel order"
+            onPress={konfirmasiPesananBatal}
+          />
+        )}
+        {status == 'FEEDBACK' && (
+          <Text style={styles.feedback}>Menunggu Feedback user</Text>
+        )}
+        {/* <Button costumerOrder label="diantar" />
+        <Button costumerOrder label="sudah diantar" /> */}
       </View>
     </View>
   );
@@ -52,8 +150,8 @@ export default CostumerDineIn;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    marginTop: 20,
+    flex: 1,
+
     paddingHorizontal: 19,
     flexDirection: 'row',
 
@@ -66,6 +164,26 @@ const styles = StyleSheet.create({
     fontFamily: fonts.primary[400],
     fontSize: 16,
   },
+  feedback: {
+    fontFamily: fonts.primary[400],
+    fontSize: 14,
+    color: '#FEBC5A',
+  },
+  headers: {
+    flex: 1,
+
+    color: 'black',
+    fontFamily: fonts.primary[400],
+    fontSize: 16,
+  },
+  headerskode: {
+    textAlign: 'right',
+    flex: 1,
+
+    color: 'black',
+    fontFamily: fonts.primary[400],
+    fontSize: 16,
+  },
   statusMenu: {
     marginLeft: 7,
     textAlignVertical: 'bottom',
@@ -75,7 +193,6 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
   },
   description: {
-    flexDirection: 'row',
     marginTop: 5,
   },
   image: {
@@ -88,10 +205,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#8D92A3',
   },
-  wrapperText: {},
+  wrapperText: {
+    flex: 1,
+  },
   cardImage: {
     alignItems: 'flex-end',
   },
+  descStatus: status => ({
+    fontFamily: fonts.primary[400],
+    fontSize: 12,
+    color: status == 'CANCEL ORDER' ? 'red' : 'green',
+  }),
   desc: {
     fontFamily: fonts.primary[400],
     fontSize: 12,
@@ -109,6 +233,10 @@ const styles = StyleSheet.create({
     color: '#61AB43',
   },
   prop: {
+    marginRight: 15,
+    flex: 1,
+  },
+  prop1: {
     marginRight: 15,
   },
   buttonSection: {

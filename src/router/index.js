@@ -15,6 +15,7 @@ import {
   EditProfile,
   HelpCenter,
   History,
+  Maintenance,
   Menu,
   Notification,
   Profile,
@@ -59,8 +60,8 @@ const MainApp = ({route}) => {
         }}
       />
       <Tab.Screen
-        name="History"
-        component={History}
+        name="Maintenance"
+        component={Maintenance}
         options={{
           tabBarLabel: 'Transaksi',
           tabBarIcon: ({color}) => (
@@ -96,6 +97,11 @@ const Router = () => {
       <Stack.Screen
         name="History"
         component={History}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Maintenance"
+        component={Maintenance}
         options={{headerShown: false}}
       />
       <Stack.Screen

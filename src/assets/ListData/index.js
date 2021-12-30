@@ -96,18 +96,14 @@ export const menuCategory = [
     label: 'Rekomendasi',
     value: 'recommended',
   },
+
   {
     id: 2,
-    label: 'Best Seller',
-    value: 'Best Seller',
-  },
-  {
-    id: 3,
     label: 'Rasa Terbaru',
     value: 'New Taste',
   },
   {
-    id: 4,
+    id: 3,
     label: 'Popular',
     value: 'Popular',
   },
