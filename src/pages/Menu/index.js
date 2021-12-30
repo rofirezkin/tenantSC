@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {
   BackHandler,
   Image,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -39,8 +40,18 @@ const Menu = ({navigation, routingData}) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
+  const onRefresh = React.useCallback(() => {
+    setLoading(true);
+    setRefresh(true);
+    getData('token').then(res => {
+      dispatch(getFoodData(res.value));
+    });
+    setLoading(false);
+    setRefresh(false);
+  }, []);
+
   useEffect(() => {
-    wait(500).then(() => setLoading(false));
+    setLoading(false);
     getData('token').then(res => {
       setToken(res.value);
       dispatch(getFoodData(res.value));
@@ -75,7 +86,10 @@ const Menu = ({navigation, routingData}) => {
   return (
     <ScrollView
       style={{backgroundColor: 'white'}}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+      }>
       <SkeletonContent
         containerStyle={{flex: 1}}
         isLoading={loading}

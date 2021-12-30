@@ -20,12 +20,18 @@ import {
   getInProgress,
   getPastOrders,
 } from '../../../redux/action';
+import {ILNodata} from '../../../assets';
+import {Gap} from '../..';
 
 const renderTabBar = props => (
   <TabBar
     {...props}
     indicatorStyle={styles.indicatorStyle}
-    style={styles.barTop}
+    style={styles.topBar}
+    contentContainerStyle={{
+      justifyContent: 'space-around',
+      flex: 1,
+    }}
     tabStyle={styles.tabStyle}
     renderLabel={({route, focused, color}) => (
       <Text style={styles.tabText(focused)}>{route.title}</Text>
@@ -57,6 +63,7 @@ const AllData = () => {
   // const CostumerDineIn = ({foodName, is_active, name, quantity, status
   return (
     <ScrollView
+      contentContainerStyle={{flexGrow: 1}}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
@@ -100,12 +107,23 @@ const AllData = () => {
           />
         );
       })}
+      {inProgress.length == 0 && (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ILNodata />
+          <Gap height={10} />
+          <Text>No data Order</Text>
+        </View>
+      )}
     </ScrollView>
   );
 };
 
 const Delivery = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [userProfile, setUserProfile] = useState('');
   const {feedback} = useSelector(state => state.customerOrderReducer);
@@ -126,6 +144,7 @@ const Delivery = () => {
 
   return (
     <ScrollView
+      contentContainerStyle={{flexGrow: 1}}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
@@ -169,6 +188,18 @@ const Delivery = () => {
           />
         );
       })}
+      {feedback.length == 0 && (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ILNodata />
+          <Gap height={10} />
+          <Text>No data Order</Text>
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -193,6 +224,7 @@ const PastOrder = () => {
   };
   return (
     <ScrollView
+      contentContainerStyle={{flexGrow: 1}}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
@@ -236,6 +268,18 @@ const PastOrder = () => {
           />
         );
       })}
+      {pastOrder.length == 0 && (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ILNodata />
+          <Gap height={10} />
+          <Text>No data Order</Text>
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -251,7 +295,7 @@ const TabViewOrder = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: '1', title: 'Proses'},
-    {key: '2', title: 'Sedang Antar/Feedback'},
+    {key: '2', title: 'Sedang Antar/ Feedback'},
     {key: '3', title: 'Riwayat Order'},
   ]);
   return (
@@ -270,19 +314,17 @@ export default TabViewOrder;
 
 const styles = StyleSheet.create({
   tabView: {backgroundColor: 'white'},
-  barTop: {
+  topBar: {
     backgroundColor: 'white',
     elevation: 0,
     shadowOpacity: 0,
     borderBottomColor: '#F2F2F2',
     borderBottomWidth: 1,
-    paddingLeft: 10,
   },
   indicatorStyle: {
     backgroundColor: '#020202',
-    marginLeft: 10,
   },
-  tabStyle: {width: 'auto'},
+  tabStyle: {elevation: 0},
   tabText: focused => ({
     fontFamily: 'Poppins-Medium',
     color: focused ? '#020202' : '#8D92A3',

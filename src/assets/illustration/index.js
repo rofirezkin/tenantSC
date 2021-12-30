@@ -3,4 +3,12 @@ import ILEmptyMenu from './EmptyMenu.svg';
 import ILBukaTutup from './bukaTutup.svg';
 import ILHelpCenter from './helpcenter.svg';
 import ILMaintenance from './maintenance.svg';
-export {ILSuccessSignUp, ILEmptyMenu, ILBukaTutup, ILMaintenance, ILHelpCenter};
+import ILNodata from './nodata.svg';
+export {
+  ILSuccessSignUp,
+  ILNodata,
+  ILEmptyMenu,
+  ILBukaTutup,
+  ILMaintenance,
+  ILHelpCenter,
+};

@@ -48,6 +48,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  card: {
+    flex: 1,
+  },
   title: {fontSize: 19, fontFamily: 'Poppins-Medium', color: '#020202'},
   subtTitle: {fontSize: 14, fontFamily: 'Poppins-light', color: '#8D92A3'},
   back: {
@@ -58,7 +61,6 @@ const styles = StyleSheet.create({
   },
   notification: {
     alignItems: 'flex-end',
-    flex: 1,
   },
   avatar: {
     width: 70,

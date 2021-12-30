@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     fontSize: 13,
     color: '#8D92A3',
-    width: '95%',
+    maxWidth: '90%',
   },
   textContainer: {
     marginLeft: 14,
