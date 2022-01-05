@@ -29,7 +29,7 @@ const Withdraw = ({navigation}) => {
           />
         </View>
         <View>
-          <Text style={styles.mywallet}>My Wallet Rp200020</Text>
+          <Text style={styles.mywallet}>My Wallet Rp200.000</Text>
         </View>
         <Gap height={30} />
         <View>

@@ -61,7 +61,7 @@ const MainApp = ({route}) => {
       />
       <Tab.Screen
         name="Maintenance"
-        component={Maintenance}
+        component={History}
         options={{
           tabBarLabel: 'Transaksi',
           tabBarIcon: ({color}) => (

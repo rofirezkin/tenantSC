@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch} from 'react-redux';
-import { ICEye, ICEyeSlash } from '../../assets';
+import {ICEye, ICEyeSlash} from '../../assets';
 import {Button, Gap, Header, TextInput} from '../../components';
 import {showMessage} from '../../utils';
 import useForm from '../../utils/useForm';
@@ -125,13 +125,8 @@ const SignUp = ({navigation}) => {
           <Gap height={16} />
 
           <TextInput
-            longInput
-            label="Deskripsi singkat kantin"
-            underlineColorAndroid="transparent"
-            placeholder="Isi deskripsi singkat kantin"
-            placeholderTextColor="grey"
-            numberOfLines={2}
-            multiline={true}
+            label="Nama Kantin/Tenant"
+            placeholder="contoh : Kantin yang higenis dan banyak diskon"
             onChangeText={value => setForm('desc_kantin', value)}
             value={form.desc_kantin}
           />
