@@ -55,11 +55,11 @@ const SignIn = ({navigation}) => {
         <Gap height={24} />
         <Button label="Sign In" onPress={onSubmit} />
         <Gap height={13} />
-        <Button
+        {/* <Button
           label="Create New Account"
           color="#8D92A3"
           onPress={() => navigation.navigate('SignUp')}
-        />
+        /> */}
       </View>
     </View>
   );
