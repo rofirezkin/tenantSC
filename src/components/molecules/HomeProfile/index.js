@@ -28,11 +28,11 @@ const HomeProfile = ({data}) => {
             data.status,
           )}>{`Status Kantin : ${data.status}`}</Text>
       </View>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.navigate('Notification')}
         style={styles.notification}>
         <ICNotif />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

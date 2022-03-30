@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 import {useDispatch, useSelector} from 'react-redux';
 import {DummyIklan, ILEmptyMenu} from '../../assets';
 import {
@@ -52,6 +53,30 @@ const Menu = ({navigation, routingData}) => {
 
   useEffect(() => {
     setLoading(false);
+
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.data,
+      );
+      navigation.replace('MainApp', {screen: 'CostumerOrder'});
+    });
+
+    // Check whether an initial notification is available
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          navigation.replace('MainApp', {screen: 'CostumerOrder'});
+          setInitialRoute('MainApp'); // e.g. "Settings"
+        }
+      });
     getData('token').then(res => {
       setToken(res.value);
       dispatch(getFoodData(res.value));

@@ -19,7 +19,14 @@ import {
   menuCategory,
   statusMenu,
 } from '../../assets';
-import {Button, Gap, Header, Select, TextInput} from '../../components';
+import {
+  Button,
+  Gap,
+  Header,
+  InputCostum,
+  Select,
+  TextInput,
+} from '../../components';
 import {setLoading, updateMenuAction} from '../../redux/action';
 import {showMessage} from '../../utils';
 
@@ -45,6 +52,9 @@ const EditMenu = ({navigation, route}) => {
   });
 
   const onSave = () => {
+    const newValue = parseInt(form.price.replace(/\./g, ''), 10);
+    form.price = newValue;
+    console.log('new vale', newValue);
     dispatch(setLoading(true));
     dispatch(updateMenuAction(form, dataId, token, dataPhoto, navigation));
   };
@@ -121,12 +131,19 @@ const EditMenu = ({navigation, route}) => {
               placeholder="Isi Nama Menu anda"
             />
             <Gap height={15} />
-            <TextInput
+            {/* <TextInput
               value={form.price}
               onChangeText={value => setForm('price', value)}
               label="Harga"
               placeholder="isi Harga Menu anda"
               keyboardType="numeric"
+            /> */}
+            <InputCostum
+              onValueChange={value => setForm('price', value)}
+              price={form.price}
+              keyboardType="numeric"
+              label="Harga"
+              placeholder="misal : 20000"
             />
             <Gap height={15} />
             <Select

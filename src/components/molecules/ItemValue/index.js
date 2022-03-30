@@ -1,8 +1,9 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {fonts} from '../../../utils';
+import Number from '../Number';
 
-const ItemValue = ({title, profile, value, colorValue}) => {
+const ItemValue = ({title, profile, value, name, colorValue}) => {
   if (profile) {
     return (
       <View style={styles.container}>
@@ -22,21 +23,22 @@ const ItemValue = ({title, profile, value, colorValue}) => {
       </View>
     );
   }
+  const renderValue = () => {
+    if (name) {
+      return <Text style={styles.valueItem(colorValue)}>{name}</Text>;
+    } else {
+      return (
+        <Text style={styles.valueItem(colorValue)}>
+          <Number number={value} />
+        </Text>
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flex: 1,
-        }}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'flex-end',
-        }}>
-        <Text style={styles.value(colorValue)}>{value}</Text>
-      </View>
+      <Text style={styles.titleItem}>{title}</Text>
+      {renderValue()}
     </View>
   );
 };
@@ -56,5 +58,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colorValue ? '#1ABC9C' : 'black',
     fontFamily: fonts.primary[500],
+  }),
+  titleItem: {
+    fontSize: 13,
+    fontFamily: fonts.primary[400],
+    color: '#8D92A3',
+  },
+  valueItem: colorValue => ({
+    textAlign: 'right',
+    fontSize: 13,
+    color:
+      colorValue == 'PENDING'
+        ? '#FEA34F'
+        : colorValue == 'CANCEL ORDER'
+        ? 'red'
+        : colorValue == 'DELIVERED' ||
+          colorValue == 'ON DELIVERY' ||
+          colorValue == 'FEEDBACK'
+        ? 'green'
+        : 'black',
+    fontFamily: 'Poppins-Regular',
+    fontWeight: '600',
+
+    flex: 1,
   }),
 });

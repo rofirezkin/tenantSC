@@ -4,6 +4,7 @@ const initStateRegister = {
   nama_pemilik: '',
   nama_tenant: '',
   desc_kantin: '',
+  device_token: '',
 };
 
 export const registerReducer = (state = initStateRegister, action) => {
@@ -15,6 +16,12 @@ export const registerReducer = (state = initStateRegister, action) => {
       nama_pemilik: action.value.nama_pemilik,
       nama_tenant: action.value.nama_tenant,
       desc_kantin: action.value.desc_kantin,
+    };
+  }
+  if (action.type === 'SET_DEVICE_TOKEN') {
+    return {
+      ...state,
+      device_token: action.value,
     };
   }
   return state;
@@ -42,6 +49,7 @@ export const photoReducer = (state = initPhoto, action) => {
       isUploadPhoto: action.value,
     };
   }
+
   return state;
 };
 

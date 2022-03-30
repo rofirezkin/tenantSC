@@ -1,50 +1,170 @@
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, RefreshControl, View} from 'react-native';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+import {useDispatch, useSelector} from 'react-redux';
+import {ILNodata} from '../../assets';
 
-import {Button, Gap, Header, TableSection} from '../../components';
-import {fonts} from '../../utils';
+import {
+  Button,
+  Gap,
+  Header,
+  Number,
+  OrderData,
+  TableSection,
+} from '../../components';
+import {skeletonDetailHistory} from '../../components/skeleton/skeletonDetailOrder';
+import {getPastOrders} from '../../redux/action';
+import {fonts, getData, getUidTime} from '../../utils';
 
 const History = ({navigation}) => {
-  const tableHead = useState(['Transaksi', 'Status', 'Jumlah']);
-  const tableData = useState([
-    ['Order ID : D1-99994', 'Sukses', 'Rp30.000'],
-    ['Order ID : D1-99994', 'Sukses', 'Rp30.000'],
-    ['Order ID : D1-99994', 'Sukses', 'Rp30.000'],
-    ['Order ID : D1-99994', 'Sukses', 'Rp30.000'],
-  ]);
+  const dispatch = useDispatch();
+  const [userProfile, setUserProfile] = useState('');
+  const {pastOrder} = useSelector(state => state.customerOrderReducer);
+  const {loadingSkeleton} = useSelector(state => state.globalReducer);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const Status = (data, index) => {
-    return <Text style={styles.textSuccess}>{data}</Text>;
+  useEffect(() => {
+    getData('userProfile').then(res => {
+      setUserProfile(res);
+
+      dispatch(getPastOrders(res.id));
+    });
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getPastOrders(userProfile.id));
+    setRefreshing(false);
   };
 
+  const today = new Date();
+  const dateReport = getUidTime(today);
+
+  let totalHarga = 0;
+  for (let i = 0; i < pastOrder.length; i++) {
+    const splitData = pastOrder[i].created_at.split(' ');
+    console.log('ddd', splitData[0]);
+    if (pastOrder[i].status == 'DELIVERED' && splitData[0] == dateReport) {
+      totalHarga += +pastOrder[i].total + 3000;
+    }
+  }
+  let transaksiBerhasil = 0;
+  for (let i = 0; i < pastOrder.length; i++) {
+    const splitData = pastOrder[i].created_at.split(' ');
+    if (pastOrder[i].status == 'DELIVERED' && splitData[0] == dateReport) {
+      transaksiBerhasil += +pastOrder[i].quantity;
+    }
+  }
+  let transaksiGagal = 0;
+  for (let i = 0; i < pastOrder.length; i++) {
+    const splitData = pastOrder[i].created_at.split(' ');
+    if (pastOrder[i].status == 'CANCEL ORDER' && splitData[0] == dateReport) {
+      transaksiGagal += +pastOrder[i].quantity;
+    }
+  }
+  console.log('ddaaa', pastOrder);
   return (
-    <ScrollView style={styles.page}>
+    <ScrollView
+      style={styles.page}
+      contentContainerStyle={{flexGrow: 1}}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <Header
         title="History Pesanan"
         subtTitle="Monitoring Pesanan Pelanggan"
       />
-      <View style={styles.container}>
-        <View style={styles.cardSaldo}>
-          <View style={styles.card}>
-            <Text style={styles.label}>Saldo Saya: </Text>
-            <Text style={styles.rupiah}>200.000 </Text>
-            <View style={{marginHorizontal: 6}}>
-              <Gap height={20} />
-              <Button
+      <SkeletonContent
+        containerStyle={{flex: 1}}
+        isLoading={loadingSkeleton}
+        layout={skeletonDetailHistory}>
+        <View style={styles.container}>
+          <View style={styles.cardSaldo}>
+            <View style={styles.card}>
+              <Text style={styles.label}>Report Transaksi Perhari: </Text>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flex: 2}}>
+                  <Text>Total Saldo</Text>
+                  <Number style={styles.rupiah} number={totalHarga} />
+                </View>
+                <View style={{flex: 1}}>
+                  <Text>Berhasil</Text>
+                  <Text>{transaksiBerhasil} Menu</Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <Text>Gagal</Text>
+                  <Text>{transaksiGagal} Menu</Text>
+                </View>
+              </View>
+              <View style={{marginHorizontal: 6}}>
+                <Gap height={20} />
+                {/* <Button
                 label="Withdraw"
                 onPress={() => navigation.navigate('Cashout')}
-              />
+              /> */}
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={{paddingHorizontal: 19, marginBottom: 10}}>
-          <Gap height={20} />
-          <Text style={styles.labelHistory}>History Transaksi Pembeli </Text>
+          <View style={{paddingHorizontal: 19, marginBottom: 10}}>
+            <Gap height={20} />
+            <Text style={styles.labelHistory}>History Transaksi Pembeli </Text>
+          </View>
+          <View>
+            {pastOrder.map(order => {
+              // const dataSubstring = [
+              //   {desc: order.menu.ingredients, value: 40},
+              //   {desc: order.menu.name, value: 25},
+              // ];
+              // var fixedDesc;
+              // var data = [];
+              // for (var i = 0; i < dataSubstring.length; i++) {
+              //   if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+              //     fixedDesc =
+              //       dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+              //       '...';
+              //   } else {
+              //     fixedDesc = dataSubstring[i].desc;
+              //   }
+              //   data.push({
+              //     key: i,
+              //     desc: fixedDesc,
+              //   });
+              // }
+              return (
+                <OrderData
+                  onPress={() =>
+                    navigation.navigate('DetailTransaction', order)
+                  }
+                  id={order.id}
+                  kodeTransaksi={order.kode_transaksi}
+                  phone={order.phoneNumber}
+                  key={order.kode_transaksi}
+                  name={order.nama_pelanggan}
+                  quantity={order.quantity}
+                  status={order.status}
+                  method={order.method}
+                  total={order.total}
+                  createdAt={order.created_at}
+                />
+              );
+            })}
+            {pastOrder.length == 0 && (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ILNodata />
+                <Gap height={10} />
+                <Text>No data Order</Text>
+              </View>
+            )}
+          </View>
         </View>
-        <TableSection />
-        <TableSection />
-      </View>
+      </SkeletonContent>
     </ScrollView>
   );
 };
@@ -68,7 +188,7 @@ const styles = StyleSheet.create({
     color: '#666666',
   },
   rupiah: {
-    fontSize: 26,
+    fontSize: 17,
     color: '#666666',
     fontFamily: fonts.primary[600],
   },

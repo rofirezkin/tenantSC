@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ICEye, ICEyeSlash} from '../../assets';
 import {Button, Gap, Header, TextInput} from '../../components';
 import {signInAction} from '../../redux/action';
@@ -9,16 +9,20 @@ import useForm from '../../utils/useForm';
 
 const SignIn = ({navigation}) => {
   const [isSecureEntry, setIsSecureEntry] = useState(true);
+  const {device_token} = useSelector(state => state.registerReducer);
+
   const [form, setForm] = useForm({
     email: '',
     password: '',
   });
 
+  console.log('devic_token', device_token);
   const dispatch = useDispatch();
 
   const onSubmit = () => {
     console.log('form', form);
-    dispatch(signInAction(form, navigation));
+
+    dispatch(signInAction(form, device_token, navigation));
   };
 
   return (

@@ -22,7 +22,13 @@ import StatusTransfer from './StatusTransfer';
 import Notification from './Notification';
 import BankSetting from './BankSetting';
 import Maintenance from './Maintenance';
+import DetailTransaction from './DetailTransaction';
+import TestNotification from './TestNotification';
+import ImagePayment from './ImagePayment/ImagePayment';
 export {
+  ImagePayment,
+  DetailTransaction,
+  TestNotification,
   Maintenance,
   Notification,
   BankSetting,

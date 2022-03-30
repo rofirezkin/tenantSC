@@ -19,12 +19,13 @@ export const getFoodData = token => dispatch => {
       dispatch({type: 'SET_ALL_FOOD', value: res.data.data});
     })
     .catch(err => {
-      showMessage(
-        `${err?.response?.data?.message} on Food API` ||
-          'Terjadi kesalahan di API Food',
-      );
+      if (err?.message) {
+        showMessage(err?.message);
+      } else {
+        showMessage(
+          `${err?.response?.data?.message} on Get Food Data` ||
+            'Terjadi Kesalahan di In Food Data API',
+        );
+      }
     });
 };
-
-
-

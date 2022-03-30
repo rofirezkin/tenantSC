@@ -1,5 +1,7 @@
-import React, {useEffect} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import NotifService from '../../utils/notification/NotifService';
+import {Alert, Image, StyleSheet, Text, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {LogoSmartCanteen} from '../../assets';
 import {getData} from '../../utils';
 
@@ -7,7 +9,6 @@ const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
       getData('token').then(res => {
-        console.log('token', res);
         if (res) {
           const token = res.value;
           navigation.reset({
@@ -19,7 +20,7 @@ const SplashScreen = ({navigation}) => {
         }
       });
     }, 2000);
-  }, [navigation]);
+  }, []);
 
   return (
     <View style={styles.page}>
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F05A61',
+    backgroundColor: '#ED212B',
   },
   text: {
     color: 'white',

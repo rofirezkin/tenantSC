@@ -4,7 +4,7 @@ import {colors, fonts} from '../../../utils';
 
 const Link = ({title, size, align, onPress}) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
       <Text style={styles.text(size, align)}>{title}</Text>
     </TouchableOpacity>
   );

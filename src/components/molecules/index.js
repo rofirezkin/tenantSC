@@ -18,8 +18,10 @@ import Loading from './Loading';
 import HomeProfile from './HomeProfile';
 import ModalsMenu from './ModalsMenu';
 import Number from './Number';
+import OrderData from './OrderData';
 import CustomTab from './CustomTab';
 import NotificationSection from './NotificationSection';
+import OrderDetailData from './OrderDetailData/OrderDetailData';
 
 export {
   NotificationSection,
@@ -29,6 +31,7 @@ export {
   HomeProfile,
   Loading,
   Modals,
+  OrderData,
   ItemValue,
   List,
   ItemListMenu,
@@ -44,4 +47,5 @@ export {
   Rating,
   ProfileFoodCourt,
   Header,
+  OrderDetailData,
 };

@@ -68,18 +68,31 @@ export const signUpAction =
       });
   };
 
-export const signInAction = (form, navigation) => dispatch => {
+export const signInAction = (form, device_token, navigation) => dispatch => {
   dispatch(setLoading(true));
+  console.log('device tokennn', form.email);
+  console.log('device tokennn ni', device_token);
   axios
     .post(`${API_HOST.url}/tenantlogin`, form)
     .then(res => {
-      console.log('halo ini responnya kita liat', res.data.data.user);
+      const dataToken = {
+        email: form.email,
+        device_token: device_token,
+      };
+
       const token = `${res.data.data.token_type} ${res.data.data.access_token}`;
       const profile = res.data.data.user;
-      dispatch(setLoading(false));
-      storeData('token', {value: token});
-      storeData('userProfile', profile);
-      navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
+      axios
+        .post(`${API_HOST.url}/tenant/update/device_token`, dataToken)
+        .then(res => {
+          dispatch(setLoading(false));
+          storeData('token', {value: token});
+          storeData('userProfile', profile);
+          navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
+        })
+        .catch(err => {
+          console.log('error di update device_token  tenant ', err);
+        });
     })
     .catch(err => {
       console.log('halo error', err);

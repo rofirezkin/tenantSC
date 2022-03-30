@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
   }),
   containerOrder: color => ({
     backgroundColor: color,
-    paddingVertical: 6,
+    paddingVertical: 15,
+
     paddingHorizontal: 17,
     borderRadius: 14,
   }),

@@ -53,9 +53,15 @@ export const updateMenuAction =
         }
       })
       .catch(err => {
-        console.log('eror dimana1', err.message);
         dispatch(setLoading(false));
-        showMessage(err?.response?.data?.data);
+        if (err?.message) {
+          showMessage(err?.message);
+        } else {
+          showMessage(
+            `${err?.response?.data?.message} on Update Menu Action` ||
+              'Terjadi Kesalahan di In Update Menu API',
+          );
+        }
       });
   };
 
@@ -146,7 +152,13 @@ export const updateStatusAction =
         });
       })
       .catch(err => {
-        console.log('erropor', err.response);
-        showMessage(err?.response?.data);
+        if (err?.message) {
+          showMessage(err?.message);
+        } else {
+          showMessage(
+            `${err?.response?.data?.message} on Update Status Action` ||
+              'Terjadi Kesalahan di In Status API',
+          );
+        }
       });
   };

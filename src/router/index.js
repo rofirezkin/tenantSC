@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {IcMenuOn} from '../assets';
 import {BottomNavigator} from '../components';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+
 import {
   BankSetting,
   BukaTutupKantin,
@@ -11,10 +12,12 @@ import {
   Confirmation,
   CostumerOrder,
   DetailCashout,
+  DetailTransaction,
   EditMenu,
   EditProfile,
   HelpCenter,
   History,
+  ImagePayment,
   Maintenance,
   Menu,
   Notification,
@@ -30,17 +33,27 @@ import {
   UserProfile,
   Withdraw,
 } from '../pages';
+import {useDispatch, useSelector} from 'react-redux';
+import {getInProgressBadges} from '../redux/action';
+import {useNavigation} from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 const MainApp = ({route}) => {
+  const {inProgressBadges} = useSelector(state => state.customerOrderReducer);
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getInProgressBadges());
+  }, []);
+  var cntTransaction = 0;
+  for (let i = 0; i < inProgressBadges.length; i++) {
+    cntTransaction += +inProgressBadges[i].quantity;
+  }
   return (
-    <Tab.Navigator
-      activeColor="#ED212B"
-      barStyle={{backgroundColor: 'white'}}
-      // tabBar={props => <BottomNavigator {...props} />}
-    >
+    <Tab.Navigator activeColor="#ED212B" barStyle={{backgroundColor: 'white'}}>
       <Tab.Screen
         name="Menu"
         component={Menu}
@@ -49,21 +62,27 @@ const MainApp = ({route}) => {
           tabBarIcon: ({color}) => <Icon name="home" color={color} size={26} />,
         }}
       />
+      <Stack.Group
+        screenOptions={{
+          tabBarBadgeStyle: {backgroundColor: 'yellow'},
+        }}>
+        <Tab.Screen
+          name="CostumerOrder"
+          component={CostumerOrder}
+          options={{
+            tabBarBadge: cntTransaction > 0 ? cntTransaction : null,
+            tabBarLabel: 'Order ',
+            tabBarIcon: ({color}) => (
+              <Icon name="shopping-cart" color={color} size={26} />
+            ),
+          }}
+        />
+      </Stack.Group>
       <Tab.Screen
-        name="CostumerOrder"
-        component={CostumerOrder}
-        options={{
-          tabBarLabel: 'Order',
-          tabBarIcon: ({color}) => (
-            <Icon name="shopping-cart" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Maintenance"
+        name="History"
         component={History}
         options={{
-          tabBarLabel: 'Transaksi',
+          tabBarLabel: 'History',
           tabBarIcon: ({color}) => (
             <Icon name="exchange" color={color} size={26} />
           ),
@@ -100,8 +119,23 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="ImagePayment"
+        component={ImagePayment}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="Maintenance"
         component={Maintenance}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TestNotification"
+        component={Maintenance}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DetailTransaction"
+        component={DetailTransaction}
         options={{headerShown: false}}
       />
       <Stack.Screen
