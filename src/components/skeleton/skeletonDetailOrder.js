@@ -234,7 +234,7 @@ export const skeletonDetailTransaction = [
 
 export const skeletonDetailHistory = [
   {
-    key: 'headerMenu',
+    key: 'headerMenu1',
     paddingTop: 20,
     marginTop: 15,
 
@@ -243,14 +243,14 @@ export const skeletonDetailHistory = [
     backgroundColor: 'white',
     children: [
       {
-        key: 'card',
+        key: 'card1',
         width: '100%',
         height: 120,
         marginBottom: 20,
         borderRadius: 13,
       },
       {
-        key: 'history',
+        key: 'history1',
         width: '75%',
         height: 40,
         marginBottom: 20,
@@ -259,7 +259,7 @@ export const skeletonDetailHistory = [
     ],
   },
   {
-    key: 'headerListList',
+    key: 'headerListList1',
 
     paddingHorizontal: 18,
     borderBottomColor: '#EEEEEE',
@@ -274,25 +274,25 @@ export const skeletonDetailHistory = [
         flex: 1,
         children: [
           {
-            key: 'name',
+            key: 'name1',
             width: '65%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'lokasi',
+            key: 'lokasi1',
             width: '77%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'price',
+            key: 'price1',
             width: '60%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'tax',
+            key: 'tax1',
             width: '78%',
             height: 14,
             marginBottom: 5,
@@ -325,43 +325,43 @@ export const skeletonDetailHistory = [
 
         children: [
           {
-            key: 'name',
+            key: 'nameListKanan',
             width: '90%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'lokasi',
+            key: 'lokasiListKanan',
             width: '90%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'price',
+            key: 'priceListKanan',
             width: '70%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'taxt',
+            key: 'taxtListKanan',
             width: '70%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'name',
+            key: 'nameListKanan1',
             width: '90%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'lokasi',
+            key: 'lokasiListKanan1',
             width: '90%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'price',
+            key: 'priceListKanan1',
             width: '70%',
             height: 14,
             marginBottom: 5,
@@ -385,25 +385,25 @@ export const skeletonDetailHistory = [
         flex: 1,
         children: [
           {
-            key: 'name',
+            key: 'nameListKiri',
             width: '65%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'lokasi',
+            key: 'lokasiListKiri',
             width: '77%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'price',
+            key: 'priceListKiri',
             width: '60%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'tax',
+            key: 'taxListKiri',
             width: '78%',
             height: 14,
             marginBottom: 5,
@@ -436,43 +436,43 @@ export const skeletonDetailHistory = [
 
         children: [
           {
-            key: 'name',
+            key: 'nameKanan',
             width: '90%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'lokasi',
+            key: 'lokasiKanan',
             width: '90%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'price',
+            key: 'priceKanan',
             width: '70%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'taxt',
+            key: 'taxtKanan',
             width: '70%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'name',
+            key: 'nameKanan1',
             width: '90%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'lokasi',
+            key: 'lokasiKanan1',
             width: '90%',
             height: 14,
             marginBottom: 5,
           },
           {
-            key: 'price',
+            key: 'priceKanan1',
             width: '70%',
             height: 14,
             marginBottom: 5,

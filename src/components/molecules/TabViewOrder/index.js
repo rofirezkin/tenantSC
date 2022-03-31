@@ -22,6 +22,8 @@ import {
 import {ILNodata} from '../../../assets';
 import {Gap} from '../..';
 import {OrderData} from '..';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+import Loading from '../Loading';
 
 const renderTabBar = props => (
   <TabBar
@@ -43,11 +45,14 @@ const AllData = () => {
   const navigation = useNavigation();
   const [userProfile, setUserProfile] = useState('');
   const {inProgress} = useSelector(state => state.customerOrderReducer);
+  const {loadingSkeleton} = useSelector(state => state.globalReducer);
+
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getData('userProfile').then(res => {
       setUserProfile(res);
+
       dispatch(getInProgress(res.id));
     });
   }, []);
@@ -100,7 +105,7 @@ const AllData = () => {
           />
         );
       })}
-      {inProgress.length == 0 && (
+      {inProgress.length == 0 && !loadingSkeleton && (
         <View
           style={{
             flex: 1,
@@ -112,6 +117,7 @@ const AllData = () => {
           <Text>No data Order</Text>
         </View>
       )}
+      {loadingSkeleton && <Loading order />}
     </ScrollView>
   );
 };
@@ -121,6 +127,7 @@ const Delivery = () => {
   const navigation = useNavigation();
   const [userProfile, setUserProfile] = useState('');
   const {delivery} = useSelector(state => state.customerOrderReducer);
+  const {loadingSkeleton} = useSelector(state => state.globalReducer);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -176,7 +183,7 @@ const Delivery = () => {
           />
         );
       })}
-      {delivery.length == 0 && (
+      {delivery.length == 0 && !loadingSkeleton && (
         <View
           style={{
             flex: 1,
@@ -188,6 +195,7 @@ const Delivery = () => {
           <Text>No data Order</Text>
         </View>
       )}
+      {loadingSkeleton && <Loading order />}
     </ScrollView>
   );
 };
@@ -197,6 +205,7 @@ const Feedback = () => {
   const [userProfile, setUserProfile] = useState('');
   const {feedback} = useSelector(state => state.customerOrderReducer);
   const [refreshing, setRefreshing] = useState(false);
+  const {loadingSkeleton} = useSelector(state => state.globalReducer);
 
   useEffect(() => {
     getData('userProfile').then(res => {
@@ -251,7 +260,7 @@ const Feedback = () => {
           />
         );
       })}
-      {feedback.length == 0 && (
+      {feedback.length == 0 && loadingSkeleton && (
         <View
           style={{
             flex: 1,
@@ -263,6 +272,7 @@ const Feedback = () => {
           <Text>No data Order</Text>
         </View>
       )}
+      {loadingSkeleton && <Loading order />}
     </ScrollView>
   );
 };

@@ -150,7 +150,7 @@ const History = ({navigation}) => {
                 />
               );
             })}
-            {pastOrder.length == 0 && (
+            {pastOrder.length == 0 && !loadingSkeleton && (
               <View
                 style={{
                   flex: 1,

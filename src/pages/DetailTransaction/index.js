@@ -30,6 +30,7 @@ const DetailTransaction = ({route, navigation}) => {
   const [totalHarga, setTotalHarga] = useState();
   const [photoPayment, setPhotoPayment] = useState(null);
   const [profiletTenant, setProfileTenant] = useState('');
+  const [catatan, setCatatan] = useState('');
   const [loadingSkeleton, setLoadingSkeleton] = useState(true);
 
   console.log('fffsfsffs', photoPayment);
@@ -59,6 +60,7 @@ const DetailTransaction = ({route, navigation}) => {
           setLoadingSkeleton(false);
           const dataHarga = res.data.data;
           setPhotoPayment(res.data.data[0].photo_bukti_pembayaran);
+          setCatatan(res.data.data[0].catatan);
           let calculate = 3000;
           for (let i = 0; i < dataHarga.length; i++) {
             calculate += parseInt(dataHarga[i].total);
@@ -163,6 +165,7 @@ const DetailTransaction = ({route, navigation}) => {
               backgroundColor: 'white',
             }}>
             <OrderDetailData
+              catatan={catatan}
               id={params.id}
               phone={params.phoneNumber}
               total={totalHarga}

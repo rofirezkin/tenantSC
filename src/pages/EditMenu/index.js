@@ -54,7 +54,7 @@ const EditMenu = ({navigation, route}) => {
   const onSave = () => {
     const newValue = parseInt(form.price.replace(/\./g, ''), 10);
     form.price = newValue;
-    console.log('new vale', newValue);
+
     dispatch(setLoading(true));
     dispatch(updateMenuAction(form, dataId, token, dataPhoto, navigation));
   };

@@ -7,6 +7,7 @@ import {getData, showMessage} from '../../utils';
 import {setLoadingSkeleton} from './global';
 
 export const getInProgress = idTenant => async dispatch => {
+  dispatch(setLoadingSkeleton(true));
   await getData('token').then(resToken => {
     const result = axios
       .all([
@@ -27,6 +28,7 @@ export const getInProgress = idTenant => async dispatch => {
           const process = res2.data.data;
           console.log('ddaddadsds', res1.data);
           // const onDelivery = res3.data.data;
+          dispatch(setLoadingSkeleton(false));
 
           dispatch({
             type: 'SET_IN_PROGRESS',
@@ -35,6 +37,7 @@ export const getInProgress = idTenant => async dispatch => {
         }),
       )
       .catch(err => {
+        dispatch(setLoadingSkeleton(false));
         if (err?.message) {
           showMessage(err?.message);
         } else {
@@ -49,6 +52,7 @@ export const getInProgress = idTenant => async dispatch => {
 };
 
 export const getDeliveryOrder = idTenant => dispatch => {
+  dispatch(setLoadingSkeleton(true));
   getData('token').then(resToken => {
     axios
       .get(`${API_HOST.url}/transactions/tenant/fetch?status=ON DELIVERY`, {
@@ -57,15 +61,21 @@ export const getDeliveryOrder = idTenant => dispatch => {
         },
       })
       .then(resDelivery => {
+        dispatch(setLoadingSkeleton(false));
         console.log('ress delive', resDelivery.data.data);
         const deliveryData = resDelivery.data.data;
         dispatch({type: 'SET_DELIVERY', value: deliveryData});
       })
       .catch(err => {
-        showMessage(
-          `${err?.response?.data?.message} on In feedback api` ||
-            'Terjadi Kesalahan di In feedback api',
-        );
+        dispatch(setLoadingSkeleton(false));
+        if (err?.message) {
+          showMessage(err?.message);
+        } else {
+          showMessage(
+            `${err?.response?.data?.message} on Delivery API` ||
+              'Terjadi Kesalahan di Delivery API',
+          );
+        }
       });
   });
 };
@@ -104,6 +114,7 @@ export const getFeedbackOrder = () => dispatch => {
 };
 
 export const getPastOrders = idTenant => async dispatch => {
+  dispatch(setLoadingSkeleton(true));
   await getData('token').then(resToken => {
     const result = axios
       .all([

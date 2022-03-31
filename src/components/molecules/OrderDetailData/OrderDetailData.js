@@ -19,7 +19,7 @@ const OrderDetailData = ({
   method,
   createdAt,
   methodPayment,
-  token,
+  catatan,
   id,
   total,
   buktiPembayaran,
@@ -110,6 +110,7 @@ const OrderDetailData = ({
           />
 
           <ItemValue title={`Status Order`} name={status} colorValue={status} />
+          <ItemValue title={`Catatan`} name={catatan} />
           <ItemValue title={`Tanggal Transaksi`} name={createdAt} />
 
           {/* <Text style={styles.desc}>No Hp : {phone}</Text> */}

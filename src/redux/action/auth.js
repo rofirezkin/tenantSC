@@ -58,13 +58,26 @@ export const signUpAction =
           })
           .catch(err => {
             dispatch(setLoading(false));
-            showMessage(err?.response?.data?.data?.message);
+            if (err?.message) {
+              showMessage(err?.message);
+            } else {
+              showMessage(
+                `${err?.response?.data?.message} on In Progress API` ||
+                  'Terjadi Kesalahan di In Progress API',
+              );
+            }
           });
       })
       .catch(err => {
-        console.log('rwsssee', err);
-        showMessage(err?.response?.data?.data?.message);
         dispatch(setLoading(false));
+        if (err?.message) {
+          showMessage(err?.message);
+        } else {
+          showMessage(
+            `${err?.response?.data?.message} on In Progress API` ||
+              'Terjadi Kesalahan di In Progress API',
+          );
+        }
       });
   };
 
@@ -91,12 +104,25 @@ export const signInAction = (form, device_token, navigation) => dispatch => {
           navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
         })
         .catch(err => {
-          console.log('error di update device_token  tenant ', err);
+          if (err?.message) {
+            showMessage(err?.message);
+          } else {
+            showMessage(
+              `${err?.response?.data?.message} on Sign In API` ||
+                'Terjadi Kesalahan di Sign In API',
+            );
+          }
         });
     })
     .catch(err => {
-      console.log('halo error', err);
       dispatch(setLoading(false));
-      showMessage(err?.response?.data?.data?.message);
+      if (err?.message) {
+        showMessage(err?.message);
+      } else {
+        showMessage(
+          `${err?.response?.data?.message} on In Progress API` ||
+            'Terjadi Kesalahan di Sign In API',
+        );
+      }
     });
 };
