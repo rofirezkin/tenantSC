@@ -104,25 +104,19 @@ export const signInAction = (form, device_token, navigation) => dispatch => {
           navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
         })
         .catch(err => {
-          if (err?.message) {
+          if (err?.message == 'Network Error') {
             showMessage(err?.message);
           } else {
-            showMessage(
-              `${err?.response?.data?.message} on Sign In API` ||
-                'Terjadi Kesalahan di Sign In API',
-            );
+            showMessage(err?.response?.data?.data?.message);
           }
         });
     })
     .catch(err => {
       dispatch(setLoading(false));
-      if (err?.message) {
+      if (err?.message == 'Network Error') {
         showMessage(err?.message);
       } else {
-        showMessage(
-          `${err?.response?.data?.message} on In Progress API` ||
-            'Terjadi Kesalahan di Sign In API',
-        );
+        showMessage(err?.response?.data?.data?.message);
       }
     });
 };

@@ -81,6 +81,7 @@ export const getDeliveryOrder = idTenant => dispatch => {
 };
 
 export const getFeedbackOrder = () => dispatch => {
+  dispatch(setLoadingSkeleton(true));
   getData('token')
     .then(resToken => {
       axios
@@ -90,12 +91,12 @@ export const getFeedbackOrder = () => dispatch => {
           },
         })
         .then(resFeedback => {
-          console.log('respon feedback', feedback);
+          dispatch(setLoadingSkeleton(false));
           const feedback = resFeedback.data.data;
           dispatch({type: 'SET_FEEDBACK', value: feedback});
         })
         .catch(err => {
-          dispatch(setLoading(false));
+          dispatch(setLoadingSkeleton(false));
           if (err?.message) {
             showMessage(err?.message);
           } else {
@@ -107,7 +108,7 @@ export const getFeedbackOrder = () => dispatch => {
         });
     })
     .catch(err => {
-      dispatch(setLoading(false));
+      dispatch(setLoadingSkeleton(false));
       console.log('err', err);
       showMessage('eror get token');
     });
@@ -115,52 +116,64 @@ export const getFeedbackOrder = () => dispatch => {
 
 export const getPastOrders = idTenant => async dispatch => {
   dispatch(setLoadingSkeleton(true));
-  await getData('token').then(resToken => {
-    const result = axios
-      .all([
-        axios.get(
-          `${API_HOST.url}/transactions/tenant/fetch?status=CANCEL ORDER`,
-          {
-            headers: {
-              Authorization: resToken.value,
+  await getData('token')
+    .then(resToken => {
+      const result = axios
+        .all([
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=CANCEL ORDER`,
+            {
+              headers: {
+                Authorization: resToken.value,
+              },
             },
-          },
-        ),
-        axios.get(
-          `${API_HOST.url}/transactions/tenant/fetch?status=DELIVERED`,
-          {
-            headers: {
-              Authorization: resToken.value,
+          ),
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=DELIVERED`,
+            {
+              headers: {
+                Authorization: resToken.value,
+              },
             },
-          },
-        ),
-      ])
-      .then(
-        axios.spread((res1, res2) => {
-          dispatch(setLoadingSkeleton(false));
-          console.log('dsss', res1.data.data);
-          const cancelled = res1.data.data;
-          const delivered = res2.data.data;
+          ),
+        ])
+        .then(
+          axios.spread((res1, res2) => {
+            dispatch(setLoadingSkeleton(false));
+            console.log('dsss', res1.data.data);
+            const cancelled = res1.data.data;
+            const delivered = res2.data.data;
 
-          dispatch({
-            type: 'SET_PAST_ORDERS',
-            value: [...delivered, ...cancelled],
-          });
-        }),
-      )
-      .catch(err => {
-        dispatch(setLoadingSkeleton(false));
-        if (err?.message) {
-          showMessage(err?.message);
-        } else {
-          showMessage(
-            `${err?.response?.data?.message} on In Past Order API` ||
-              'Terjadi Kesalahan di In Past API',
-          );
-        }
-      });
-    return Promise.resolve(result);
-  });
+            dispatch({
+              type: 'SET_PAST_ORDERS',
+              value: [...delivered, ...cancelled],
+            });
+          }),
+        )
+        .catch(err => {
+          dispatch(setLoadingSkeleton(false));
+          if (err?.message) {
+            showMessage(err?.message);
+          } else {
+            showMessage(
+              `${err?.response?.data?.message} on In Past Order API` ||
+                'Terjadi Kesalahan di In Past API',
+            );
+          }
+        });
+      return Promise.resolve(result);
+    })
+    .catch(err => {
+      dispatch(setLoadingSkeleton(false));
+      if (err?.message) {
+        showMessage(err?.message);
+      } else {
+        showMessage(
+          `${err?.response?.data?.message} on In Past Order API` ||
+            'Terjadi Kesalahan di In Past API',
+        );
+      }
+    });
 };
 
 export const progressOrder =
@@ -181,105 +194,134 @@ export const progressOrder =
     };
     const notifJSON = JSON.stringify(notifData);
     console.log('notifjson', notifJSON);
-    await getData('token').then(resToken => {
-      axios
-        .post(
-          `${API_HOST.url}/transactions/tenant/updateStatus?kode_transaksi=${kodeTransaksi}&status=${status}`,
-          status,
-          {
-            headers: {
-              Authorization: resToken.value,
-            },
-          },
-        )
-        .then(res => {
-          axios
-            .post(`https://fcm.googleapis.com/fcm/send`, notifJSON, {
+    await getData('token')
+      .then(resToken => {
+        axios
+          .post(
+            `${API_HOST.url}/transactions/tenant/updateStatus?kode_transaksi=${kodeTransaksi}&status=${status}`,
+            status,
+            {
               headers: {
-                'Content-Type': 'application/json',
-                Authorization:
-                  'key=AAAAmc0dakQ:APA91bECUaR9WbE_tTHJkSJ2KlcYbGThlF-h8RoQDAdgZerbZPIkbV3UKsn1Pg-Nto24LAd32cerbsf8JZQ7lUbfzFV7GxgocRSZNkA18ksUiLZoDWHZmhDB_HPKB8Vh2mWXd-cvelH0',
+                Authorization: resToken.value,
               },
-            })
-            .then(res => {
-              notif.localNotif();
-              dispatch(setLoading(false));
-              showMessage('data berhasil di update', 'success');
+            },
+          )
+          .then(res => {
+            axios
+              .post(`https://fcm.googleapis.com/fcm/send`, notifJSON, {
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization:
+                    'key=AAAAmc0dakQ:APA91bECUaR9WbE_tTHJkSJ2KlcYbGThlF-h8RoQDAdgZerbZPIkbV3UKsn1Pg-Nto24LAd32cerbsf8JZQ7lUbfzFV7GxgocRSZNkA18ksUiLZoDWHZmhDB_HPKB8Vh2mWXd-cvelH0',
+                },
+              })
+              .then(res => {
+                notif.localNotif();
+                dispatch(setLoading(false));
+                showMessage('data berhasil di update', 'success');
 
-              navigation.replace('MainApp', {screen: 'CostumerOrder'});
-            })
-            .catch(err => {
-              dispatch(setLoading(false));
-              if (err?.message) {
-                showMessage(err?.message);
-              } else {
-                showMessage(
-                  'ada masalah pada data kantin, hubungi admin (device token)',
-                );
-              }
+                navigation.replace('MainApp', {screen: 'CostumerOrder'});
+              })
+              .catch(err => {
+                dispatch(setLoading(false));
+                if (err?.message) {
+                  showMessage(err?.message);
+                } else {
+                  showMessage(
+                    'ada masalah pada data kantin, hubungi admin (device token)',
+                  );
+                }
 
-              console.log('testing notif err', err);
+                console.log('testing notif err', err);
+              });
+          })
+          .catch(err => {
+            if (err?.message) {
+              showMessage(err?.message);
+            } else {
+              showMessage(
+                `${err?.response?.data?.message} on progress order API` ||
+                  'Terjadi Kesalahan di Progress order API',
+              );
+            }
+          });
+      })
+      .catch(err => {
+        dispatch(setLoading(false));
+        if (err?.message) {
+          showMessage(err?.message);
+        } else {
+          showMessage(
+            `${err?.response?.data?.message} on In progress order API` ||
+              'Terjadi Kesalahan di In progress order API',
+          );
+        }
+      });
+  };
+
+export const getInProgressBadges = nim => async dispatch => {
+  getData('token')
+    .then(resToken => {
+      const result = axios
+
+        .all([
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=PENDING`,
+            {
+              headers: {
+                Authorization: `Bearer ${resToken.value}`,
+              },
+            },
+          ),
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=PROCESS`,
+            {
+              headers: {
+                Authorization: `Bearer ${resToken.value}`,
+              },
+            },
+          ),
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=ON DELIVERY`,
+            {
+              headers: {
+                Authorization: `Bearer ${resToken.value}`,
+              },
+            },
+          ),
+        ])
+        .then(
+          axios.spread((res1, res2, res3) => {
+            const pending = res1.data.data;
+            const process = res2.data.data;
+            const onDelivery = res3.data.data;
+
+            dispatch({
+              type: 'SET_IN_PROGRESS_BADGES',
+              value: [...onDelivery, ...process, ...pending],
             });
-        })
+          }),
+        )
         .catch(err => {
           if (err?.message) {
             showMessage(err?.message);
           } else {
             showMessage(
-              `${err?.response?.data?.message} on progress order API` ||
-                'Terjadi Kesalahan di Progress order API',
+              `${err?.response?.data?.message} on\ Badges API` ||
+                'Terjadi Kesalahan di In Badges APi',
             );
           }
         });
+      return Promise.resolve(result);
+    })
+    .catch(err => {
+      if (err?.message) {
+        showMessage(err?.message);
+      } else {
+        showMessage(
+          `${err?.response?.data?.message} on\ Badges API` ||
+            'Terjadi Kesalahan di In Badges APi',
+        );
+      }
     });
-  };
-
-export const getInProgressBadges = nim => async dispatch => {
-  getData('token').then(resToken => {
-    const result = axios
-
-      .all([
-        axios.get(`${API_HOST.url}/transactions/tenant/fetch?status=PENDING`, {
-          headers: {
-            Authorization: `Bearer ${resToken.value}`,
-          },
-        }),
-        axios.get(`${API_HOST.url}/transactions/tenant/fetch?status=PROCESS`, {
-          headers: {
-            Authorization: `Bearer ${resToken.value}`,
-          },
-        }),
-        axios.get(
-          `${API_HOST.url}/transactions/tenant/fetch?status=ON DELIVERY`,
-          {
-            headers: {
-              Authorization: `Bearer ${resToken.value}`,
-            },
-          },
-        ),
-      ])
-      .then(
-        axios.spread((res1, res2, res3) => {
-          const pending = res1.data.data;
-          const process = res2.data.data;
-          const onDelivery = res3.data.data;
-
-          dispatch({
-            type: 'SET_IN_PROGRESS_BADGES',
-            value: [...onDelivery, ...process, ...pending],
-          });
-        }),
-      )
-      .catch(err => {
-        if (err?.message) {
-          showMessage(err?.message);
-        } else {
-          showMessage(
-            `${err?.response?.data?.message} on\ Badges API` ||
-              'Terjadi Kesalahan di In Badges APi',
-          );
-        }
-      });
-    return Promise.resolve(result);
-  });
 };

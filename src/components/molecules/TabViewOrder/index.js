@@ -66,59 +66,61 @@ const AllData = () => {
   console.log('innsss', inProgress);
 
   return (
-    <ScrollView
-      contentContainerStyle={{flexGrow: 1}}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      {inProgress.map(order => {
-        // const dataSubstring = [
-        //   {desc: order.menu.ingredients, value: 40},
-        //   {desc: order.menu.name, value: 25},
-        // ];
-        // var fixedDesc;
-        // var data = [];
-        // for (var i = 0; i < dataSubstring.length; i++) {
-        //   if (dataSubstring[i].desc.length > dataSubstring[i].value) {
-        //     fixedDesc =
-        //       dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
-        //       '...';
-        //   } else {
-        //     fixedDesc = dataSubstring[i].desc;
-        //   }
-        //   data.push({
-        //     key: i,
-        //     desc: fixedDesc,
-        //   });
-        // }
-        return (
-          <OrderData
-            onPress={() => navigation.navigate('DetailTransaction', order)}
-            id={order.id}
-            kodeTransaksi={order.kode_transaksi}
-            phone={order.phoneNumber}
-            key={order.kode_transaksi}
-            name={order.nama_pelanggan}
-            quantity={order.quantity}
-            status={order.status}
-            method={order.method}
-          />
-        );
-      })}
-      {inProgress.length == 0 && !loadingSkeleton && (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ILNodata />
-          <Gap height={10} />
-          <Text>No data Order</Text>
-        </View>
-      )}
+    <>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        {inProgress.map(order => {
+          // const dataSubstring = [
+          //   {desc: order.menu.ingredients, value: 40},
+          //   {desc: order.menu.name, value: 25},
+          // ];
+          // var fixedDesc;
+          // var data = [];
+          // for (var i = 0; i < dataSubstring.length; i++) {
+          //   if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+          //     fixedDesc =
+          //       dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+          //       '...';
+          //   } else {
+          //     fixedDesc = dataSubstring[i].desc;
+          //   }
+          //   data.push({
+          //     key: i,
+          //     desc: fixedDesc,
+          //   });
+          // }
+          return (
+            <OrderData
+              onPress={() => navigation.navigate('DetailTransaction', order)}
+              id={order.id}
+              kodeTransaksi={order.kode_transaksi}
+              phone={order.phoneNumber}
+              key={order.kode_transaksi}
+              name={order.nama_pelanggan}
+              quantity={order.quantity}
+              status={order.status}
+              method={order.method}
+            />
+          );
+        })}
+        {inProgress.length == 0 && !loadingSkeleton && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ILNodata />
+            <Gap height={10} />
+            <Text>No data Order</Text>
+          </View>
+        )}
+      </ScrollView>
       {loadingSkeleton && <Loading order />}
-    </ScrollView>
+    </>
   );
 };
 
@@ -144,59 +146,61 @@ const Delivery = () => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{flexGrow: 1}}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      {delivery.map(order => {
-        // const dataSubstring = [
-        //   {desc: order.menu.ingredients, value: 40},
-        //   {desc: order.menu.name, value: 25},
-        // ];
-        // var fixedDesc;
-        // var data = [];
-        // for (var i = 0; i < dataSubstring.length; i++) {
-        //   if (dataSubstring[i].desc.length > dataSubstring[i].value) {
-        //     fixedDesc =
-        //       dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
-        //       '...';
-        //   } else {
-        //     fixedDesc = dataSubstring[i].desc;
-        //   }
-        //   data.push({
-        //     key: i,
-        //     desc: fixedDesc,
-        //   });
-        // }
-        return (
-          <OrderData
-            onPress={() => navigation.navigate('DetailTransaction', order)}
-            id={order.id}
-            kodeTransaksi={order.kode_transaksi}
-            phone={order.phoneNumber}
-            key={order.kode_transaksi}
-            name={order.nama_pelanggan}
-            quantity={order.quantity}
-            status={order.status}
-            method={order.method}
-          />
-        );
-      })}
-      {delivery.length == 0 && !loadingSkeleton && (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ILNodata />
-          <Gap height={10} />
-          <Text>No data Order</Text>
-        </View>
-      )}
+    <>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        {delivery.map(order => {
+          // const dataSubstring = [
+          //   {desc: order.menu.ingredients, value: 40},
+          //   {desc: order.menu.name, value: 25},
+          // ];
+          // var fixedDesc;
+          // var data = [];
+          // for (var i = 0; i < dataSubstring.length; i++) {
+          //   if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+          //     fixedDesc =
+          //       dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+          //       '...';
+          //   } else {
+          //     fixedDesc = dataSubstring[i].desc;
+          //   }
+          //   data.push({
+          //     key: i,
+          //     desc: fixedDesc,
+          //   });
+          // }
+          return (
+            <OrderData
+              onPress={() => navigation.navigate('DetailTransaction', order)}
+              id={order.id}
+              kodeTransaksi={order.kode_transaksi}
+              phone={order.phoneNumber}
+              key={order.kode_transaksi}
+              name={order.nama_pelanggan}
+              quantity={order.quantity}
+              status={order.status}
+              method={order.method}
+            />
+          );
+        })}
+        {delivery.length == 0 && !loadingSkeleton && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ILNodata />
+            <Gap height={10} />
+            <Text>No data Order</Text>
+          </View>
+        )}
+      </ScrollView>
       {loadingSkeleton && <Loading order />}
-    </ScrollView>
+    </>
   );
 };
 const Feedback = () => {
@@ -221,59 +225,61 @@ const Feedback = () => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{flexGrow: 1}}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      {feedback.map(order => {
-        // const dataSubstring = [
-        //   {desc: order.menu.ingredients, value: 40},
-        //   {desc: order.menu.name, value: 25},
-        // ];
-        // var fixedDesc;
-        // var data = [];
-        // for (var i = 0; i < dataSubstring.length; i++) {
-        //   if (dataSubstring[i].desc.length > dataSubstring[i].value) {
-        //     fixedDesc =
-        //       dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
-        //       '...';
-        //   } else {
-        //     fixedDesc = dataSubstring[i].desc;
-        //   }
-        //   data.push({
-        //     key: i,
-        //     desc: fixedDesc,
-        //   });
-        // }
-        return (
-          <OrderData
-            onPress={() => navigation.navigate('DetailTransaction', order)}
-            id={order.id}
-            kodeTransaksi={order.kode_transaksi}
-            phone={order.phoneNumber}
-            key={order.kode_transaksi}
-            name={order.nama_pelanggan}
-            quantity={order.quantity}
-            status={order.status}
-            method={order.method}
-          />
-        );
-      })}
-      {feedback.length == 0 && loadingSkeleton && (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ILNodata />
-          <Gap height={10} />
-          <Text>No data Order</Text>
-        </View>
-      )}
+    <>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        {feedback.map(order => {
+          // const dataSubstring = [
+          //   {desc: order.menu.ingredients, value: 40},
+          //   {desc: order.menu.name, value: 25},
+          // ];
+          // var fixedDesc;
+          // var data = [];
+          // for (var i = 0; i < dataSubstring.length; i++) {
+          //   if (dataSubstring[i].desc.length > dataSubstring[i].value) {
+          //     fixedDesc =
+          //       dataSubstring[i].desc.substring(0, dataSubstring[i].value) +
+          //       '...';
+          //   } else {
+          //     fixedDesc = dataSubstring[i].desc;
+          //   }
+          //   data.push({
+          //     key: i,
+          //     desc: fixedDesc,
+          //   });
+          // }
+          return (
+            <OrderData
+              onPress={() => navigation.navigate('DetailTransaction', order)}
+              id={order.id}
+              kodeTransaksi={order.kode_transaksi}
+              phone={order.phoneNumber}
+              key={order.kode_transaksi}
+              name={order.nama_pelanggan}
+              quantity={order.quantity}
+              status={order.status}
+              method={order.method}
+            />
+          );
+        })}
+        {feedback.length == 0 && !loadingSkeleton && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ILNodata />
+            <Gap height={10} />
+            <Text>No data Order</Text>
+          </View>
+        )}
+      </ScrollView>
       {loadingSkeleton && <Loading order />}
-    </ScrollView>
+    </>
   );
 };
 
