@@ -6,13 +6,11 @@ import {fonts} from '../../utils';
 
 const HelpCenter = ({navigation}) => {
   const onWhatsApp = () => {
-    console.log('halo ');
     Linking.openURL(
       'whatsapp://send?text=Bantuan SmartCanteen&phone=+6282295599463',
     );
   };
   const onEmail = () => {
-    console.log('halo ');
     Linking.openURL(
       'mailto:kantin.telkomuniversity@gmail.com?subject=Help Center Smartcanteen&body=Bantuan Aplikasi Smart ',
     );
@@ -42,7 +40,7 @@ const HelpCenter = ({navigation}) => {
             <ICGmail />
           </View>
           <Text onPress={onEmail} style={styles.text}>
-            Email : smartcanteen@gmail.com
+            Email : kantin.telkomuniversity@gmail.com
           </Text>
         </TouchableOpacity>
       </View>

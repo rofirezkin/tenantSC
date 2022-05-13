@@ -3,7 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {ICEye, ICEyeSlash} from '../../assets';
-import {Button, Gap, Header, TextInput} from '../../components';
+import {Button, Gap, Header, Link, TextInput} from '../../components';
 import {signInAction} from '../../redux/action';
 import useForm from '../../utils/useForm';
 
@@ -50,7 +50,7 @@ const SignIn = ({navigation}) => {
               onPress={() => {
                 setIsSecureEntry(prev => !prev);
               }}>
-              <View>{isSecureEntry ? <ICEyeSlash /> : <ICEye />}</View>
+              <View>{isSecureEntry ? <ICEye /> : <ICEyeSlash />}</View>
             </TouchableOpacity>
           }
           value={form.password}
@@ -58,7 +58,12 @@ const SignIn = ({navigation}) => {
         />
         <Gap height={24} />
         <Button label="Sign In" onPress={onSubmit} />
-        <Gap height={13} />
+        <Gap height={30} />
+        <Link
+          title="Help Center"
+          align="center"
+          onPress={() => navigation.navigate('HelpCenter')}
+        />
         {/* <Button
           label="Create New Account"
           color="#8D92A3"
