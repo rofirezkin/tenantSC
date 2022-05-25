@@ -26,7 +26,7 @@ export const getInProgress = idTenant => async dispatch => {
         axios.spread((res1, res2) => {
           const pending = res1.data.data;
           const process = res2.data.data;
-          console.log('ddaddadsds', res1.data);
+
           // const onDelivery = res3.data.data;
           dispatch(setLoadingSkeleton(false));
 
@@ -39,7 +39,12 @@ export const getInProgress = idTenant => async dispatch => {
       .catch(err => {
         dispatch(setLoadingSkeleton(false));
         if (err?.message) {
-          showMessage(err?.message);
+          console.log('eror di get in progress ', err?.response?.data);
+          if (err?.response?.data) {
+            showMessage(err?.response?.data?.message);
+          } else {
+            showMessage(err?.message);
+          }
         } else {
           showMessage(
             `${err?.response?.data?.message} on In Progress API` ||
@@ -67,6 +72,7 @@ export const getDeliveryOrder = idTenant => dispatch => {
         dispatch({type: 'SET_DELIVERY', value: deliveryData});
       })
       .catch(err => {
+        console.log('err get delivery order ', err?.response?.data);
         dispatch(setLoadingSkeleton(false));
         if (err?.message) {
           showMessage(err?.message);
@@ -98,7 +104,12 @@ export const getFeedbackOrder = () => dispatch => {
         .catch(err => {
           dispatch(setLoadingSkeleton(false));
           if (err?.message) {
-            showMessage(err?.message);
+            console.log('err', err?.response?.data);
+            if (err?.response?.data) {
+              showMessage(err?.response?.data?.message);
+            } else {
+              showMessage(err?.message);
+            }
           } else {
             showMessage(
               `${err?.response?.data?.message} on In Feedback API` ||
@@ -166,12 +177,7 @@ export const getPastOrders = idTenant => async dispatch => {
     .catch(err => {
       dispatch(setLoadingSkeleton(false));
       if (err?.message) {
-        showMessage(err?.message);
-      } else {
-        showMessage(
-          `${err?.response?.data?.message} on In Past Order API` ||
-            'Terjadi Kesalahan di In Past API',
-        );
+        showMessage(err?.response?.data);
       }
     });
 };
@@ -248,8 +254,13 @@ export const progressOrder =
       })
       .catch(err => {
         dispatch(setLoading(false));
+        console.log('error in get progress order', err?.response?.data);
         if (err?.message) {
-          showMessage(err?.message);
+          if (err?.response?.data) {
+            showMessage(err?.response?.data?.message);
+          } else {
+            showMessage(err?.message);
+          }
         } else {
           showMessage(
             `${err?.response?.data?.message} on In progress order API` ||
@@ -303,8 +314,13 @@ export const getInProgressBadges = nim => async dispatch => {
           }),
         )
         .catch(err => {
+          console.log('error in get badges', err?.response?.data);
           if (err?.message) {
-            showMessage(err?.message);
+            if (err?.response?.data) {
+              showMessage(err?.response?.data?.message);
+            } else {
+              showMessage(err?.message);
+            }
           } else {
             showMessage(
               `${err?.response?.data?.message} on\ Badges API` ||
@@ -315,8 +331,13 @@ export const getInProgressBadges = nim => async dispatch => {
       return Promise.resolve(result);
     })
     .catch(err => {
+      console.log('error in get badges', err?.response?.data);
       if (err?.message) {
-        showMessage(err?.message);
+        if (err?.response?.data) {
+          showMessage(err?.response?.data?.message);
+        } else {
+          showMessage(err?.message);
+        }
       } else {
         showMessage(
           `${err?.response?.data?.message} on\ Badges API` ||

@@ -12,7 +12,7 @@ const HelpCenter = ({navigation}) => {
   };
   const onEmail = () => {
     Linking.openURL(
-      'mailto:kantin.telkomuniversity@gmail.com?subject=Help Center Smartcanteen&body=Bantuan Aplikasi Smart ',
+      'mailto:kantin.telkomuniversity@gmail.com?subject=Help Center Smartcanteen&body=Bantuan Aplikasi Smart Canteen',
     );
   };
   return (

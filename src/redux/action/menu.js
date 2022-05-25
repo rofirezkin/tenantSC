@@ -10,7 +10,6 @@ export const getFoodData = token => dispatch => {
     },
   })
     .then(res => {
-      console.log('resss nya foood', res.data.data);
       const dataFood = res.data.data;
       const foodMenu = dataFood.filter(res => res.category === 'Makanan');
       const baveragesMenu = dataFood.filter(res => res.category === 'Minuman');
