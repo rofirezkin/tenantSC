@@ -4,6 +4,7 @@ import {
   Button,
   ButtonEdit,
   CostumerDineIn,
+  Gap,
   Header,
   ItemValue,
   Link,
@@ -145,6 +146,22 @@ const DetailTransaction = ({route, navigation}) => {
       ),
     );
   };
+  const konfirmasiPesananSiapDiterima = () => {
+    dispatch(setLoading(true));
+    const statusData = {
+      status: 'READY TO TAKE',
+    };
+    dispatch(
+      progressOrder(
+        statusData,
+        params.kode_transaksi,
+        params.device_token,
+        notif,
+        profiletTenant.nama_tenant,
+        navigation,
+      ),
+    );
+  };
 
   return (
     <View style={{backgoundColor: 'red', flex: 1}}>
@@ -223,11 +240,12 @@ const DetailTransaction = ({route, navigation}) => {
               );
             })}
           </View>
-          <View style={styles.buttonSection}>
-            {/* <Button costumerOrder label="diantar" />
-        <Button costumerOrder label="sudah diantar" /> */}
-          </View>
+          {/* <View style={styles.buttonSection}>
+            <Button costumerOrder label="diantar" />
+            <Button costumerOrder label="sudah diantar" />
+          </View> */}
         </SkeletonContent>
+        <Gap height={40} />
       </ScrollView>
       {!loadingSkeleton && (
         <View style={styles.button}>
@@ -238,11 +256,25 @@ const DetailTransaction = ({route, navigation}) => {
               onPress={konfirmasiProses}
             />
           )}
-          {status == 'PROCESS' && (
+          {status == 'PROCESS' && params.method == 'Delivery' && (
             <Button
               costumerOrder
               label="Antar Pesanan"
               onPress={konfirmasiAntarPesanan}
+            />
+          )}
+          {status == 'PROCESS' && params.method == 'Dine In' && (
+            <Button
+              costumerOrder
+              label="Antar Pesanan"
+              onPress={konfirmasiAntarPesananDineIn}
+            />
+          )}
+          {status == 'PROCESS' && params.method == 'Take Away' && (
+            <Button
+              costumerOrder
+              label="Konfirmasi Siap Diterima"
+              onPress={konfirmasiPesananSiapDiterima}
             />
           )}
           {status == 'ON DELIVERY' && (

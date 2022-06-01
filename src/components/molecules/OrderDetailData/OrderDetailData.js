@@ -29,6 +29,7 @@ const OrderDetailData = ({
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const shortDesc = method;
+  console.log('prof paymen', proofPayment);
   // shortDesc.toString();
   // let fixedDesc = '';
   // if (shortDesc.length > 9) {
@@ -119,7 +120,7 @@ const OrderDetailData = ({
           <Text style={styles.desc}>total Harga : </Text>
           <Number style={styles.desc} number={total} />
         </View> */}
-          {proofPayment && buktiPembayaran && (
+          {proofPayment && buktiPembayaran !== '' && (
             <View style={{alignItems: 'center'}}>
               <Link
                 title="Lihat Bukti Pembayaran"
@@ -128,7 +129,7 @@ const OrderDetailData = ({
               />
             </View>
           )}
-          {proofPayment && !buktiPembayaran && methodPayment == 0 && (
+          {proofPayment && buktiPembayaran == '' && methodPayment == 0 && (
             <View style={{alignItems: 'center'}}>
               <Text style={{color: 'red'}}>
                 Pelanggan belum memberikan bukti pembayaran

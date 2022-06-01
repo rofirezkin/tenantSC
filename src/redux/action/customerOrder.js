@@ -60,26 +60,50 @@ export const getDeliveryOrder = idTenant => dispatch => {
   dispatch(setLoadingSkeleton(true));
   getData('token').then(resToken => {
     axios
-      .get(`${API_HOST.url}/transactions/tenant/fetch?status=ON DELIVERY`, {
-        headers: {
-          Authorization: resToken.value,
-        },
-      })
-      .then(resDelivery => {
-        dispatch(setLoadingSkeleton(false));
-        console.log('ress delive', resDelivery.data.data);
-        const deliveryData = resDelivery.data.data;
-        dispatch({type: 'SET_DELIVERY', value: deliveryData});
-      })
+      .all([
+        axios.get(
+          `${API_HOST.url}/transactions/tenant/fetch?status=ON DELIVERY`,
+          {
+            headers: {
+              Authorization: resToken.value,
+            },
+          },
+        ),
+        axios.get(
+          `${API_HOST.url}/transactions/tenant/fetch?status=READY TO TAKE`,
+          {
+            headers: {
+              Authorization: resToken.value,
+            },
+          },
+        ),
+      ])
+      .then(
+        axios.spread((res1, res2) => {
+          const delivery = res1.data.data;
+          const alreadyTaken = res2.data.data;
+
+          // const onDelivery = res3.data.data;
+          dispatch(setLoadingSkeleton(false));
+
+          dispatch({
+            type: 'SET_DELIVERY',
+            value: [...delivery, ...alreadyTaken],
+          });
+        }),
+      )
       .catch(err => {
-        console.log('err get delivery order ', err?.response?.data);
         dispatch(setLoadingSkeleton(false));
         if (err?.message) {
-          showMessage(err?.message);
+          if (err?.response?.data) {
+            showMessage(err?.response?.data?.message);
+          } else {
+            showMessage(err?.message);
+          }
         } else {
           showMessage(
-            `${err?.response?.data?.message} on Delivery API` ||
-              'Terjadi Kesalahan di Delivery API',
+            `${err?.response?.data?.message} on In Delivery order` ||
+              'Terjadi Kesalahan di In delivery order',
           );
         }
       });
@@ -300,16 +324,25 @@ export const getInProgressBadges = nim => async dispatch => {
               },
             },
           ),
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=READY TO TAKE`,
+            {
+              headers: {
+                Authorization: `Bearer ${resToken.value}`,
+              },
+            },
+          ),
         ])
         .then(
-          axios.spread((res1, res2, res3) => {
+          axios.spread((res1, res2, res3, res4) => {
             const pending = res1.data.data;
             const process = res2.data.data;
             const onDelivery = res3.data.data;
+            const alreadyTaken = res4.data.data;
 
             dispatch({
               type: 'SET_IN_PROGRESS_BADGES',
-              value: [...onDelivery, ...process, ...pending],
+              value: [...onDelivery, ...process, ...pending, ...alreadyTaken],
             });
           }),
         )
@@ -323,7 +356,7 @@ export const getInProgressBadges = nim => async dispatch => {
             }
           } else {
             showMessage(
-              `${err?.response?.data?.message} on\ Badges API` ||
+              `${err?.response?.data?.message} on Badges API` ||
                 'Terjadi Kesalahan di In Badges APi',
             );
           }

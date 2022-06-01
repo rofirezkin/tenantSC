@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
         : colorValue == 'DELIVERED' ||
           colorValue == 'ON DELIVERY' ||
           colorValue == 'FEEDBACK' ||
+          colorValue == 'READY TO TAKE' ||
           colorValue == 'PROCESS'
         ? 'green'
         : 'black',
