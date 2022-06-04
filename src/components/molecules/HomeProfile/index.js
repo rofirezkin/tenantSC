@@ -17,7 +17,7 @@ const HomeProfile = ({data}) => {
         {photoUser.uri !== `${API_HOST.storage}/null` ? (
           <Image source={photoUser} style={styles.avatar} />
         ) : (
-          <Image source={photoDummy} style={styles.avatar} />
+          <Image source={ProfileDummy} style={styles.avatar} />
         )}
       </View>
       <View style={styles.card}>

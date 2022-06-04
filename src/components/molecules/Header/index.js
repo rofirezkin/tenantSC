@@ -14,6 +14,7 @@ const Header = ({
   homeProfile,
   exit,
 }) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       {onBack && (
@@ -26,6 +27,23 @@ const Header = ({
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtTitle}>{subtTitle}</Text>
       </View>
+      {title == 'Detail Order' ? (
+        <TouchableOpacity
+          style={{flex: 1, justifyContent: 'center'}}
+          onPress={() => navigation.navigate('HelpCenter')}>
+          <Text
+            style={{
+              flex: 1,
+              textAlign: 'right',
+              fontSize: 16,
+              color: '#FEA34F',
+            }}>
+            Bantuan ?
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <Text></Text>
+      )}
     </View>
   );
 };

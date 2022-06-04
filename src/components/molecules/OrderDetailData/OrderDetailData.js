@@ -20,7 +20,7 @@ const OrderDetailData = ({
   createdAt,
   methodPayment,
   catatan,
-  id,
+  noMeja,
   total,
   buktiPembayaran,
   price,
@@ -29,7 +29,7 @@ const OrderDetailData = ({
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const shortDesc = method;
-  console.log('prof paymen', proofPayment);
+
   // shortDesc.toString();
   // let fixedDesc = '';
   // if (shortDesc.length > 9) {
@@ -113,6 +113,9 @@ const OrderDetailData = ({
           <ItemValue title={`Status Order`} name={status} colorValue={status} />
           <ItemValue title={`Catatan`} name={catatan} />
           <ItemValue title={`Tanggal Transaksi`} name={createdAt} />
+          {method == 'Dine In' && (
+            <ItemValue title="Nomor Meja" name={` Nomor ${noMeja}`} />
+          )}
 
           {/* <Text style={styles.desc}>No Hp : {phone}</Text> */}
 
@@ -120,7 +123,7 @@ const OrderDetailData = ({
           <Text style={styles.desc}>total Harga : </Text>
           <Number style={styles.desc} number={total} />
         </View> */}
-          {proofPayment && buktiPembayaran !== '' && (
+          {methodPayment == 0 && buktiPembayaran !== null && (
             <View style={{alignItems: 'center'}}>
               <Link
                 title="Lihat Bukti Pembayaran"
@@ -129,7 +132,7 @@ const OrderDetailData = ({
               />
             </View>
           )}
-          {proofPayment && buktiPembayaran == '' && methodPayment == 0 && (
+          {buktiPembayaran == null && methodPayment == 0 && (
             <View style={{alignItems: 'center'}}>
               <Text style={{color: 'red'}}>
                 Pelanggan belum memberikan bukti pembayaran

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   BackHandler,
   Image,
   RefreshControl,
@@ -52,55 +53,60 @@ const Menu = ({navigation, routingData}) => {
   }, []);
 
   useEffect(() => {
-    setLoading(false);
+    const unsubscribe = navigation.addListener('focus', () => {
+      setLoading(false);
 
-    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+      // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
-    messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log(
-        'Notification caused app to open from background state:',
-        remoteMessage.data,
-      );
-      navigation.replace('MainApp', {screen: 'CostumerOrder'});
-    });
-
-    // Check whether an initial notification is available
-    messaging()
-      .getInitialNotification()
-      .then(remoteMessage => {
-        if (remoteMessage) {
-          console.log(
-            'Notification caused app to open from quit state:',
-            remoteMessage.notification,
-          );
-          navigation.replace('MainApp', {screen: 'CostumerOrder'});
-          setInitialRoute('MainApp'); // e.g. "Settings"
-        }
+      messaging().onNotificationOpenedApp(remoteMessage => {
+        console.log(
+          'Notification caused app to open from background state:',
+          remoteMessage.data,
+        );
+        navigation.replace('MainApp', {screen: 'CostumerOrder'});
       });
-    getData('token').then(res => {
-      setToken(res.value);
-      dispatch(getFoodData(res.value));
-      axios
-        .get(`${API_HOST.url}/menu/getKodeMenu`, {
-          headers: {
-            Authorization: res.value,
-          },
-        })
-        .then(res => {
-          setKodeMenu(res.data.data);
-        })
-        .catch(err => {
-          if (err.message) {
-            // console.log('haloo food', err.message);
+
+      // Check whether an initial notification is available
+      messaging()
+        .getInitialNotification()
+        .then(remoteMessage => {
+          if (remoteMessage) {
+            console.log(
+              'Notification caused app to open from quit state:',
+              remoteMessage.notification,
+            );
+            navigation.replace('MainApp', {screen: 'CostumerOrder'});
+            setInitialRoute('MainApp'); // e.g. "Settings"
           }
         });
-    });
+      getData('token').then(res => {
+        setToken(res.value);
+        dispatch(getFoodData(res.value));
+        axios
+          .get(`${API_HOST.url}/menu/getKodeMenu`, {
+            headers: {
+              Authorization: res.value,
+            },
+          })
+          .then(res => {
+            setKodeMenu(res.data.data);
+          })
+          .catch(err => {
+            if (err.message) {
+              // console.log('haloo food', err.message);
+            }
+          });
+        return unsubscribe;
+      });
 
-    getData('userProfile').then(res => {
-      setUserProfile(res);
-      console.log('id', res);
+      getData('userProfile').then(res => {
+        console.log('ambil user profile ', res);
+        setUserProfile(res);
+        console.log('id', res);
+      });
     });
-  }, [token]);
+    return unsubscribe;
+  }, [token, navigation]);
 
   const dataParams = {
     userProfile,
@@ -108,6 +114,21 @@ const Menu = ({navigation, routingData}) => {
     kodeMenu,
   };
 
+  const uploadMenu = () => {
+    if (userProfile.profile_photo_path == null) {
+      Alert.alert(
+        'Peringatan ',
+        'Upss anda harus Upload Foto Profil Terlebih dahulu',
+        [
+          {
+            onPress: () => navigation.navigate('MainApp', {screen: 'Profile'}),
+          },
+        ],
+      );
+    } else {
+      navigation.navigate('UploadMenu', dataParams);
+    }
+  };
   return (
     <ScrollView
       style={{backgroundColor: 'white'}}
@@ -139,10 +160,7 @@ const Menu = ({navigation, routingData}) => {
               </Text>
               <Gap height={30} />
               <View style={styles.buttonContainer}>
-                <Button
-                  label="Upload Menu"
-                  onPress={() => navigation.navigate('UploadMenu', dataParams)}
-                />
+                <Button label="Upload Menu" onPress={uploadMenu} />
               </View>
             </View>
           ) : (
@@ -156,10 +174,8 @@ const Menu = ({navigation, routingData}) => {
               </ScrollView>
               <View style={styles.button}>
                 <Gap height={19} />
-                <ButtonUploadMenu
-                  label="Upload Menu"
-                  onPress={() => navigation.navigate('UploadMenu', dataParams)}
-                />
+
+                <ButtonUploadMenu label="Upload Menu" onPress={uploadMenu} />
               </View>
               <View style={{flex: 1}}>
                 {/* <TabViewHome /> */}

@@ -33,8 +33,7 @@ const DetailTransaction = ({route, navigation}) => {
   const [profiletTenant, setProfileTenant] = useState('');
   const [catatan, setCatatan] = useState('');
   const [loadingSkeleton, setLoadingSkeleton] = useState(true);
-
-  console.log('fffsfsffs', photoPayment);
+  const [nomorMeja, setNomorMeja] = useState(null);
 
   // const totalHarga = parseInt(params.total) + 1000 + 2000;
   const onNotif = notif => {
@@ -62,6 +61,8 @@ const DetailTransaction = ({route, navigation}) => {
           const dataHarga = res.data.data;
           setPhotoPayment(res.data.data[0].photo_bukti_pembayaran);
           setCatatan(res.data.data[0].catatan);
+          setNomorMeja(res.data.data[0].no_table);
+
           let calculate = 3000;
           for (let i = 0; i < dataHarga.length; i++) {
             calculate += parseInt(dataHarga[i].total);
@@ -112,6 +113,24 @@ const DetailTransaction = ({route, navigation}) => {
       ),
     );
   };
+
+  const konfirmasiAntarPesananDineIn = () => {
+    dispatch(setLoading(true));
+    const statusData = {
+      status: 'COMPLETED',
+    };
+    dispatch(
+      progressOrder(
+        statusData,
+        params.kode_transaksi,
+        params.device_token,
+        notif,
+        profiletTenant.nama_tenant,
+        navigation,
+      ),
+    );
+  };
+
   const konfirmasiPesananDiterima = () => {
     dispatch(setLoading(true));
     const statusData = {
@@ -192,7 +211,9 @@ const DetailTransaction = ({route, navigation}) => {
               status={params.status}
               method={params.method}
               tax={1000}
+              noMeja={nomorMeja}
               service={2000}
+              kodeTransaksi={params.kode_transaksi}
               createdAt={params.created_at}
               methodPayment={params.is_cash}
               buktiPembayaran={photoPayment}
@@ -266,7 +287,7 @@ const DetailTransaction = ({route, navigation}) => {
           {status == 'PROCESS' && params.method == 'Dine In' && (
             <Button
               costumerOrder
-              label="Antar Pesanan"
+              label="Pesanan Selesai"
               onPress={konfirmasiAntarPesananDineIn}
             />
           )}
@@ -294,6 +315,9 @@ const DetailTransaction = ({route, navigation}) => {
           {status == 'FEEDBACK' && (
             <Text style={styles.feedback}>Menunggu Feedback user</Text>
           )}
+          {status == 'COMPLETED' && (
+            <Text style={styles.feedback}>Menunggu Konfirmasi user</Text>
+          )}
         </View>
       )}
     </View>
@@ -317,5 +341,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 19,
     width: '100%',
+  },
+  feedback: {
+    color: '#FEA34F',
   },
 });

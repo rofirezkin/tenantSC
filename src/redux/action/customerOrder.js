@@ -115,16 +115,37 @@ export const getFeedbackOrder = () => dispatch => {
   getData('token')
     .then(resToken => {
       axios
-        .get(`${API_HOST.url}/transactions/tenant/fetch?status=FEEDBACK`, {
-          headers: {
-            Authorization: resToken.value,
-          },
-        })
-        .then(resFeedback => {
-          dispatch(setLoadingSkeleton(false));
-          const feedback = resFeedback.data.data;
-          dispatch({type: 'SET_FEEDBACK', value: feedback});
-        })
+        .all([
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=FEEDBACK`,
+            {
+              headers: {
+                Authorization: resToken.value,
+              },
+            },
+          ),
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=COMPLETED`,
+            {
+              headers: {
+                Authorization: resToken.value,
+              },
+            },
+          ),
+        ])
+        .then(
+          axios.spread((res1, res2) => {
+            dispatch(setLoadingSkeleton(false));
+            console.log('dsss', res1.data.data);
+            const completed = res1.data.data;
+            const feedback = res2.data.data;
+
+            dispatch({
+              type: 'SET_FEEDBACK',
+              value: [...completed, ...feedback],
+            });
+          }),
+        )
         .catch(err => {
           dispatch(setLoadingSkeleton(false));
           if (err?.message) {
@@ -218,8 +239,12 @@ export const progressOrder =
           sound: 'default',
         },
         android_channel_id: 'default-channel-id',
-        title: 'Konfirmasi Pesanan',
-        body: `Pesanan Anda dalam status : ${status.status} oleh ${namaTenant} `,
+        title: 'Order Confirmation',
+        body: `Your order status is : ${status.status} by ${namaTenant} ${
+          status.status == 'COMPLETED'
+            ? 'please click accept this order in Order Detail Page'
+            : ''
+        } `,
       },
     };
     const notifJSON = JSON.stringify(notifData);
