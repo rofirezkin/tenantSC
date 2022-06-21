@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
           colorValue == 'FEEDBACK' ||
           colorValue == 'READY TO TAKE' ||
           colorValue == 'PROCESS' ||
-          colorValue == 'COMPLETED'
+          colorValue == 'COMPLETED' ||
+          colorValue == 'success'
         ? 'green'
         : 'black',
     fontFamily: 'Poppins-Regular',

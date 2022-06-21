@@ -14,7 +14,7 @@ const OrderDetailData = ({
   onPress,
   quantity,
   status,
-  phone,
+  statusPembayaran,
   kodeTransaksi,
   method,
   createdAt,
@@ -22,9 +22,6 @@ const OrderDetailData = ({
   catatan,
   noMeja,
   total,
-  buktiPembayaran,
-  price,
-  proofPayment,
 }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -91,7 +88,10 @@ const OrderDetailData = ({
                 <Number style={styles.desc} number={service} />
               </Text> */}
 
-              <ItemValue title={`Total Harga termasuk layanan`} value={total} />
+              <ItemValue
+                title={`Total Harga + pajak 11% + kode Unik`}
+                value={total}
+              />
             </>
           )}
 
@@ -111,6 +111,11 @@ const OrderDetailData = ({
           />
 
           <ItemValue title={`Status Order`} name={status} colorValue={status} />
+          <ItemValue
+            title={`Status Pembayaran`}
+            name={statusPembayaran}
+            colorValue={statusPembayaran}
+          />
           <ItemValue title={`Catatan`} name={catatan} />
           <ItemValue title={`Tanggal Transaksi`} name={createdAt} />
           {method == 'Dine In' && (
@@ -123,7 +128,7 @@ const OrderDetailData = ({
           <Text style={styles.desc}>total Harga : </Text>
           <Number style={styles.desc} number={total} />
         </View> */}
-          {methodPayment == 0 && buktiPembayaran !== null && (
+          {/* {methodPayment == 0 && buktiPembayaran !== null && (
             <View style={{alignItems: 'center'}}>
               <Link
                 title="Lihat Bukti Pembayaran"
@@ -131,14 +136,14 @@ const OrderDetailData = ({
                 onPress={proofPayment}
               />
             </View>
-          )}
-          {buktiPembayaran == null && methodPayment == 0 && (
+          )} */}
+          {/* {buktiPembayaran == null && methodPayment == 0 && (
             <View style={{alignItems: 'center'}}>
               <Text style={{color: 'red'}}>
                 Pelanggan belum memberikan bukti pembayaran
               </Text>
             </View>
-          )}
+          )} */}
         </View>
       </View>
     </TouchableOpacity>

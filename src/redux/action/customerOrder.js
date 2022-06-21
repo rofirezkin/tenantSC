@@ -192,17 +192,26 @@ export const getPastOrders = idTenant => async dispatch => {
               },
             },
           ),
+          axios.get(
+            `${API_HOST.url}/transactions/tenant/fetch?status=FEEDBACK`,
+            {
+              headers: {
+                Authorization: resToken.value,
+              },
+            },
+          ),
         ])
         .then(
-          axios.spread((res1, res2) => {
+          axios.spread((res1, res2, res3) => {
             dispatch(setLoadingSkeleton(false));
             console.log('dsss', res1.data.data);
             const cancelled = res1.data.data;
             const delivered = res2.data.data;
+            const feedback = res3.data.data;
 
             dispatch({
               type: 'SET_PAST_ORDERS',
-              value: [...delivered, ...cancelled],
+              value: [...delivered, ...feedback, ...cancelled],
             });
           }),
         )
@@ -364,7 +373,7 @@ export const getInProgressBadges = nim => async dispatch => {
             const process = res2.data.data;
             const onDelivery = res3.data.data;
             const alreadyTaken = res4.data.data;
-
+            console.log('pendingg ', res1);
             dispatch({
               type: 'SET_IN_PROGRESS_BADGES',
               value: [...onDelivery, ...process, ...pending, ...alreadyTaken],
@@ -377,7 +386,7 @@ export const getInProgressBadges = nim => async dispatch => {
             if (err?.response?.data) {
               showMessage(err?.response?.data?.message);
             } else {
-              showMessage(err?.message);
+              showMessage(err?.meta?.message);
             }
           } else {
             showMessage(
@@ -394,7 +403,7 @@ export const getInProgressBadges = nim => async dispatch => {
         if (err?.response?.data) {
           showMessage(err?.response?.data?.message);
         } else {
-          showMessage(err?.message);
+          showMessage(err?.meta?.message);
         }
       } else {
         showMessage(

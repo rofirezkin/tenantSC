@@ -23,6 +23,7 @@ const History = ({navigation}) => {
   const {loadingSkeleton} = useSelector(state => state.globalReducer);
   const [refreshing, setRefreshing] = useState(false);
 
+  console.log('passs orderr ,', pastOrder);
   useEffect(() => {
     getData('userProfile').then(res => {
       setUserProfile(res);
@@ -44,14 +45,20 @@ const History = ({navigation}) => {
   for (let i = 0; i < pastOrder.length; i++) {
     const splitData = pastOrder[i].created_at.split(' ');
     console.log('ddd', splitData[0]);
-    if (pastOrder[i].status == 'DELIVERED' && splitData[0] == dateReport) {
-      totalHarga += +pastOrder[i].total + 3000;
+    if (
+      pastOrder[i].status == 'DELIVERED' ||
+      (pastOrder[i].status == 'FEEDBACK' && splitData[0] == dateReport)
+    ) {
+      totalHarga += +pastOrder[i].total_order - pastOrder[i].kode_uniq;
     }
   }
   let transaksiBerhasil = 0;
   for (let i = 0; i < pastOrder.length; i++) {
     const splitData = pastOrder[i].created_at.split(' ');
-    if (pastOrder[i].status == 'DELIVERED' && splitData[0] == dateReport) {
+    if (
+      pastOrder[i].status == 'DELIVERED' ||
+      (pastOrder[i].status == 'FEEDBACK' && splitData[0] == dateReport)
+    ) {
       transaksiBerhasil += +pastOrder[i].quantity;
     }
   }
@@ -145,7 +152,7 @@ const History = ({navigation}) => {
                   quantity={order.quantity}
                   status={order.status}
                   method={order.method}
-                  total={order.total}
+                  total={order.total_order - order.kode_uniq}
                   createdAt={order.created_at}
                 />
               );

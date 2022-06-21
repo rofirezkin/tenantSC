@@ -34,6 +34,7 @@ const DetailTransaction = ({route, navigation}) => {
   const [catatan, setCatatan] = useState('');
   const [loadingSkeleton, setLoadingSkeleton] = useState(true);
   const [nomorMeja, setNomorMeja] = useState(null);
+  const [statusPembayaran, setStatusPembayaran] = useState('');
 
   // const totalHarga = parseInt(params.total) + 1000 + 2000;
   const onNotif = notif => {
@@ -58,17 +59,17 @@ const DetailTransaction = ({route, navigation}) => {
         .then(res => {
           console.log('res nihhhhhhhhhhs', res.data.data);
           setLoadingSkeleton(false);
-          const dataHarga = res.data.data;
+          const dataHarga = res.data.data[0];
           setPhotoPayment(res.data.data[0].photo_bukti_pembayaran);
           setCatatan(res.data.data[0].catatan);
           setNomorMeja(res.data.data[0].no_table);
+          setStatusPembayaran(res.data.data[0].status_pembayaran_qris);
+          // let calculate = 3000;
+          // for (let i = 0; i < dataHarga.length; i++) {
+          //   calculate += parseInt(dataHarga[i].total);
+          // }
 
-          let calculate = 3000;
-          for (let i = 0; i < dataHarga.length; i++) {
-            calculate += parseInt(dataHarga[i].total);
-          }
-
-          setTotalHarga(calculate);
+          setTotalHarga(dataHarga.total_order);
           setDetailOrder(res.data.data);
         })
         .catch(err => {
@@ -201,6 +202,7 @@ const DetailTransaction = ({route, navigation}) => {
               backgroundColor: 'white',
             }}>
             <OrderDetailData
+              statusPembayaran={statusPembayaran}
               catatan={catatan}
               id={params.id}
               phone={params.phoneNumber}
