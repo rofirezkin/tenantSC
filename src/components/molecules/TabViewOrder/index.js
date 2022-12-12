@@ -50,10 +50,13 @@ const AllData = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    getData('userProfile').then(res => {
-      setUserProfile(res);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData('userProfile').then(res => {
+        setUserProfile(res);
 
-      dispatch(getInProgress(res.id));
+        dispatch(getInProgress(res.id));
+      });
+      return unsubscribe;
     });
   }, []);
 
@@ -62,8 +65,6 @@ const AllData = () => {
     dispatch(getInProgress(userProfile.id));
     setRefreshing(false);
   };
-
-  console.log('innsss', inProgress);
 
   return (
     <>
@@ -133,10 +134,13 @@ const Delivery = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    getData('userProfile').then(res => {
-      setUserProfile(res);
-      dispatch(getDeliveryOrder(res.id));
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData('userProfile').then(res => {
+        setUserProfile(res);
+        dispatch(getDeliveryOrder(res.id));
+      });
     });
+    return unsubscribe;
   }, []);
 
   const onRefresh = () => {
@@ -212,10 +216,13 @@ const Feedback = () => {
   const {loadingSkeleton} = useSelector(state => state.globalReducer);
 
   useEffect(() => {
-    getData('userProfile').then(res => {
-      setUserProfile(res);
-      dispatch(getFeedbackOrder(res.id));
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData('userProfile').then(res => {
+        setUserProfile(res);
+        dispatch(getFeedbackOrder(res.id));
+      });
     });
+    return unsubscribe;
   }, []);
 
   const onRefresh = () => {

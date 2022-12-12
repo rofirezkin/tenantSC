@@ -63,7 +63,7 @@ const Menu = ({navigation, routingData}) => {
           'Notification caused app to open from background state:',
           remoteMessage.data,
         );
-        navigation.replace('MainApp', {screen: 'CostumerOrder'});
+        navigation.navigate('DetailTransaction', remoteMessage.data);
       });
 
       // Check whether an initial notification is available
@@ -75,7 +75,7 @@ const Menu = ({navigation, routingData}) => {
               'Notification caused app to open from quit state:',
               remoteMessage.notification,
             );
-            navigation.replace('MainApp', {screen: 'CostumerOrder'});
+            navigation.navigate('DetailTransaction', remoteMessage.data);
             setInitialRoute('MainApp'); // e.g. "Settings"
           }
         });
@@ -100,9 +100,9 @@ const Menu = ({navigation, routingData}) => {
       });
 
       getData('userProfile').then(res => {
-        console.log('ambil user profile ', res);
+
         setUserProfile(res);
-        console.log('id', res);
+
       });
     });
     return unsubscribe;

@@ -29,7 +29,7 @@ const BukaTutupKantin = ({navigation}) => {
     const data = {
       status: 'active',
     };
-    console.log('data', data);
+
     dispatch(updateStatusAction(data, token, dataProfile, navigation));
   };
 
@@ -37,7 +37,7 @@ const BukaTutupKantin = ({navigation}) => {
     const data = {
       status: 'inactive',
     };
-    console.log('acitve', data);
+
 
     dispatch(updateStatusAction(data, token, dataProfile, navigation));
   };

@@ -121,6 +121,11 @@ const OrderDetailData = ({
           {method == 'Dine In' && (
             <ItemValue title="Nomor Meja" name={` Nomor ${noMeja}`} />
           )}
+          {statusPembayaran === 'PENDING' && (
+            <Text style={{paddingTop: 10, color: 'red'}}>
+              *Anda Bisa Proses Makanan Jika status Pembayaran Pelanggan Success
+            </Text>
+          )}
 
           {/* <Text style={styles.desc}>No Hp : {phone}</Text> */}
 

@@ -4,7 +4,7 @@ import {Header} from '../../components';
 
 const ImagePayment = ({navigation, route}) => {
   const imageProofPayment = route.params;
-  console.log('testing proof payment', imageProofPayment);
+
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
       <View style={styles.page}>

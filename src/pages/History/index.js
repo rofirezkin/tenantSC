@@ -23,7 +23,7 @@ const History = ({navigation}) => {
   const {loadingSkeleton} = useSelector(state => state.globalReducer);
   const [refreshing, setRefreshing] = useState(false);
 
-  console.log('passs orderr ,', pastOrder);
+
   useEffect(() => {
     getData('userProfile').then(res => {
       setUserProfile(res);
@@ -41,14 +41,16 @@ const History = ({navigation}) => {
   const today = new Date();
   const dateReport = getUidTime(today);
 
+
   let totalHarga = 0;
   for (let i = 0; i < pastOrder.length; i++) {
     const splitData = pastOrder[i].created_at.split(' ');
-    console.log('ddd', splitData[0]);
     if (
-      pastOrder[i].status == 'DELIVERED' ||
-      (pastOrder[i].status == 'FEEDBACK' && splitData[0] == dateReport)
+      (pastOrder[i].status == 'DELIVERED' ||
+        pastOrder[i].status == 'FEEDBACK') &&
+      splitData[0] == dateReport
     ) {
+
       totalHarga += +pastOrder[i].total_order - pastOrder[i].kode_uniq;
     }
   }
@@ -56,8 +58,9 @@ const History = ({navigation}) => {
   for (let i = 0; i < pastOrder.length; i++) {
     const splitData = pastOrder[i].created_at.split(' ');
     if (
-      pastOrder[i].status == 'DELIVERED' ||
-      (pastOrder[i].status == 'FEEDBACK' && splitData[0] == dateReport)
+      (pastOrder[i].status == 'DELIVERED' ||
+        pastOrder[i].status == 'FEEDBACK') &&
+      splitData[0] == dateReport
     ) {
       transaksiBerhasil += +pastOrder[i].quantity;
     }
@@ -69,7 +72,7 @@ const History = ({navigation}) => {
       transaksiGagal += +pastOrder[i].quantity;
     }
   }
-  console.log('ddaaa', pastOrder);
+
   return (
     <ScrollView
       style={styles.page}

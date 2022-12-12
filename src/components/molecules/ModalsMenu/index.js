@@ -33,7 +33,7 @@ const ModalsMenu = ({
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const onPressChangeStatus = () => {
-    console.log('haloo mau dikrim', isActive);
+
     const data = {
       is_active: isActive,
     };

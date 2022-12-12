@@ -61,7 +61,7 @@ const UploadMenu = ({navigation, route}) => {
         kode_menu,
       };
 
-      console.log('data menu', data);
+
       dispatch(setLoading(true));
       dispatch(uploadMenuAction(data, token, dataPhoto, navigation));
     } else {

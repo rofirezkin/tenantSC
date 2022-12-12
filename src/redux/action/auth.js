@@ -28,7 +28,7 @@ export const signUpAction =
                   },
                 })
                 .then(resUpload => {
-                  console.log('res upload', resUpload);
+
                   profile.profile_photo_url = `${API_HOST.storage}/${resUpload.data.data[0]}`;
                   profile.profile_photo_path = `${resUpload.data.data[0]}`;
                   dispatch(setLoading(false));
@@ -83,7 +83,7 @@ export const signUpAction =
 
 export const signInAction = (form, device_token, navigation) => dispatch => {
   dispatch(setLoading(true));
-  console.log('device tokennn', form.email);
+
   console.log('device tokennn ni', device_token);
   axios
     .post(`${API_HOST.url}/tenantlogin`, form)

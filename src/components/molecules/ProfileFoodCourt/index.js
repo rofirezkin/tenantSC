@@ -15,7 +15,7 @@ const ProfileFoodCourt = () => {
     navigation.addListener('focus', () => {
       getData('userProfile').then(res => {
         setProfileUser(res);
-        console.log('reddss', res);
+
         setPhotoUser({
           uri: `${API_HOST.storage}/${res.profile_photo_path}`,
         });

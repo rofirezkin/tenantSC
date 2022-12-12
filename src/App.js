@@ -8,6 +8,7 @@ import FlashMessage from 'react-native-flash-message';
 import {Loading} from './components';
 import messaging from '@react-native-firebase/messaging';
 import NotifService from './utils/notification/NotifService';
+import {navigationRef} from './RootNavigation';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -42,8 +43,8 @@ const MainApp = () => {
   };
 
   const onNotif = notif => {
-    const notifData = new NotifService();
-    notifData.localNotifForeground(notif.title, notif.message);
+    // const notifData = new NotifService();
+    // notifData.localNotifForeground(notif.title, notif.message);
   };
   const notif = new NotifService(onRegister, onNotif);
   const handlePerm = perms => {
@@ -51,7 +52,7 @@ const MainApp = () => {
   };
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Router />
       <FlashMessage position="top" />
       {isLoading && <Loading />}

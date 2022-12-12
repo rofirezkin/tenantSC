@@ -12,7 +12,7 @@ export const updateMenuAction =
         },
       })
       .then(res => {
-        console.log('respon data', res.data.data.id);
+
 
         if (dataPhoto) {
           const idMenu = res.data.data.id;
@@ -34,7 +34,7 @@ export const updateMenuAction =
                 index: 0,
                 routes: [{name: 'MainApp'}],
               });
-              console.log('ress upload', resUpload);
+
               dispatch(setLoading(false));
             })
             .catch(err => {
@@ -67,7 +67,7 @@ export const updateMenuAction =
 
 export const updateProfileAction =
   (data, token, dataPhoto, navigation) => dispatch => {
-    console.log('data kantin', data);
+
 
     axios
       .post(`${API_HOST.url}/updateProfileTenant`, data, {
@@ -76,7 +76,7 @@ export const updateProfileAction =
         },
       })
       .then(res => {
-        console.log('respon data', res);
+
         const profile = res.data.data;
 
         if (dataPhoto) {
@@ -91,7 +91,7 @@ export const updateProfileAction =
               },
             })
             .then(resUpload => {
-              console.log('res upload', resUpload);
+
               profile.profile_photo_url = `${API_HOST.storage}/${resUpload.data.data[0]}`;
               profile.profile_photo_path = `${resUpload.data.data[0]}`;
               dispatch(setLoading(false));

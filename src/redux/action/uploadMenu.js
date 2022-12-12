@@ -5,7 +5,7 @@ import {showMessage} from '../../utils';
 
 export const uploadMenuAction =
   (dataUploadMenu, token, dataPhoto, navigation) => dispatch => {
-    console.log('data upload', dataUploadMenu);
+  
     axios
       .post(`${API_HOST.url}/menu/input`, dataUploadMenu, {
         headers: {
@@ -13,7 +13,7 @@ export const uploadMenuAction =
         },
       })
       .then(res => {
-        console.log('respon data', res.data.data.id);
+    
         const idMenu = res.data.data.id;
         const photoForUpload = new FormData();
         photoForUpload.append('file', dataPhoto);
@@ -29,7 +29,7 @@ export const uploadMenuAction =
               index: 0,
               routes: [{name: 'MainApp'}],
             });
-            console.log('ress upload', resUpload);
+   
             dispatch(setLoading(false));
           })
           .catch(err => {

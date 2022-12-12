@@ -1,9 +1,25 @@
 import PushNotification from 'react-native-push-notification';
+import {navigate} from '../../RootNavigation';
+import NotifService from './NotifService';
 
 class NotificationHandler {
   onNotification(notification) {
     console.log('NotificationHandler:', notification);
+    const notifData = new NotifService();
+    if (notification.userInteraction === false) {
+      console.log('haloo ', notification.userInteraction);
+      notifData.localNotifForeground(
+        notification.data,
+        notification.title,
+        notification.message,
+      );
+    }
 
+    if (notification.userInteraction) {
+      // onAction replacement here
+      console.log('NotificationHandler: keduaaa ', notification.data);
+      navigate('DetailTransaction', notification.data);
+    }
     if (typeof this._onNotification === 'function') {
       this._onNotification(notification);
     }

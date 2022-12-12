@@ -75,7 +75,7 @@ const ItemListFood = ({
       })
       .catch(err => {
         dispatch(setLoading(false));
-        console.log('errr0rrrr', err);
+        console.log('errrrrrr', err);
       });
     //handler for Long Click
   };

@@ -30,7 +30,7 @@ const UseAutoFocus = ({autoFocus, ...props}) => {
   const onPressChangePrice = () => {
     const newValue = parseInt(nilai.replace(/\./g, ''), 10);
 
-    console.log('hal', typeof newValue);
+
     const data = {
       price: newValue,
     };

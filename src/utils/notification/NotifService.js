@@ -112,7 +112,7 @@ export default class NotifService {
     });
   }
 
-  localNotifForeground(title, body, soundName) {
+  localNotifForeground(data, title, body, soundName) {
     this.lastId++;
     PushNotification.localNotification({
       //   /* Android Only Properties */
@@ -123,6 +123,7 @@ export default class NotifService {
       smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher"
       bigText: body, // (optional) default: "message" prop
       subText: body,
+      data: data,
       color: 'red', // (optional) default: system default
       vibrate: true, // (optional) default: true
       vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000

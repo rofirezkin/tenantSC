@@ -35,7 +35,7 @@ import useForm from '../../utils/useForm';
 const EditMenu = ({navigation, route}) => {
   const dispatch = useDispatch();
   const dataMakanan = route.params.data;
-  console.log('dataa', dataMakanan);
+
   const dataId = route.params.data.id;
   const [photo, setPhoto] = useState({uri: route.params.data.picturePath});
   const {isLoading} = useSelector(state => state.globalReducer);
@@ -70,7 +70,7 @@ const EditMenu = ({navigation, route}) => {
           type: response.assets[0].type,
           name: response.assets[0].fileName,
         };
-        console.log('urri', response.assets[0]);
+
         setPhoto(source);
         setDataPhoto(dataImage);
       }

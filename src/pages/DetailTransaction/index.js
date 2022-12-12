@@ -1,4 +1,4 @@
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, RefreshControl, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   Button,
@@ -25,12 +25,14 @@ import {skeletonDetailTransaction} from '../../components/skeleton/skeletonDetai
 const DetailTransaction = ({route, navigation}) => {
   const dispatch = useDispatch();
   const params = route.params;
-  const status = route.params.status;
-  console.log('paramsss', params);
+
+
+  const [refresh, setRefresh] = useState(false);
   const [detailOrder, setDetailOrder] = useState([]);
+  const [status, setStatus] = useState('');
   const [totalHarga, setTotalHarga] = useState();
   const [photoPayment, setPhotoPayment] = useState(null);
-  const [profiletTenant, setProfileTenant] = useState('');
+  const [profileTenant, setProfileTenant] = useState('');
   const [catatan, setCatatan] = useState('');
   const [loadingSkeleton, setLoadingSkeleton] = useState(true);
   const [nomorMeja, setNomorMeja] = useState(null);
@@ -42,7 +44,8 @@ const DetailTransaction = ({route, navigation}) => {
     navigation.replace('MainApp', {screen: 'CostumerOrder'});
   };
   const notif = new NotifService(onNotif);
-  useEffect(() => {
+
+  const getDetailData = () => {
     getData('userProfile').then(res => {
       setProfileTenant(res);
     });
@@ -57,42 +60,63 @@ const DetailTransaction = ({route, navigation}) => {
           },
         )
         .then(res => {
-          console.log('res nihhhhhhhhhhs', res.data.data);
+
           setLoadingSkeleton(false);
-          const dataHarga = res.data.data[0];
+          const detailData = res.data.data[0];
           setPhotoPayment(res.data.data[0].photo_bukti_pembayaran);
           setCatatan(res.data.data[0].catatan);
           setNomorMeja(res.data.data[0].no_table);
           setStatusPembayaran(res.data.data[0].status_pembayaran_qris);
+          setStatus(detailData.status);
           // let calculate = 3000;
           // for (let i = 0; i < dataHarga.length; i++) {
           //   calculate += parseInt(dataHarga[i].total);
           // }
 
-          setTotalHarga(dataHarga.total_order);
+          setTotalHarga(detailData.total_order);
           setDetailOrder(res.data.data);
         })
         .catch(err => {
           setLoadingSkeleton(false);
           showMessage(err?.message);
-          console.log('errrr', err.message);
+
         });
     });
+  };
+
+  useEffect(() => {
+    getDetailData();
   }, []);
+
+  const sendNotificationToUser = {
+    kode_transaksi: params.kode_transaksi,
+    nim: params.nim,
+    nama_tenant: profileTenant.nama_tenant,
+    id_tenant: profileTenant.id,
+    quantity: params.quantity,
+    orderView: true,
+    lokasi_kantin: profileTenant.lokasi_kantin,
+    status: params.status,
+    created_at: params.created_at,
+  };
+
+
 
   const konfirmasiProses = () => {
     dispatch(setLoading(true));
+
     const statusData = {
       status: 'PROCESS',
     };
+    sendNotificationToUser.status = 'PROCESS';
     dispatch(
       progressOrder(
+        sendNotificationToUser,
         statusData,
-
         params.kode_transaksi,
         params.device_token,
         notif,
-        profiletTenant.nama_tenant,
+        profileTenant.nama_tenant,
         navigation,
       ),
     );
@@ -100,16 +124,18 @@ const DetailTransaction = ({route, navigation}) => {
 
   const konfirmasiAntarPesanan = () => {
     dispatch(setLoading(true));
+    sendNotificationToUser.status = 'ON DELIVERY';
     const statusData = {
       status: 'ON DELIVERY',
     };
     dispatch(
       progressOrder(
+        sendNotificationToUser,
         statusData,
         params.kode_transaksi,
         params.device_token,
         notif,
-        profiletTenant.nama_tenant,
+        profileTenant.nama_tenant,
         navigation,
       ),
     );
@@ -120,13 +146,15 @@ const DetailTransaction = ({route, navigation}) => {
     const statusData = {
       status: 'COMPLETED',
     };
+    sendNotificationToUser.status = 'COMPLETED';
     dispatch(
       progressOrder(
+        sendNotificationToUser,
         statusData,
         params.kode_transaksi,
         params.device_token,
         notif,
-        profiletTenant.nama_tenant,
+        profileTenant.nama_tenant,
         navigation,
       ),
     );
@@ -137,14 +165,15 @@ const DetailTransaction = ({route, navigation}) => {
     const statusData = {
       status: 'FEEDBACK',
     };
+    sendNotificationToUser.status = 'FEEDBACK';
     dispatch(
       progressOrder(
+        sendNotificationToUser,
         statusData,
-
         params.kode_transaksi,
         params.device_token,
         notif,
-        profiletTenant.nama_tenant,
+        profileTenant.nama_tenant,
         navigation,
       ),
     );
@@ -154,14 +183,15 @@ const DetailTransaction = ({route, navigation}) => {
     const statusData = {
       status: 'CANCEL ORDER',
     };
+    sendNotificationToUser.status = 'CANCEL ORDER';
     dispatch(
       progressOrder(
+        sendNotificationToUser,
         statusData,
-
         params.kode_transaksi,
         params.device_token,
         notif,
-        profiletTenant.nama_tenant,
+        profileTenant.nama_tenant,
         navigation,
       ),
     );
@@ -171,21 +201,36 @@ const DetailTransaction = ({route, navigation}) => {
     const statusData = {
       status: 'READY TO TAKE',
     };
+    sendNotificationToUser.status = 'READY TO TAKE';
     dispatch(
       progressOrder(
+        sendNotificationToUser,
         statusData,
         params.kode_transaksi,
         params.device_token,
         notif,
-        profiletTenant.nama_tenant,
+        profileTenant.nama_tenant,
         navigation,
       ),
     );
   };
 
+  // refresh controll
+  const onRefresh = React.useCallback(() => {
+    setLoadingSkeleton(true);
+    setRefresh(true);
+    getDetailData();
+    setRefresh(false);
+  }, []);
+
   return (
     <View style={{backgoundColor: 'red', flex: 1}}>
-      <ScrollView style={styles.page}>
+      <ScrollView
+        style={styles.page}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }>
         <Header
           title="Detail Order"
           onPress={() => navigation.goBack()}
@@ -204,24 +249,18 @@ const DetailTransaction = ({route, navigation}) => {
             <OrderDetailData
               statusPembayaran={statusPembayaran}
               catatan={catatan}
-              id={params.id}
               phone={params.phoneNumber}
               total={totalHarga}
-              key={params.id}
               name={params.nama_pelanggan}
               quantity={params.quantity}
               status={params.status}
               method={params.method}
               tax={1000}
               noMeja={nomorMeja}
-              service={2000}
               kodeTransaksi={params.kode_transaksi}
               createdAt={params.created_at}
               methodPayment={params.is_cash}
               buktiPembayaran={photoPayment}
-              proofPayment={() =>
-                navigation.navigate('ImagePayment', photoPayment)
-              }
             />
           </View>
           <View style={styles.container}>
@@ -272,7 +311,7 @@ const DetailTransaction = ({route, navigation}) => {
       </ScrollView>
       {!loadingSkeleton && (
         <View style={styles.button}>
-          {status == 'PENDING' && (
+          {status == 'PENDING' && statusPembayaran == 'success' && (
             <Button
               costumerOrder
               label="Konfirmasi proses"

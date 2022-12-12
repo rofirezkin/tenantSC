@@ -39,7 +39,7 @@ export const getInProgress = idTenant => async dispatch => {
       .catch(err => {
         dispatch(setLoadingSkeleton(false));
         if (err?.message) {
-          console.log('eror di get in progress ', err?.response?.data);
+
           if (err?.response?.data) {
             showMessage(err?.response?.data?.message);
           } else {
@@ -136,7 +136,7 @@ export const getFeedbackOrder = () => dispatch => {
         .then(
           axios.spread((res1, res2) => {
             dispatch(setLoadingSkeleton(false));
-            console.log('dsss', res1.data.data);
+
             const completed = res1.data.data;
             const feedback = res2.data.data;
 
@@ -149,7 +149,7 @@ export const getFeedbackOrder = () => dispatch => {
         .catch(err => {
           dispatch(setLoadingSkeleton(false));
           if (err?.message) {
-            console.log('err', err?.response?.data);
+
             if (err?.response?.data) {
               showMessage(err?.response?.data?.message);
             } else {
@@ -237,12 +237,21 @@ export const getPastOrders = idTenant => async dispatch => {
 };
 
 export const progressOrder =
-  (status, kodeTransaksi, deviceToken, notif, namaTenant, navigation) =>
+  (
+    dataForUser,
+    status,
+    kodeTransaksi,
+    deviceToken,
+    notif,
+    namaTenant,
+    navigation,
+  ) =>
   async dispatch => {
     console.log('kodetransaksi', deviceToken);
     const notifData = {
       to: deviceToken,
       collapse_key: 'type_a',
+      data: dataForUser,
       notification: {
         android: {
           sound: 'default',
@@ -257,7 +266,7 @@ export const progressOrder =
       },
     };
     const notifJSON = JSON.stringify(notifData);
-    console.log('notifjson', notifJSON);
+
     await getData('token')
       .then(resToken => {
         axios
@@ -373,7 +382,7 @@ export const getInProgressBadges = nim => async dispatch => {
             const process = res2.data.data;
             const onDelivery = res3.data.data;
             const alreadyTaken = res4.data.data;
-            console.log('pendingg ', res1);
+
             dispatch({
               type: 'SET_IN_PROGRESS_BADGES',
               value: [...onDelivery, ...process, ...pending, ...alreadyTaken],

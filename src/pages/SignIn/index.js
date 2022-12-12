@@ -16,7 +16,7 @@ const SignIn = ({navigation}) => {
     password: '',
   });
 
-  console.log('devic_token', device_token);
+
   const dispatch = useDispatch();
 
   const onSubmit = () => {
